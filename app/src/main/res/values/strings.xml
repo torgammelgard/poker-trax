@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="addButton">Add new session</string>
 
+    <string name="askforusernameMessage">Enter your name</string>
+    <string name="ok">OK</string>
 </resources>

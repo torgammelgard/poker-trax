@@ -1,22 +1,49 @@
 package com.example.torgammelgard.pokerhourly;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements
+        AskForUserNameDialogFragment.NoticeDialogListener {
+
+    private static final String mLOGMESSAGE = "LOGMESSAGE";
+    private SharedPreferences mPrefs;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //some changes again
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //ask for account or get the account from last saved state
+        mPrefs = getPreferences(Context.MODE_PRIVATE);
+        userName = mPrefs.getString("username", "");
+
+        if (userName.equals("")) {
+            askForUserName();
+        }
+
+        update();
     }
 
+    private void askForUserName() {
+        AskForUserNameDialogFragment dialog = new AskForUserNameDialogFragment();
+        dialog.show(getFragmentManager(), "usernamedialog");
+    }
+
+    private void update() {
+        ((TextView)findViewById(R.id.welcomeTextView)).setText("User : " + userName);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -35,5 +62,28 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    public void addSessionOnClick(View view) {
+    }
+
+    @Override
+    public void onDialogPositiveCheck(AskForUserNameDialogFragment dialog) {
+        if (dialog.username.equals("")) {
+            askForUserName();
+            return;
+        }
+        else {
+            userName = dialog.username;
+            SharedPreferences.Editor editor = mPrefs.edit();
+            editor.putString("username", userName);
+            editor.commit();
+            update();
+        }
     }
 }
