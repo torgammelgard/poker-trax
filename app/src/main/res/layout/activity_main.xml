@@ -17,11 +17,22 @@
 
     <Button
         android:id="@+id/add_new_session"
-        android:text="@string/addButton"
+        android:text="@string/addButtonText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/results_button"
+        android:padding="5dp"
         android:textSize="24sp"
         android:onClick="addSessionOnClick"/>
+
+    <Button
+        android:id="@+id/results_button"
+        android:text="@string/resultsButtonText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="24sp"
+        android:layout_alignParentBottom="true"
+        android:onClick="showResults"/>
 
 </RelativeLayout>

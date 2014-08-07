@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ListView
+            android:id="@+id/resultListView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </ListView>
+
+    </LinearLayout>
+</ScrollView>
+
+<!--
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <fragment
+            android:id="@+id/gameFragment"
+            class="com.example.torgammelgard.pokerhourly.MyListFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <fragment
+
+            android:id="@+id/daysFragment"
+            class="com.example.torgammelgard.pokerhourly.MyListFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+</FrameLayout>-->

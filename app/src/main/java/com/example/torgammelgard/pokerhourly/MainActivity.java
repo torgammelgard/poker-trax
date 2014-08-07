@@ -1,6 +1,7 @@
 package com.example.torgammelgard.pokerhourly;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -10,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends FragmentActivity implements
         AskForUserNameDialogFragment.NoticeDialogListener {
@@ -17,6 +21,7 @@ public class MainActivity extends FragmentActivity implements
     private static final String mLOGMESSAGE = "LOGMESSAGE";
     private SharedPreferences mPrefs;
     private String userName;
+    public List<Session> sessionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,8 @@ public class MainActivity extends FragmentActivity implements
         }
 
         update();
+
+
     }
 
     private void askForUserName() {
@@ -85,5 +92,10 @@ public class MainActivity extends FragmentActivity implements
             editor.commit();
             update();
         }
+    }
+
+    public void showResults(View view) {
+        Intent intent = new Intent(this, ResultsActivity.class);
+        startActivity(intent);
     }
 }
