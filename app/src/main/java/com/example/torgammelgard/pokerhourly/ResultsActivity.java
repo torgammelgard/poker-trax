@@ -39,25 +39,27 @@ import java.util.Map;
         gameListView.addHeaderView(header);*/
 
         /* Ä*/
-        List<Session> sessionList = new ArrayList<Session>();
-        sessionList = new ArrayList<Session>();
+        ArrayList<Session> sessionList = new ArrayList<Session>();
         sessionList.add(new Session(new GameInfo("2-4NL"), 3, 50));
-        //sessionList.add(new Session(new GameInfo("3-6NL"), 5, 120));
+        sessionList.add(new Session(new GameInfo("3-6NL"), 5, 120));
 
-        Map<String, String> map = new HashMap<String, String>();
+        /*Map<String, String> map = new HashMap<String, String>();
         map.put("gameinfo", sessionList.get(0).getGameInfo().toString());
         map.put("hours", String.valueOf(sessionList.get(0).getHours()));
         map.put("result", String.valueOf(sessionList.get(0).getResult()));
 
         ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
         list.add(map);
-
+*/
+        ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        list = makeDataList(sessionList);
         String[] from = {"gameinfo", "hours", "result"};
         int[] to = {R.id.text1, R.id.text2 , R.id.text3};
 
         SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.result_list_item,
                 from, to);
         resultListView.setAdapter(adapter);
+
 
 
 
@@ -77,6 +79,22 @@ import java.util.Map;
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
+
+    ArrayList<Map<String, String>> makeDataList(ArrayList<Session> sessions) {
+
+        ArrayList<Map<String, String>> dataList = new ArrayList();
+
+        for (Session session : sessions) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("gameinfo", session.getGameInfo().toString());
+            map.put("hours", String.valueOf(session.getHours()));
+            map.put("result", String.valueOf(session.getResult()));
+            dataList.add(map);
+        }
+
+        return dataList;
+    }
+
 
     @Override
     public View onCreateView(String name, @NonNull Context context, @NonNull AttributeSet attrs) {
