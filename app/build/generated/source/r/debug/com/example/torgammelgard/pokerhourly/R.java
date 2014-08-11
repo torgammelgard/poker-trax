@@ -22,13 +22,13 @@ public final class R {
     public static final class id {
         public static final int action_settings=0x7f080009;
         public static final int add_new_session=0x7f080001;
-        public static final int askForUsernameEditText=0x7f080003;
-        public static final int imageView=0x7f080008;
-        public static final int resultListView=0x7f080007;
-        public static final int results_button=0x7f080002;
-        public static final int text1=0x7f080004;
-        public static final int text2=0x7f080005;
-        public static final int text3=0x7f080006;
+        public static final int askForUsernameEditText=0x7f080002;
+        public static final int imageView=0x7f080007;
+        public static final int pager=0x7f080008;
+        public static final int resultListView=0x7f080006;
+        public static final int text1=0x7f080003;
+        public static final int text2=0x7f080004;
+        public static final int text3=0x7f080005;
         public static final int welcomeTextView=0x7f080000;
     }
     public static final class layout {
@@ -37,6 +37,8 @@ public final class R {
         public static final int result_list_item=0x7f030002;
         public static final int results=0x7f030003;
         public static final int splash_screen=0x7f030004;
+        public static final int summary=0x7f030005;
+        public static final int tab_main=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f070000;

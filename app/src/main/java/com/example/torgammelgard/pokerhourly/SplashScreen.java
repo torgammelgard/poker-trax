@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-/**
- * Created by Tor on 2014-08-06.
- */
 public class SplashScreen  extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +17,7 @@ public class SplashScreen  extends Activity {
         splashImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                Intent intent = new Intent(SplashScreen.this, Tab_main_fragactivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-/**
- * Created by Tor on 2014-08-06.
- */
+
 public class AskForUserNameDialogFragment extends DialogFragment {
     String username = "";
 

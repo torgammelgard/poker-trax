@@ -5,19 +5,44 @@ package com.example.torgammelgard.pokerhourly;
  */
 public class Session {
     /*private fields */
-    private GameInfo gameInfo;
+    private long id;
+
+    private String gameInfo;
     private int hours;
     private int result;
 
-    /*constructor */
-    public Session (GameInfo gameInfo, int hours, int result) {
+    public void setGameInfo(String gameInfo) {
+        this.gameInfo = gameInfo;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
+    /*constructors */
+    public Session () {}
+
+    public Session (String gameInfo, int hours, int result) {
         this.gameInfo = gameInfo;
         this.hours = hours;
         this.result = result;
     }
 
     /*methods */
-    public GameInfo getGameInfo() {
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getGameInfo() {
         return gameInfo;
     }
 
