@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-public class SplashScreen  extends Activity {
+public class SplashScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.splash_screen);
-
+        getActionBar().setTitle(R.string.app_name);
         ImageView splashImg = (ImageView)findViewById(R.id.imageView);
         splashImg.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,38 +1,28 @@
 package com.example.torgammelgard.pokerhourly;
 
-/**
- * Created by Tor on 2014-08-06.
- */
 public class Session {
     /*private fields */
     private long id;
-
     private String gameInfo;
     private int hours;
     private int result;
 
-    public void setGameInfo(String gameInfo) {
-        this.gameInfo = gameInfo;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
-
-    public void setResult(int result) {
-        this.result = result;
-    }
-
     /*constructors */
-    public Session () {}
+    public Session () {
+        this.id = 0;
+        this.gameInfo = "";
+        this.hours = 0;
+        this.result = 0;
+    }
 
     public Session (String gameInfo, int hours, int result) {
+        this.id = 0;
         this.gameInfo = gameInfo;
         this.hours = hours;
         this.result = result;
     }
 
-    /*methods */
+    /*getters and setters */
 
     public long getId() {
         return id;
@@ -46,12 +36,24 @@ public class Session {
         return gameInfo;
     }
 
+    public void setGameInfo(String gameInfo) {
+        this.gameInfo = gameInfo;
+    }
+
     public int getHours() {
         return hours;
     }
 
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
     public int getResult() {
         return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
     }
 
     @Override

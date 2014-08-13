@@ -3,9 +3,6 @@ package com.example.torgammelgard.pokerhourly;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Tor on 2014-08-06.
- */
 public class Account {
 
     /*private fields*/

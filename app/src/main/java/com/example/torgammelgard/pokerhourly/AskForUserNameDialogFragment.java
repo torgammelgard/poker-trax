@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +41,13 @@ public class AskForUserNameDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        final View v = inflater.inflate(R.layout.askforusernamedialog, null);
-        builder.setView(v);
+        final View view = inflater.inflate(R.layout.askforusernamedialog, null);
+        builder.setView(view);
         builder.setMessage(R.string.askforusernameMessage);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                EditText editText = (EditText)v.findViewById(R.id.askForUsernameEditText);
+                EditText editText = (EditText)view.findViewById(R.id.askForUsernameEditText);
                 username = editText.getText().toString();
 
                 mListener.onDialogPositiveCheck(AskForUserNameDialogFragment.this);
