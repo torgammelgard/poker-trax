@@ -1,25 +1,24 @@
 package com.example.torgammelgard.pokerhourly;
 
-public class Session {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Session implements Serializable {
+
     /*private fields */
     private long id;
-    private String gameInfo;
-    private int hours;
+    private int game_type_ref;
+    private String location;
+    private int game_structure_ref;
+    private int duration;                       //in minutes
+    private Date date;
     private int result;
+    private String game_notes;
 
     /*constructors */
     public Session () {
         this.id = 0;
-        this.gameInfo = "";
-        this.hours = 0;
-        this.result = 0;
-    }
-
-    public Session (String gameInfo, int hours, int result) {
-        this.id = 0;
-        this.gameInfo = gameInfo;
-        this.hours = hours;
-        this.result = result;
+        date = new Date();
     }
 
     /*getters and setters */
@@ -32,20 +31,44 @@ public class Session {
         this.id = id;
     }
 
-    public String getGameInfo() {
-        return gameInfo;
+    public int getGame_type_ref() {
+        return game_type_ref;
     }
 
-    public void setGameInfo(String gameInfo) {
-        this.gameInfo = gameInfo;
+    public void setGame_type_ref(int game_type_ref) {
+        this.game_type_ref = game_type_ref;
     }
 
-    public int getHours() {
-        return hours;
+    public String getLocation() {
+        return location;
     }
 
-    public void setHours(int hours) {
-        this.hours = hours;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getGame_structure_ref() {
+        return game_structure_ref;
+    }
+
+    public void setGame_structure_ref(int game_structure_ref) {
+        this.game_structure_ref = game_structure_ref;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getResult() {
@@ -56,8 +79,16 @@ public class Session {
         this.result = result;
     }
 
+    public String getGame_notes() {
+        return game_notes;
+    }
+
+    public void setGame_notes(String game_notes) {
+        this.game_notes = game_notes;
+    }
+
     @Override
     public String toString() {
-        return gameInfo.toString() + ", " + hours + " hours, Result:" + result;
+        return ""; //TODO
     }
 }

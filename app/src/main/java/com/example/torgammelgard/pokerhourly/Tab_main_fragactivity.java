@@ -1,16 +1,15 @@
 package com.example.torgammelgard.pokerhourly;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.torgammelgard.pokerhourly.Adapters.TabsPagerAdapter;
@@ -18,21 +17,23 @@ import com.example.torgammelgard.pokerhourly.Adapters.TabsPagerAdapter;
 import java.util.List;
 
 public class Tab_main_fragactivity extends FragmentActivity implements
-        AskForUserNameDialogFragment.NoticeDialogListener,
-        AddSessionDialogFragment.AddSessionDialogListener {
+        AskForUserNameDialogFragment.NoticeDialogListener {
 
     protected String userName;
     protected Menu mMenu;
-    protected SessionsDAO sessionsDAO;
+    protected DataSource dataSource;
     private SharedPreferences mPrefs;
     private ViewPager viewPager = null;
     private ActionBar actionBar;
     private TabsPagerAdapter mAdapter = null;
     private String[] tab_names = {"Main", "Sessions", "Summary"};
+    private Session sessionToAdd;
+
+    static final int ADD_SESSION_REQUEST = 1;
 
     /*getter*/
-    public SessionsDAO getSessionsDAO() {
-        return sessionsDAO;
+    public DataSource getDataSource() {
+        return dataSource;
     }
 
     @Override
@@ -49,6 +50,7 @@ public class Tab_main_fragactivity extends FragmentActivity implements
 
         viewPager = (ViewPager)findViewById(R.id.pager);
         actionBar = getActionBar();
+        assert actionBar != null;                                       //TODO
         actionBar.setTitle("ActionbarTitle");
         actionBar.setSubtitle("Subtitle");
         actionBar.setNavigationMode(actionBar.NAVIGATION_MODE_TABS);
@@ -61,8 +63,11 @@ public class Tab_main_fragactivity extends FragmentActivity implements
         mAdapter.addTab(actionBar.newTab().setText(tab_names[2]));
 
         /*Database init*/
-        sessionsDAO = new SessionsDAO(this);
-        sessionsDAO.open(); //try catch SQLException here
+        try {
+            dataSource = new DataSource(this);
+            dataSource.open(); //try catch SQLException here
+
+        } catch (SQLException e){}
 
     }
 
@@ -76,13 +81,19 @@ public class Tab_main_fragactivity extends FragmentActivity implements
 
     @Override
     protected void onResume() {
-        sessionsDAO.open();
+        try {
+            dataSource.open();
+            if (sessionToAdd != null) {
+                addSession(sessionToAdd);
+                sessionToAdd = null;
+            }
+        } catch (SQLException e){}
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        sessionsDAO.close();
+        dataSource.close();
         super.onPause();
     }
 
@@ -94,7 +105,25 @@ public class Tab_main_fragactivity extends FragmentActivity implements
     }
 
     public void addSessionOnClick(View view) {
-        new AddSessionDialogFragment().show(getFragmentManager(), "addsession");
+        // new AddSessionDialogFragment().show(getFragmentManager(), "addsession");
+        Intent intent = new Intent(this, AddSessionActivity.class);
+        //intent.putStringArrayListExtra("gametypeslist", dataSource.getAllGameTypes());
+        //intent.putStringArrayListExtra("gamestructurelist", dataSource.getAllGameStructures());
+        startActivityForResult(intent, ADD_SESSION_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // note : onActivityResult is run before onResume
+        if (resultCode == RESULT_CANCELED)
+            return;
+        switch (requestCode) {
+            case ADD_SESSION_REQUEST :
+                sessionToAdd = (Session) data.getSerializableExtra("session");
+                break;
+            default: break;
+        }
     }
 
     /*Impl AskForUserNameDialogFragment.NoticeDialogListener*/
@@ -113,18 +142,12 @@ public class Tab_main_fragactivity extends FragmentActivity implements
         }
     }
 
-    /*Impl AddSessionDialogFragment.AddSessionDialogListener*/
-    @Override
-    public void onDialogPositiveCheck(AddSessionDialogFragment addSessionDialogFragment) {
-        //validate
-
-        sessionsDAO.addSession(addSessionDialogFragment.mSession);
+    public void addSession(Session session) {
+        dataSource.addSession(session);
         List<Fragment> fragmentlist = getSupportFragmentManager().getFragments();
         for (Fragment fragment : fragmentlist) {
             if (fragment instanceof ResultsFragment)
                 ((ResultsFragment) fragment).updateListView(fragment.getView());
         }
-        //ListView listView = (ListView)findViewById(R.id.resultListView);
-        //((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
     }
 }

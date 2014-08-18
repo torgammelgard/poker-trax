@@ -4,32 +4,43 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
-
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
-    public static final String TABLE_SESSIONS = "sessions";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_GAMEINFO = "gameinfo";
-    public static final String COLUMN_TIME = "time";
-    public static final String COLUMN_RESULT = "result";
+    private static MySQLiteHelper sInstance;
 
     private static final String DATABASE_NAME = "sessions.db";
     private static final int DATABASE_VERSION = 1;
 
-    public MySQLiteHelper(Context context) {
+    public static MySQLiteHelper getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new MySQLiteHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    private MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE sessions(_id integer primary key autoincrement, " +
-                "gameinfo text not null, time INT, result INT);");
+    public void onCreate(SQLiteDatabase database) {
+        /* creation of tables and initial population */
+        Game_TypeTable.onCreate(database);
+        Game_StructureTable.onCreate(database);
+        SessionTable.onCreate(database);
+        database.execSQL(
+                "INSERT INTO game_type(name) VALUES('NL'), ('PL'), ('Limit');"
+        );
+        database.execSQL(
+                "INSERT INTO game_structure(small_blind, big_blind) VALUES" +
+                "(1, 2), (2, 4), (3, 6), (5, 10), (10, 20);"
+        );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SESSIONS);
-        onCreate(db);
+        Game_StructureTable.onUpdate(db, oldVersion, newVersion);
+        Game_StructureTable.onUpdate(db, oldVersion, newVersion);
+        SessionTable.onUpgrade(db, oldVersion, newVersion);
     }
 }

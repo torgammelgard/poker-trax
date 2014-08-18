@@ -1,10 +1,7 @@
 package com.example.torgammelgard.pokerhourly;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -20,9 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 public class ResultsFragment extends android.support.v4.app.Fragment {
 
@@ -43,8 +37,8 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
 
         //resultListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
-        ArrayList<Session> sessionList = ((Tab_main_fragactivity)getActivity())
-                .getSessionsDAO()
+        final ArrayList<Session> sessionList = ((Tab_main_fragactivity)getActivity())
+                .getDataSource()
                 .getAllSessions();
 
         ArrayList<Map<String, String>> list;
@@ -63,6 +57,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
                     return true;
                 selectedItemPos = position;
                 view.setBackgroundColor(Color.RED);
+                Toast.makeText(getActivity(), sessionList.get(position).getDate().toString(), Toast.LENGTH_SHORT).show(); //TODO erase
                 if (mActionMode != null)
                     return false;
                 mActionMode = ResultsFragment.this.getView().startActionMode(mActionModeCallback);
@@ -81,8 +76,8 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         for (Session session : sessions) {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("id", String.valueOf(session.getId()));
-            map.put("gameinfo", session.getGameInfo());
-            map.put("hours", String.valueOf(session.getHours()));
+            map.put("gameinfo", String.valueOf(session.getGame_type_ref()));
+            map.put("minutes", String.valueOf(session.getDuration()));
             map.put("result", String.valueOf(session.getResult()));
             dataList.add(map);
         }
@@ -111,7 +106,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
                 Map<String, String> mapOfSession = (Map<String, String>)resultListView.getAdapter()
                         .getItem(selectedItemPos);
                 long sessionID = Long.valueOf(mapOfSession.get("id"));
-                ((Tab_main_fragactivity)getActivity()).sessionsDAO.deleteSession(sessionID);
+                ((Tab_main_fragactivity)getActivity()).dataSource.deleteSession(sessionID);
             }
             mode.finish();
             return true;
