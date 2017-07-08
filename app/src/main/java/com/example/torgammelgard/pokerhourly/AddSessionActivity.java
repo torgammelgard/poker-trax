@@ -3,19 +3,19 @@ package com.example.torgammelgard.pokerhourly;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,25 +26,41 @@ import java.util.Calendar;
  */
 public class AddSessionActivity extends Activity implements
         TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener {
+        DatePickerDialog.OnDateSetListener,
+        LocationDialogFragment.LocationDialogListener,
+        GameStructureDialogFragment.GameStructureListener {
 
-    private String location;
-    private int game_type_ref;
-    private int game_structure_ref;
-    private int hoursPlayed = 0;
-    private int minutesPlayed = 0;
-    private int result;
-    private Calendar calendar;
+    private static final String LOG = "AddSessionActivity";
+    private static final String NEW_ITEM_STR = "---new---";
+    private String mLocation;
+    private int mGame_type_ref;
+    private int mGame_structure_ref;
+    private int mHoursPlayed = 0;
+    private int mMinutesPlayed = 0;
+    private Calendar mCalendar;
 
-    //test to do this
-    private ArrayList<String> addedGameTypes;
-    DataSource dataSource;
+    private Button mDurationPickButton;
+    private Button mDatePickButton;
+    private SimpleDateFormat mFormatter = new SimpleDateFormat("dd MMM, yyyy");
 
-    private Button durationPickButton;
-    private Button datePickButton;
-    private SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy");
+    private ArrayAdapter<String> mLocation_adapter;
+    private ArrayAdapter<String> mGameStructureAdapter;
+    private Spinner mLocationSpinner;
+    private Spinner mGameStructureSpinner;
 
-    public DataSource getDataSource(){return dataSource;}
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("locationspinneritemposition", mLocationSpinner.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mLocationSpinner.setSelection(savedInstanceState.getInt("locationspinneritemposition", 0));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,46 +68,55 @@ public class AddSessionActivity extends Activity implements
         setContentView(R.layout.add_session);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Intent intent = getIntent();
-        try {
-            dataSource = new DataSource(this);
-            dataSource.open();
-        } catch (Exception e){
-        }
-
-        //Game type stuff
-        ArrayList<String> gametypeslist = dataSource.getAllGameTypes();
+        /* Game type stuff */
+        ArrayList<String> gameTypes= ((MainApp) getApplication()).mDataSource.getAllGameTypes();
+        //gameTypes.add(NEW_ITEM_STR);
         Spinner gameType_spinner = (Spinner)findViewById(R.id.gameType_spinner);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_dropdown_item, gametypeslist);
+                this, R.layout.my_simple_spinner_dropdown_item, gameTypes);
         gameType_spinner.setAdapter(adapter);
         gameType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                game_type_ref = position + 1;
+                mGame_type_ref = (int)id + 1;
+                //if ((position + 1) == parent.getCount())
+                //    Toast.makeText(parent.getContext(), "Not yet", Toast.LENGTH_SHORT).show();
+                // TODO: add a new addGameTypeActivity
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+
 
         //Location stuff
-        ArrayList<String> location_list = new ArrayList<String>();
-        location_list.add("Pokerstars");
-        location_list.add("Bill's place");
-        location_list.add("<New>");
+        ArrayList<String> location_list = ((MainApp) getApplication()).mDataSource.getLocations();
+        location_list.add(NEW_ITEM_STR);
 
-        Spinner location_Spinner = (Spinner)findViewById(R.id.location_spinner);
-        ArrayAdapter<String> location_adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, location_list);
-        location_Spinner.setAdapter(location_adapter);
-        location_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mLocationSpinner = (Spinner)findViewById(R.id.location_spinner);
+        mLocation_adapter = new ArrayAdapter<String>(this,
+                R.layout.my_simple_spinner_dropdown_item, location_list);
+        mLocationSpinner.setAdapter(mLocation_adapter);
+        mLocationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                location = parent.getAdapter().getItem(position).toString();
+                if (view == null)
+                    return;
+                // check if new location is selected
+                if ((position + 1) == parent.getCount() &&
+                        ((CheckedTextView) view.findViewById(android.R.id.text1)).getText()
+                                .toString().equals(NEW_ITEM_STR)) {
+                    //start new location dialog
+                    LocationDialogFragment a = new LocationDialogFragment();
+                    a.show(getFragmentManager(), "locationDialog");
+                } else {
+                        mLocation = ((CheckedTextView) view.findViewById(android.R.id.text1))
+                                .getText().toString();
+
+                }
             }
 
             @Override
@@ -100,18 +125,31 @@ public class AddSessionActivity extends Activity implements
             }
         });
 
-        //big blind stuff
-        ArrayList<String> game_structure_list = dataSource.getAllGameStructures();
-
-        Spinner game_structure_spinner = (Spinner)findViewById(R.id.game_structure_spinner);
-        ArrayAdapter<String> big_blind_adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, game_structure_list);
-        game_structure_spinner.setAdapter(big_blind_adapter);
-        game_structure_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ArrayList<Game_Structure> gameStructureList = ((MainApp) getApplication()).mDataSource.getAllGameStructures();
+        ArrayList<String> gameStructureStringList = new ArrayList<String>();
+        for (Game_Structure g : gameStructureList) {
+            gameStructureStringList.add(g.toString());
+        }
+        gameStructureStringList.add(NEW_ITEM_STR);
+        mGameStructureSpinner = (Spinner)findViewById(R.id.game_structure_spinner);
+        mGameStructureAdapter = new ArrayAdapter<String>(this,
+                R.layout.my_simple_spinner_dropdown_item, gameStructureStringList);
+        mGameStructureSpinner.setAdapter(mGameStructureAdapter);
+        mGameStructureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //TODO
-                game_structure_ref = position + 1;
+                if ((position + 1) == parent.getCount() &&
+                        ((CheckedTextView) view.findViewById(android.R.id.text1)).getText()
+                                .toString().equals(NEW_ITEM_STR)) {
+                    GameStructureDialogFragment g = GameStructureDialogFragment.newInstance();
+                    g.show(getFragmentManager(), "g");
+
+                    //((MainApp) getApplication()).mDataSource.addGameStructure(gamestruct);
+                    Log.d(LOG, "Adding new game structure");
+                }
+                else {
+                    mGame_structure_ref = (int)id + 1;
+                }
             }
 
             @Override
@@ -121,14 +159,14 @@ public class AddSessionActivity extends Activity implements
         });
 
         //duration pick stuff
-        durationPickButton = (Button)findViewById(R.id.duration_pick_button);
-        durationPickButton.setText(String.valueOf(hoursPlayed) + "h:" +
-                String.valueOf(minutesPlayed) + "m");
+        mDurationPickButton = (Button)findViewById(R.id.button_duration);
+        mDurationPickButton.setText(String.valueOf(mHoursPlayed) + " h :" +
+                String.valueOf(mMinutesPlayed) + " min");
 
         //date pick stuff
-        calendar = Calendar.getInstance();
-        datePickButton = (Button)findViewById(R.id.date_pick_button);
-        datePickButton.setText(formatter.format(calendar.getTime()));
+        mCalendar = Calendar.getInstance();
+        mDatePickButton = (Button)findViewById(R.id.button_pick_date);
+        mDatePickButton.setText(mFormatter.format(mCalendar.getTime()));
 
         //result stuff
 
@@ -136,77 +174,114 @@ public class AddSessionActivity extends Activity implements
 
     @Override
     protected void onResume() {
-        try { dataSource.open(); } catch (Exception e) { }
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        try {dataSource.close();} catch (Exception e) {}
-        super.onPause();
+        super.onPause() ;
+
+        try {
+            ((MainApp) getApplication()).mDataSource.close();
+        } catch (NullPointerException e) {
+            Log.d(LOG, "Data source is null");
+        }
     }
 
     public void duration_pick_onClick(View view) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, this,
-                hoursPlayed, minutesPlayed, true);
+                mHoursPlayed, mMinutesPlayed, true);
         timePickerDialog.show();
     }
 
     @Override
     public void onTimeSet(TimePicker view, int h, int m) {
-        hoursPlayed = h;
-        minutesPlayed = m;
-        durationPickButton.setText(String.valueOf(hoursPlayed) + "h:" +
-                String.valueOf(minutesPlayed) + "m");
+        mHoursPlayed = h;
+        mMinutesPlayed = m;
+        mDurationPickButton.setText(String.valueOf(mHoursPlayed) + " h :" +
+                String.valueOf(mMinutesPlayed) + " min");
     }
 
-    public void date_pick_onClick(View view) {
+    public void pick_date_onClick(View view) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, this,
                 0, 0, 0);
         datePickerDialog.getDatePicker().updateDate(
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                mCalendar.get(Calendar.YEAR),
+                mCalendar.get(Calendar.MONTH),
+                mCalendar.get(Calendar.DAY_OF_MONTH)
         );
         datePickerDialog.show();
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        calendar.set(year, monthOfYear, dayOfMonth);
-        datePickButton.setText(formatter.format(calendar.getTime()));
+        mCalendar.set(year, monthOfYear, dayOfMonth);
+        mDatePickButton.setText(mFormatter.format(mCalendar.getTime()));
     }
 
     private Session createSession() {
-        if (hoursPlayed == 0 && minutesPlayed == 0)
+        if (mHoursPlayed == 0 && mMinutesPlayed == 0)
             return null;
         Session session = new Session();
-        session.setGame_type_ref(game_type_ref);
-        session.setLocation(location);
-        session.setGame_structure_ref(game_structure_ref);
-        session.setDuration(hoursPlayed*60 + minutesPlayed);
-        session.setDate(calendar.getTime());
+        session.setGame_type_ref(mGame_type_ref);
+        session.setLocation(mLocation);
+        session.setGame_structure_ref(mGame_structure_ref);
+        session.setDuration(mHoursPlayed * 60 + mMinutesPlayed);
+        session.setDate(mCalendar.getTime());
         EditText result_EditText = (EditText)findViewById(R.id.result_editText);
-        result = Integer.valueOf(result_EditText.getText().toString());
-        session.setResult(result);
-        session.setGame_notes(""); //TODO
+
+        Float result_float = (Float.valueOf(result_EditText.getText().toString()));
+        result_float = 100 * result_float; //store in cents
+        session.setResult(result_float.intValue());
+        session.setGame_notes(""); //TODO: add note functionality
         return session;
     }
 
-    //buttons
+    /** Cancels this activity*/
     public void cancel_onClick(View view) {
         setResult(RESULT_CANCELED);
         finish();
     }
 
+    /** Adds the session to the database and finishes this activity
+     * if this form is correctly filled in*/
     public void add_onClick(View view) {
-        Session resultsession = createSession();
-        if (createSession() != null) {
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("session", resultsession);
-            setResult(RESULT_OK, resultIntent);
-            Log.d("MESS", "returning");
+        Session resultSession = createSession();
+        if (resultSession != null) {
+            ((MainApp)getApplication()).mDataSource.addSession(resultSession);
+            setResult(RESULT_OK);
             finish();
         }
     }
+
+    /*LocationDialogFragment callback*/
+    /** Adds a location to the location spinner*/
+    @Override
+    public void onDialogPositiveCheck(LocationDialogFragment dialog) {
+        mLocation = dialog.getLocation();
+        mLocation_adapter.remove(NEW_ITEM_STR);
+        mLocation_adapter.add(mLocation);
+        mLocation_adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDialogNegativeCheck() {
+        mLocationSpinner.setSelection(0);
+        mLocationSpinner.invalidate();
+    }
+
+    public void doGameStructureDialogPositiveClick(Game_Structure g) {
+        mGameStructureAdapter.remove(NEW_ITEM_STR);
+        mGameStructureAdapter.add(g.toString());
+        mGameStructureAdapter.notifyDataSetChanged();
+        mGame_structure_ref = mGameStructureAdapter.getCount();
+        ((MainApp) getApplication()).mDataSource.addGameStructure(g);
+    }
+
+    @Override
+    public void doGameStructureDialogNegativeClick() {
+        mGameStructureSpinner.setSelection(0);
+        mGameStructureSpinner.invalidate();
+    }
 }
+

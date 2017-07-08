@@ -6,8 +6,8 @@
         android:orderInCategory="100"
         android:showAsAction="never" />
     <item android:id ="@+id/delete_session"
-        android:title="delete"
         android:icon="@drawable/ic_action_discard"
+        android:title="@string/discard"
         android:orderInCategory="99"
         android:showAsAction="ifRoom" />
 </menu>

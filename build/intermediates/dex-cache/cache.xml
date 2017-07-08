@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="C:\Users\Tor\AndroidStudioProjects\PokerHourly\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-80298ef60580c09cfdbf2a3a4cb9945e8bd20347.jar"
+        jar="C:\Users\Tor\AndroidStudioProjects\PokerHourly\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+    <item
+        dex="C:\Users\Tor\AndroidStudioProjects\PokerHourly\app\build\intermediates\pre-dexed\debug\GraphView-3.1.2-5e49b02afe1bcf572e759bb5810a5aca0aafcd6b.jar"
+        jar="C:\Users\Tor\AndroidStudioProjects\PokerHourly\app\libs\GraphView-3.1.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7ffc41c72432299f41689c8f707d0d89254d59d5"/>
+    <item
+        dex="C:\Users\Tor\AndroidStudioProjects\PokerHourly\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-a4e99bb09db83315001218d362c2ad030bbe2f2c.jar"
+        jar="C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
+    <item
+        dex="C:\Users\Tor\AndroidStudioProjects\PokerHourly\app\build\intermediates\pre-dexed\debug\classes-b95bba77f87b2792f0b9d27a52f472d22dd22ac3.jar"
+        jar="C:\Users\Tor\AndroidStudioProjects\PokerHourly\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
+
+</pre-dex-items>

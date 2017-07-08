@@ -1,7 +1,7 @@
 package com.example.torgammelgard.pokerhourly;
 
 /**
- * Created by Tor on 2014-08-06.
+ * Class
  */
 public class GameInfo {
     /*private fields*/

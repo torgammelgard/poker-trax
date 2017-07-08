@@ -1,35 +1,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:textColor="#FFF"
-        android:textSize="20sp"
-        android:id="@+id/welcomeTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView_premium"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="end"
+        android:text="@string/premium"/>
+    <Button
+        android:id="@+id/button_add"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:text="@string/addButtonText"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        style="@style/MyButtonStyle"
+        android:onClick="addSessionOnClick"/>
 
     <Button
-        android:id="@+id/add_new_session"
-        android:text="@string/addButtonText"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:padding="@dimen/padding_5dp"
-        android:textSize="24sp"
-        android:onClick="addSessionOnClick"/>
-<!--
-    <Button
-        android:id="@+id/results_button"
-        android:text="@string/resultsButtonText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_5dp"
-        android:textSize="24sp"
-        android:layout_alignParentBottom="true"
-        android:onClick="showResults"/>-->
+        android:id="@+id/buy_premium"
+        android:layout_below="@+id/button_add"
+        android:layout_marginTop="30dp"
+        android:text="@string/buypremium"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        style="@style/MyButtonStyle"
+        android:onClick="buyPremium"/>
 
 </RelativeLayout>

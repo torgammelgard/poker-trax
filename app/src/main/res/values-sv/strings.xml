@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">Lägg till</string>
+    <string name="action_settings">Inställningar</string>
+    <string name="addButtonText">Lägg till session</string>
+    <string name="app_subtitle">Live poker hjälp</string>
+    <string name="ok">OK</string>
+    <string name="result_list_column_2">Minuter</string>
+    <string name="result_list_column_3">Vinst</string>
+    <string name="resultsButtonText">Resultat</string>
+    <string name="graph_title">Senaste sessionerna (max 20)</string>
+    <string name="summary_profit">Vinst</string>
+    <string name="summary_total">Totalt</string>
+    <string name="dash">-</string>
+    <string name="result_list_column_0">Nivå</string>
+    <string name="total_time_played">Total speltid</string>
+    <string name="ante">ante</string>
+    <string name="big_blind">Stora mörk</string>
+    <string name="cancel">Avbryt</string>
+    <string name="game_structure_dialog_title">Ny spelstruktur</string>
+    <string name="location">Plats</string>
+    <string name="locationDialogText">Ny plats</string>
+    <string name="small_blind">Lilla mörk</string>
+    <string name="total_profit_per_hour">Total vinst/timme</string>
+    <string name="blinds">Mörkar</string>
+    <string name="date">Datum</string>
+    <string name="play_time">Speltid</string>
+    <string name="profit">Vinst</string>
+    <string name="game_type">Speltyp</string>
+    <string name="discard">släng</string>
+    <string name="avgbbperhour">Medel bb/h</string>
+    <string name="buypremium">Köp premium</string>
+    <string name="premium">Premium</string>
+</resources>

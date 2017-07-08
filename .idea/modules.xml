@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PokerHourly.iml" filepath="$PROJECT_DIR$/PokerHourly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PokerTrax.iml" filepath="$PROJECT_DIR$/PokerTrax.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -1,7 +1,9 @@
 package com.example.torgammelgard.pokerhourly;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,78 +13,74 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResultsFragment extends android.support.v4.app.Fragment {
-
+public class ResultsFragment extends android.support.v4.app.Fragment implements
+        AdapterView.OnItemLongClickListener {
+    private static final String LOG = "ResultsFragment";
     protected Object mActionMode;
     private int selectedItemPos = -1;
-    private ListView resultListView;
+    private ListView mResultListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.results, container, false);
-        resultListView = (ListView)view.findViewById(R.id.resultListView);
-        updateListView(view);
+        mResultListView = (ListView)view.findViewById(R.id.list_result);
+
+        updateListView();
+
         return view;
     }
 
-    public void updateListView(View view) {
+    /** updates the result list  in an AsyncTask*/
+    public void updateListView() {
+        new AsyncTask<Void, Void, ResultAdapter>() {
 
-        //resultListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-
-        final ArrayList<Session> sessionList = ((Tab_main_fragactivity)getActivity())
-                .getDataSource()
-                .getAllSessions();
-
-        ArrayList<Map<String, String>> list;
-        list = makeDataList(sessionList);
-        String[] from = {"gameinfo", "hours", "result"};
-        int[] to = {R.id.text1, R.id.text2 , R.id.text3};
-
-        final SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, R.layout.result_list_item,
-                from, to);
-        resultListView.setAdapter(adapter);
-
-        resultListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, final View view, final int position, long id) {
-                if (selectedItemPos != -1)
-                    return true;
-                selectedItemPos = position;
-                view.setBackgroundColor(Color.RED);
-                Toast.makeText(getActivity(), sessionList.get(position).getDate().toString(), Toast.LENGTH_SHORT).show(); //TODO erase
-                if (mActionMode != null)
-                    return false;
-                mActionMode = ResultsFragment.this.getView().startActionMode(mActionModeCallback);
-                view.setSelected(true);
-                return true;
+            protected ResultAdapter doInBackground(Void... params) {
+                ArrayList<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+                ArrayList<Session> sessions = ((MainApp)getActivity().getApplication())
+                        .mDataSource.getLastSessions(20);
+                ArrayList<Game_Structure> game_structures = (((MainApp) getActivity().
+                        getApplication()).mDataSource.getAllGameStructures());
+                ArrayList<String> gameStructureStringList = new ArrayList<String>();
+                for (Game_Structure game_structure : game_structures) {
+                    gameStructureStringList.add(game_structure.toString());
+                }
+                for (Session session : sessions) {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("id", String.valueOf(session.getId()));
+                    map.put("gameTypeRef", String.valueOf(session.getGame_type_ref()));
+                    map.put("gameStructure", gameStructureStringList.get(session.getGame_structure_ref()-1));
+                    Log.d(LOG, gameStructureStringList.get(session.getGame_structure_ref()-1));
+                    map.put("minutes", String.valueOf(session.getDuration()));
+                    map.put("result", String.valueOf(session.getResult()));
+                    dataList.add(map);
+                }
+
+                ArrayList<String> allGameTypes = ((MainApp)getActivity().getApplication())
+                        .mDataSource.getAllGameTypes();
+
+                String[] from = {"gameStructure", "gameTypeRef", "minutes", "result"};
+                int[] to = {R.id.text0, R.id.text1, R.id.text2 , R.id.text3};
+
+                return new ResultAdapter(getActivity(), dataList, allGameTypes,
+                        R.layout.result_list_item, from, to);
+
+
             }
-        });
 
+            @Override
+            protected void onPostExecute(ResultAdapter adapter) {
+                mResultListView.setAdapter(adapter);
+            }
+        }.execute();
 
-    }
-
-    ArrayList<Map<String, String>> makeDataList(ArrayList<Session> sessions) {
-
-        ArrayList<Map<String, String>> dataList = new ArrayList();
-
-        for (Session session : sessions) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("id", String.valueOf(session.getId()));
-            map.put("gameinfo", String.valueOf(session.getGame_type_ref()));
-            map.put("minutes", String.valueOf(session.getDuration()));
-            map.put("result", String.valueOf(session.getResult()));
-            dataList.add(map);
-        }
-
-        return dataList;
+        mResultListView.setOnItemLongClickListener(this);
     }
 
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
@@ -103,10 +101,17 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             if (item.getItemId() == R.id.menuitem_discard) {
-                Map<String, String> mapOfSession = (Map<String, String>)resultListView.getAdapter()
-                        .getItem(selectedItemPos);
-                long sessionID = Long.valueOf(mapOfSession.get("id"));
-                ((Tab_main_fragactivity)getActivity()).dataSource.deleteSession(sessionID);
+                try {
+                    @SuppressWarnings("unchecked cast")
+                    HashMap<String, String> mapOfSession= (HashMap<String, String>)mResultListView.
+                            getAdapter().getItem(selectedItemPos);
+                    long sessionID = Long.valueOf(mapOfSession.get("id"));
+                    ((MainApp)getActivity().getApplication()).mDataSource.deleteSession(sessionID);
+                } catch (NumberFormatException e) {
+                    Log.d(LOG, "Couldn't delete", e);
+                } catch (ClassCastException e) {
+                    Log.d(LOG, "Could't delete", e);
+                }
             }
             mode.finish();
             return true;
@@ -117,7 +122,23 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
             // when the action mode is closed
             mActionMode = null;
             selectedItemPos = -1;
-            updateListView(ResultsFragment.this.getView());
+            updateListView();
         }
     };
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        if (selectedItemPos != -1)
+            return true;
+        selectedItemPos = position;
+        view.setBackgroundColor(Color.RED);
+        if (mActionMode != null)
+            return false;
+        View v = ResultsFragment.this.getView();
+        if (v != null) {
+            mActionMode = ResultsFragment.this.getView().startActionMode(mActionModeCallback);
+        }
+        view.setSelected(true);
+        return true;
+    }
 }

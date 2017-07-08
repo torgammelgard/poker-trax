@@ -5,9 +5,12 @@ package com.example.torgammelgard.pokerhourly;
  */
 public class Game_Structure {
     private long id;
+    // blinds and ante stored in cents
     private int small_blind;
     private int big_blind;
     private int ante;
+
+    public Game_Structure(){}
 
     public int getAnte() {
         return ante;
@@ -16,8 +19,6 @@ public class Game_Structure {
     public void setAnte(int ante) {
         this.ante = ante;
     }
-
-    public Game_Structure(){}
 
     public int getSmall_blind() {
         return small_blind;
@@ -46,7 +47,20 @@ public class Game_Structure {
 
     @Override
     public String toString() {
-        String returnString = small_blind + " - " + big_blind;
-        return (ante == 0) ? returnString : returnString + " ante " + ante;
+        String str;
+        double sb = (double) small_blind / 100;
+        double bb = (double) big_blind / 100;
+        double ante = (double) this.ante / 100;
+        /*String sbStr = Double.toString((double) small_blind / 100);
+        String bbStr = Double.toString((double) big_blind / 100);
+        String anteStr = Double.toString((double) ante / 100);
+        String returnString = sbStr + " - " + bbStr;*/
+        if ((small_blind % 100) == 0 && (big_blind % 100) == 0)
+            str =  String.format("%.0f - %.0f", sb, bb);
+        else
+            str = String.format("%.2f - %.2f", sb, bb);
+        return (this.ante == 0) ?
+                String.format("%s", str) :
+                String.format("%s ante %.2f", str, ante);
     }
 }

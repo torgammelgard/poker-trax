@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.example.torgammelgard.pokerhourly.GraphFragment;
 import com.example.torgammelgard.pokerhourly.MainFragment;
 import com.example.torgammelgard.pokerhourly.ResultsFragment;
 import com.example.torgammelgard.pokerhourly.SummaryFragment;
@@ -37,7 +38,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements ActionBar.
 
             case 1: return new ResultsFragment();
 
-            case 2: return new SummaryFragment();
+            case 2: return new GraphFragment();
+
+            case 3: return new SummaryFragment();
 
             default: return null;
         }
@@ -45,7 +48,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements ActionBar.
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     /* --- impl TabListener */
@@ -80,4 +83,3 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements ActionBar.
 
     }
 }
-
