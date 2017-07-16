@@ -4,19 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<!--
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Summary"
-        android:textSize="32sp"
-        android:gravity="center"
-        android:padding="20dp" />
--->
 
-    <LinearLayout
-        android:id="@+id/graphLayout"
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>
