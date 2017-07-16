@@ -38,10 +38,8 @@ public class SummaryFragment extends Fragment {
         listView.addHeaderView(header);
 
         /* List */
-        final ArrayList<String> gameTypes = ((MainApp) getActivity().getApplication())
-                .mDataSource.getAllGameTypes();
-        final ArrayList<String> resultList = ((MainApp) getActivity().getApplication())
-                .mDataSource.getResultFromGametypes();
+        final ArrayList<String> gameTypes = ((MainApp) getActivity().getApplication()).getMDataSource().getAllGameTypes();
+        final ArrayList<String> resultList = ((MainApp) getActivity().getApplication()).getMDataSource().getResultFromGametypes();
         listView.setAdapter(new ArrayAdapter<String>(getActivity(),
                 R.layout.summary_list_item, R.id.text1, gameTypes) {
             @NonNull
@@ -86,7 +84,7 @@ public class SummaryFragment extends Fragment {
         listView.setFooterDividersEnabled(true);
 
         // total time played
-        int mins = ((MainApp) getActivity().getApplication()).mDataSource.getTotalTimePlayed();
+        int mins = ((MainApp) getActivity().getApplication()).getMDataSource().getTotalTimePlayed();
         String str = String.format("%02d:%02d", mins / 60, mins % 60);
         ((TextView) getActivity().findViewById(R.id.textViewTotalTime)).setText(str);
 
@@ -100,7 +98,7 @@ public class SummaryFragment extends Fragment {
         tv.setText(String.format("%.2f", profitPerHour));
 
         // average per hour
-        double avg_bb_per_hour = ((MainApp) getActivity().getApplication()).mDataSource.getAvgbbPH();
+        double avg_bb_per_hour = ((MainApp) getActivity().getApplication()).getMDataSource().getAvgbbPH();
         TextView avgbbPerHour_textView = getActivity().findViewById(R.id.avgbbPerHour);
         if (avg_bb_per_hour < 0)
             avgbbPerHour_textView.setTextColor(Color.RED);

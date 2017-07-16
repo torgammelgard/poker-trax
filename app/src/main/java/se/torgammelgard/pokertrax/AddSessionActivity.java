@@ -69,7 +69,7 @@ public class AddSessionActivity extends Activity implements
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         /* Game type stuff */
-        ArrayList<String> gameTypes= ((MainApp) getApplication()).mDataSource.getAllGameTypes();
+        ArrayList<String> gameTypes= ((MainApp) getApplication()).getMDataSource().getAllGameTypes();
         //gameTypes.add(NEW_ITEM_STR);
         Spinner gameType_spinner = findViewById(R.id.gameType_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -93,7 +93,7 @@ public class AddSessionActivity extends Activity implements
 
 
         //Location stuff
-        ArrayList<String> location_list = ((MainApp) getApplication()).mDataSource.getLocations();
+        ArrayList<String> location_list = ((MainApp) getApplication()).getMDataSource().getLocations();
         location_list.add(NEW_ITEM_STR);
 
         mLocationSpinner = findViewById(R.id.location_spinner);
@@ -125,7 +125,7 @@ public class AddSessionActivity extends Activity implements
             }
         });
 
-        ArrayList<Game_Structure> gameStructureList = ((MainApp) getApplication()).mDataSource.getAllGameStructures();
+        ArrayList<Game_Structure> gameStructureList = ((MainApp) getApplication()).getMDataSource().getAllGameStructures();
         ArrayList<String> gameStructureStringList = new ArrayList<>();
         for (Game_Structure g : gameStructureList) {
             gameStructureStringList.add(g.toString());
@@ -182,7 +182,7 @@ public class AddSessionActivity extends Activity implements
         super.onPause() ;
 
         try {
-            ((MainApp) getApplication()).mDataSource.close();
+            ((MainApp) getApplication()).getMDataSource().close();
         } catch (NullPointerException e) {
             Log.d(LOG, "Data source is null");
         }
@@ -248,7 +248,7 @@ public class AddSessionActivity extends Activity implements
     public void add_onClick(View view) {
         Session resultSession = createSession();
         if (resultSession != null) {
-            ((MainApp)getApplication()).mDataSource.addSession(resultSession);
+            ((MainApp) getApplication()).getMDataSource().addSession(resultSession);
             setResult(RESULT_OK);
             finish();
         }
@@ -275,7 +275,7 @@ public class AddSessionActivity extends Activity implements
         mGameStructureAdapter.add(g.toString());
         mGameStructureAdapter.notifyDataSetChanged();
         mGame_structure_ref = mGameStructureAdapter.getCount();
-        ((MainApp) getApplication()).mDataSource.addGameStructure(g);
+        ((MainApp) getApplication()).getMDataSource().addGameStructure(g);
     }
 
     @Override

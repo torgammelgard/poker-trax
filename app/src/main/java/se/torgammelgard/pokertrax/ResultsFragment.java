@@ -43,10 +43,9 @@ public class ResultsFragment extends android.support.v4.app.Fragment implements
             @Override
             protected ResultAdapter doInBackground(Void... params) {
                 ArrayList<Map<String, String>> dataList = new ArrayList<>();
-                ArrayList<Session> sessions = ((MainApp)getActivity().getApplication())
-                        .mDataSource.getLastSessions(20);
+                ArrayList<Session> sessions = ((MainApp) getActivity().getApplication()).getMDataSource().getLastSessions(20);
                 ArrayList<Game_Structure> game_structures = (((MainApp) getActivity().
-                        getApplication()).mDataSource.getAllGameStructures());
+                        getApplication()).getMDataSource().getAllGameStructures());
                 ArrayList<String> gameStructureStringList = new ArrayList<>();
                 for (Game_Structure game_structure : game_structures) {
                     gameStructureStringList.add(game_structure.toString());
@@ -61,8 +60,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment implements
                     dataList.add(map);
                 }
 
-                ArrayList<String> allGameTypes = ((MainApp)getActivity().getApplication())
-                        .mDataSource.getAllGameTypes();
+                ArrayList<String> allGameTypes = ((MainApp) getActivity().getApplication()).getMDataSource().getAllGameTypes();
 
                 String[] from = {"gameStructure", "gameTypeRef", "minutes", "result"};
                 int[] to = {R.id.text0, R.id.text1, R.id.text2 , R.id.text3};
@@ -106,7 +104,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment implements
                     HashMap<String, String> mapOfSession= (HashMap<String, String>)mResultListView.
                             getAdapter().getItem(selectedItemPos);
                     long sessionID = Long.valueOf(mapOfSession.get("id"));
-                    ((MainApp)getActivity().getApplication()).mDataSource.deleteSession(sessionID);
+                    ((MainApp) getActivity().getApplication()).getMDataSource().deleteSession(sessionID);
                 } catch (NumberFormatException e) {
                     Log.d(LOG, "Couldn't delete", e);
                 } catch (ClassCastException e) {

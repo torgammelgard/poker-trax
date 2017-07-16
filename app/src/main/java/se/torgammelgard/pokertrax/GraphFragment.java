@@ -34,8 +34,7 @@ public class GraphFragment extends android.support.v4.app.Fragment {
         GraphView graph = getView().findViewById(R.id.graph);
 
         // get and construct the data
-        ArrayList<Session> sessionList = ((MainApp) getActivity().getApplication())
-                .mDataSource.getLastSessions(20);
+        ArrayList<Session> sessionList = ((MainApp) getActivity().getApplication()).getMDataSource().getLastSessions(20);
 
             DataPoint[] dataPoints = new DataPoint[sessionList.size() + 1];
 

@@ -169,7 +169,7 @@ public class TabMain_FragmentActivity extends FragmentActivity {
         super.onPause();
 
         try {
-            ((MainApp) getApplication()).mDataSource.close();
+            ((MainApp) getApplication()).getMDataSource().close();
         } catch (NullPointerException e) {
             Log.d(LOG, "Data source is null");
         }
@@ -178,7 +178,7 @@ public class TabMain_FragmentActivity extends FragmentActivity {
    /** Starts an activity where the user can add a Session */
     public void addSessionOnClick(View view) {
         if (!isPremiumUser) {
-            int entries = ((MainApp) getApplication()).mDataSource.getEntriesCount();
+            int entries = ((MainApp) getApplication()).getMDataSource().getEntriesCount();
             if (entries > 4) {
                 Toast.makeText(this, "Buy premium version for unlimited session entries",
                         Toast.LENGTH_LONG).show();
