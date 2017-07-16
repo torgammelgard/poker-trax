@@ -14,8 +14,11 @@ local.properties
 .signing/
 
 # User-specific configurations
-.idea
+/.idea
 *.iml
+
+#
+/build
 
 # OS-specific files
 .DS_Store
