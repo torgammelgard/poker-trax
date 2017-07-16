@@ -17,7 +17,7 @@ import android.widget.Toast;
  */
 public class GameStructureDialogFragment extends DialogFragment {
 
-    private static final String LOG = "GameStructureDialogFragment";
+    private static final String LOG = "GameStructureDialog";
 
     private GameStructureListener mListener;
 

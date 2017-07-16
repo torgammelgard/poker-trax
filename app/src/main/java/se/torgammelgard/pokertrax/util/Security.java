@@ -15,7 +15,6 @@
 
 package se.torgammelgard.pokertrax.util;
 
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 

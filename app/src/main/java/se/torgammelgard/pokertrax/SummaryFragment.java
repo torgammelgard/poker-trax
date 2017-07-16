@@ -2,6 +2,7 @@ package se.torgammelgard.pokertrax;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ public class SummaryFragment extends Fragment {
 
         /* Handle the list*/
 
-        ListView listView = (ListView) getActivity().findViewById(R.id.listView_summary);
+        ListView listView = getActivity().findViewById(R.id.listView_summary);
 
         /* Header */
         View header = View.inflate(getActivity(), R.layout.summary_list_item, null);
@@ -43,11 +44,12 @@ public class SummaryFragment extends Fragment {
                 .mDataSource.getResultFromGametypes();
         listView.setAdapter(new ArrayAdapter<String>(getActivity(),
                 R.layout.summary_list_item, R.id.text1, gameTypes) {
+            @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                TextView textView1 = (TextView)view.findViewById(R.id.text1);
-                TextView textView2 = (TextView)view.findViewById(R.id.text2);
+                TextView textView1 = view.findViewById(R.id.text1);
+                TextView textView2 = view.findViewById(R.id.text2);
 
                 textView1.setText(gameTypes.get(position));
                 if (Integer.valueOf(resultList.get(position)) < 0) {
@@ -70,7 +72,7 @@ public class SummaryFragment extends Fragment {
             totalCents += Integer.valueOf(result);
         }
         ((TextView) footer.findViewById(R.id.text1)).setText(R.string.summary_total);
-        TextView result_textView = ((TextView) footer.findViewById(R.id.text2));
+        TextView result_textView = footer.findViewById(R.id.text2);
         if (totalCents < 0) {
             result_textView.setTextColor(Color.RED);
         }
@@ -90,7 +92,7 @@ public class SummaryFragment extends Fragment {
 
         // profit per hour
         double profitPerHour = (double)totalCents / 100 / mins * 60;
-        TextView tv = ((TextView) getActivity().findViewById(R.id.textViewTotalPerHour));
+        TextView tv = getActivity().findViewById(R.id.textViewTotalPerHour);
         if (profitPerHour < 0)
             tv.setTextColor(Color.RED);
         else
@@ -99,7 +101,7 @@ public class SummaryFragment extends Fragment {
 
         // average per hour
         double avg_bb_per_hour = ((MainApp) getActivity().getApplication()).mDataSource.getAvgbbPH();
-        TextView avgbbPerHour_textView = ((TextView) getActivity().findViewById(R.id.avgbbPerHour));
+        TextView avgbbPerHour_textView = getActivity().findViewById(R.id.avgbbPerHour);
         if (avg_bb_per_hour < 0)
             avgbbPerHour_textView.setTextColor(Color.RED);
         else

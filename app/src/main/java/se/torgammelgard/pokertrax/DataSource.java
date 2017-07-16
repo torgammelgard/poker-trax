@@ -104,6 +104,7 @@ public class DataSource {
                     null, null, null, null, null);
             cursor.moveToFirst();
             total = cursor.getInt(0);
+            cursor.close();
         } catch (SQLiteException e) {
             Log.e(LOG, "Failed to connect to database", e);
         }
@@ -115,7 +116,7 @@ public class DataSource {
         ArrayList<String> game_types = null;
         try {
             database = dbHelper.getReadableDatabase();
-            game_types = new ArrayList<String>();
+            game_types = new ArrayList<>();
             Cursor cursor = database.query(Game_TypeTable.TABLE_GAMETYPE, null,
                     null, null, null, null, null);
             cursor.moveToFirst();
@@ -136,7 +137,7 @@ public class DataSource {
         ArrayList<Game_Structure> game_structures = null;
         try {
             database = dbHelper.getReadableDatabase();
-            game_structures = new ArrayList<Game_Structure>();
+            game_structures = new ArrayList<>();
             Cursor cursor = database.query(Game_StructureTable.TABLE_GAME_STRUCTURE, null,
                     null, null, null, null, null);
 
@@ -171,7 +172,7 @@ public class DataSource {
         ArrayList<Session> sessions = null;
         try {
             database = dbHelper.getReadableDatabase();
-            sessions = new ArrayList<Session>();
+            sessions = new ArrayList<>();
             //Cursor cursor = database.query(SessionTable.TABLE_SESSION, null, null, null,
             //        null, null, SessionTable.COLUMN_ID + " ASC", "3");
             Cursor cursor = database.rawQuery("SELECT * FROM (SELECT * FROM " +
@@ -196,10 +197,10 @@ public class DataSource {
 
     /** returns a list over the result from all different game types */
     public ArrayList<String> getResultFromGametypes() {
-        ArrayList<String> resultList = new ArrayList<String>();
+        ArrayList<String> resultList = new ArrayList<>();
         try {
             database = dbHelper.getReadableDatabase();
-            ArrayList<Game_type> game_types = new ArrayList<Game_type>();
+            ArrayList<Game_type> game_types = new ArrayList<>();
             Cursor cursor = database.query(Game_TypeTable.TABLE_GAMETYPE, null,
                     null, null, null, null, null);
             cursor.moveToFirst();
@@ -248,7 +249,7 @@ public class DataSource {
     }
 
     public ArrayList<String> getLocations() {
-        ArrayList<String> locations = new ArrayList<String>();
+        ArrayList<String> locations = new ArrayList<>();
         try {
             database = dbHelper.getReadableDatabase();
             Cursor cursor = database.query(

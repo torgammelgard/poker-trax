@@ -31,4 +31,8 @@
     <string name="avgbbperhour">Medel bb/h</string>
     <string name="buypremium">Köp premium</string>
     <string name="premium">Premium</string>
+    <string name="main">Huvudsida</string>
+    <string name="graph">Graf</string>
+    <string name="sessions">Sessioner</string>
+    <string name="summary">Sammanfattning</string>
 </resources>

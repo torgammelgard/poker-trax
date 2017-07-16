@@ -31,14 +31,13 @@ public class GraphFragment extends android.support.v4.app.Fragment {
         if (getView() == null) {
             return;
         }
-        GraphView graph = (GraphView) getView().findViewById(R.id.graph);
+        GraphView graph = getView().findViewById(R.id.graph);
 
         // get and construct the data
         ArrayList<Session> sessionList = ((MainApp) getActivity().getApplication())
                 .mDataSource.getLastSessions(20);
-        int[] session_results = new int[sessionList.size() + 1];
 
-        DataPoint[] dataPoints = new DataPoint[session_results.length];
+            DataPoint[] dataPoints = new DataPoint[sessionList.size() + 1];
 
         // start data at 0, 0
         dataPoints[0] = new DataPoint(0.0, 0.0);

@@ -71,8 +71,8 @@ public class AddSessionActivity extends Activity implements
         /* Game type stuff */
         ArrayList<String> gameTypes= ((MainApp) getApplication()).mDataSource.getAllGameTypes();
         //gameTypes.add(NEW_ITEM_STR);
-        Spinner gameType_spinner = (Spinner)findViewById(R.id.gameType_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        Spinner gameType_spinner = findViewById(R.id.gameType_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, R.layout.my_simple_spinner_dropdown_item, gameTypes);
         gameType_spinner.setAdapter(adapter);
         gameType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -96,8 +96,8 @@ public class AddSessionActivity extends Activity implements
         ArrayList<String> location_list = ((MainApp) getApplication()).mDataSource.getLocations();
         location_list.add(NEW_ITEM_STR);
 
-        mLocationSpinner = (Spinner)findViewById(R.id.location_spinner);
-        mLocation_adapter = new ArrayAdapter<String>(this,
+        mLocationSpinner = findViewById(R.id.location_spinner);
+        mLocation_adapter = new ArrayAdapter<>(this,
                 R.layout.my_simple_spinner_dropdown_item, location_list);
         mLocationSpinner.setAdapter(mLocation_adapter);
         mLocationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -126,13 +126,13 @@ public class AddSessionActivity extends Activity implements
         });
 
         ArrayList<Game_Structure> gameStructureList = ((MainApp) getApplication()).mDataSource.getAllGameStructures();
-        ArrayList<String> gameStructureStringList = new ArrayList<String>();
+        ArrayList<String> gameStructureStringList = new ArrayList<>();
         for (Game_Structure g : gameStructureList) {
             gameStructureStringList.add(g.toString());
         }
         gameStructureStringList.add(NEW_ITEM_STR);
-        mGameStructureSpinner = (Spinner)findViewById(R.id.game_structure_spinner);
-        mGameStructureAdapter = new ArrayAdapter<String>(this,
+        mGameStructureSpinner = findViewById(R.id.game_structure_spinner);
+        mGameStructureAdapter = new ArrayAdapter<>(this,
                 R.layout.my_simple_spinner_dropdown_item, gameStructureStringList);
         mGameStructureSpinner.setAdapter(mGameStructureAdapter);
         mGameStructureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -159,13 +159,13 @@ public class AddSessionActivity extends Activity implements
         });
 
         //duration pick stuff
-        mDurationPickButton = (Button)findViewById(R.id.button_duration);
+        mDurationPickButton = findViewById(R.id.button_duration);
         mDurationPickButton.setText(String.valueOf(mHoursPlayed) + " h :" +
                 String.valueOf(mMinutesPlayed) + " min");
 
         //date pick stuff
         mCalendar = Calendar.getInstance();
-        mDatePickButton = (Button)findViewById(R.id.button_pick_date);
+        mDatePickButton = findViewById(R.id.button_pick_date);
         mDatePickButton.setText(mFormatter.format(mCalendar.getTime()));
 
         //result stuff
@@ -228,7 +228,7 @@ public class AddSessionActivity extends Activity implements
         session.setGame_structure_ref(mGame_structure_ref);
         session.setDuration(mHoursPlayed * 60 + mMinutesPlayed);
         session.setDate(mCalendar.getTime());
-        EditText result_EditText = (EditText)findViewById(R.id.result_editText);
+        EditText result_EditText = findViewById(R.id.result_editText);
 
         Float result_float = (Float.valueOf(result_EditText.getText().toString()));
         result_float = 100 * result_float; //store in cents

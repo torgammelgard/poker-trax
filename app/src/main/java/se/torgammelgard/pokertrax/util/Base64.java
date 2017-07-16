@@ -439,7 +439,7 @@ public class Base64 {
      * @param source The Base64 encoded data
      * @return decoded data
      * @since 1.3
-     * @throws Base64DecoderException
+     * @throws Base64DecoderException e
      */
     public static byte[] decode(byte[] source) throws Base64DecoderException {
         return decode(source, 0, source.length);
@@ -467,7 +467,7 @@ public class Base64 {
      * @param len    the length of characters to decode
      * @return decoded data
      * @since 1.3
-     * @throws Base64DecoderException
+     * @throws Base64DecoderException e
      */
     public static byte[] decode(byte[] source, int off, int len)
             throws Base64DecoderException {

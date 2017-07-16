@@ -29,7 +29,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.results, container, false);
-        mResultListView = (ListView)view.findViewById(R.id.list_result);
+        mResultListView = view.findViewById(R.id.list_result);
 
         updateListView();
 
@@ -42,17 +42,17 @@ public class ResultsFragment extends android.support.v4.app.Fragment implements
 
             @Override
             protected ResultAdapter doInBackground(Void... params) {
-                ArrayList<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+                ArrayList<Map<String, String>> dataList = new ArrayList<>();
                 ArrayList<Session> sessions = ((MainApp)getActivity().getApplication())
                         .mDataSource.getLastSessions(20);
                 ArrayList<Game_Structure> game_structures = (((MainApp) getActivity().
                         getApplication()).mDataSource.getAllGameStructures());
-                ArrayList<String> gameStructureStringList = new ArrayList<String>();
+                ArrayList<String> gameStructureStringList = new ArrayList<>();
                 for (Game_Structure game_structure : game_structures) {
                     gameStructureStringList.add(game_structure.toString());
                 }
                 for (Session session : sessions) {
-                    Map<String, String> map = new HashMap<String, String>();
+                    Map<String, String> map = new HashMap<>();
                     map.put("id", String.valueOf(session.getId()));
                     map.put("gameTypeRef", String.valueOf(session.getGame_type_ref()));
                     map.put("gameStructure", gameStructureStringList.get(session.getGame_structure_ref()-1));

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -15,8 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
 
 import se.torgammelgard.pokertrax.Adapters.TabsPagerAdapter;
 import se.torgammelgard.pokertrax.util.IabHelper;
@@ -30,7 +27,7 @@ public class TabMain_FragmentActivity extends FragmentActivity {
     private String[] mTab_names;
 
     private static final int ADD_SESSION_REQUEST = 1;
-    private static final String LOG = "TabMain_FragmentActivity";
+    private static final String LOG = "TabMain";
     private static final String PREFS_NAME = "MyPreferences";
     private final static String PREMIUM_USER = "Premium User";
 
@@ -99,7 +96,7 @@ public class TabMain_FragmentActivity extends FragmentActivity {
 
         mTab_names = getResources().getStringArray(R.array.tab_names);
 
-        ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
+        ViewPager viewPager = findViewById(R.id.pager);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.app_name);
@@ -210,22 +207,19 @@ public class TabMain_FragmentActivity extends FragmentActivity {
     /** Updates the listView in the ResultsFragment */
     public void updateUI() {
         if (isPremiumUser) {
-            final Button buyPremiumButton = (Button) findViewById(R.id.buy_premium);
+            final Button buyPremiumButton = findViewById(R.id.buy_premium);
             if (buyPremiumButton != null)
                 buyPremiumButton.setVisibility(View.GONE);
         }
 
-        TextView premiumTextView = (TextView) findViewById(R.id.textView_premium);
+        TextView premiumTextView = findViewById(R.id.textView_premium);
         if (premiumTextView != null)
             premiumTextView.setVisibility(isPremiumUser ? View.VISIBLE : View.GONE);
 
-        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        ResultsFragment resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentById(R.id.list_result);
 
-        if (fragmentList != null) {
-            for (Fragment fragment : fragmentList) {
-                if (fragment instanceof ResultsFragment)
-                    ((ResultsFragment) fragment).updateListView();
-            }
+        if (resultsFragment != null) {
+            resultsFragment.updateListView();
         }
     }
 

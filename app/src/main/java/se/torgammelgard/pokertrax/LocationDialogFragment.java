@@ -53,7 +53,7 @@ public class LocationDialogFragment extends DialogFragment {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = (EditText)dialog.findViewById(R.id.edit_location);
+                EditText editText = dialog.findViewById(R.id.edit_location);
                 mLocation = editText.getText().toString();
                 if (mLocation.equals("")) {
                     Toast.makeText(getActivity(), "Enter a location", Toast.LENGTH_SHORT).show();
