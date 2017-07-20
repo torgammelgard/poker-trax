@@ -40,7 +40,7 @@ class SummaryFragment : Fragment() {
                 val textView1 = view.findViewById<TextView>(R.id.text1)
                 val textView2 = view.findViewById<TextView>(R.id.text2)
 
-                textView1.text = gameTypes[position]
+                textView1.text = gameTypes!![position]
                 if (Integer.valueOf(resultList[position]) < 0) {
                     textView2.setTextColor(Color.RED)
                 } else {

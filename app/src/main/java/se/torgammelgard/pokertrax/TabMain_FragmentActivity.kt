@@ -17,6 +17,9 @@ import android.widget.TextView
 import android.widget.Toast
 import se.torgammelgard.pokertrax.Adapters.TabsPagerAdapter
 import se.torgammelgard.pokertrax.util.IabHelper
+import se.torgammelgard.pokertrax.util.IabResult
+import se.torgammelgard.pokertrax.util.Inventory
+import se.torgammelgard.pokertrax.util.Purchase
 
 class TabMain_FragmentActivity : FragmentActivity() {
 
@@ -26,35 +29,42 @@ class TabMain_FragmentActivity : FragmentActivity() {
     internal var isPremiumUser = false
 
     internal var mHelper: IabHelper? = null
-    internal var mPurchaseFinishedListener: IabHelper.OnIabPurchaseFinishedListener = IabHelper.OnIabPurchaseFinishedListener { result, purchase ->
-        if (result.isFailure) {
-            //TODO: handle error
-            Log.d(LOG, "purchase failure")
-            return@OnIabPurchaseFinishedListener
-        } else if (purchase.sku == SKU_PREMIUM) {
-            consumeItem()
+    internal var mPurchaseFinishedListener = object : IabHelper.OnIabPurchaseFinishedListener {
+        override fun onIabPurchaseFinished(result: IabResult, purchase: Purchase?) {
+            if (result.isFailure) {
+                //TODO: handle error
+                Log.d(LOG, "Error purchasing: " + result)
+                return      //@OnIabPurchaseFinishedListener
+            } else if (purchase?.sku == SKU_PREMIUM) {
+                consumeItem()
+            }
+        } 
+        
+    }
+    internal var mReceivedInventoryListener = object : IabHelper.QueryInventoryFinishedListener {
+        override fun onQueryInventoryFinished(result: IabResult, inv: Inventory) {
+            if (result.isFailure) {
+                //TODO: handle failure
+                return      //@QueryInventoryFinishedListener
+            } else {
+                mHelper!!.consumeAsync(inv.getPurchase(SKU_PREMIUM), mConsumeFinishedListener)
+            }
         }
     }
-    internal var mReceivedInventoryListener: IabHelper.QueryInventoryFinishedListener = IabHelper.QueryInventoryFinishedListener { result, inv ->
-        if (result.isFailure) {
-            //TODO: handle failure
-            return@QueryInventoryFinishedListener
-        } else {
-            mHelper!!.consumeAsync(inv.getPurchase(SKU_PREMIUM), mConsumeFinishedListener)
-        }
-    }
-    internal var mConsumeFinishedListener: IabHelper.OnConsumeFinishedListener = IabHelper.OnConsumeFinishedListener { purchase, result ->
-        if (result.isSuccess) {
-            val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-            val editor = settings.edit()
-            editor.putBoolean(PREMIUM_USER, true)
-            editor.apply()
-            isPremiumUser = true
-            updateUI()
-            Log.d(LOG, "Great success, purchase successful!")
-        } else {
-            //TODO: handle failure
-            Log.d(LOG, "Purchase not successful")
+    internal var mConsumeFinishedListener = object : IabHelper.OnConsumeFinishedListener {
+        override fun onConsumeFinished(purchase: Purchase, result: IabResult) {
+            if (result.isSuccess) {
+                val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                val editor = settings.edit()
+                editor.putBoolean(PREMIUM_USER, true)
+                editor.apply()
+                isPremiumUser = true
+                updateUI()
+                Log.d(LOG, "Great success, purchase successful!")
+            } else {
+                //TODO: handle failure
+                Log.d(LOG, "Purchase not successful")
+            }
         }
     }
 
