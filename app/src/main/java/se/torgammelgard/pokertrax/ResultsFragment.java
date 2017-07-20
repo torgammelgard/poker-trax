@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import se.torgammelgard.pokertrax.model.Session;
+
 public class ResultsFragment extends android.support.v4.app.Fragment implements
         AdapterView.OnItemLongClickListener {
     private static final String LOG = "ResultsFragment";

@@ -11,6 +11,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 
+import se.torgammelgard.pokertrax.model.Session;
+
 public class GraphFragment extends android.support.v4.app.Fragment {
 
     @Override

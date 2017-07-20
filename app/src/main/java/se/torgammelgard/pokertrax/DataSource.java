@@ -15,6 +15,7 @@ import se.torgammelgard.pokertrax.Database.Game_StructureTable;
 import se.torgammelgard.pokertrax.Database.Game_TypeTable;
 import se.torgammelgard.pokertrax.Database.MySQLiteHelper;
 import se.torgammelgard.pokertrax.Database.SessionTable;
+import se.torgammelgard.pokertrax.model.Session;
 
 public class DataSource {
     private static final String LOG = "DataSource";

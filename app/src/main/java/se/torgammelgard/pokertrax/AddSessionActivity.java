@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import se.torgammelgard.pokertrax.model.Session;
+
 /**
  *  Activity which lets the user add a session
  */
