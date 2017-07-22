@@ -5,6 +5,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.app.DialogFragment
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import se.torgammelgard.pokertrax.R
@@ -54,20 +57,19 @@ class LocationDialogFragment : DialogFragment() {
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle): Dialog {
-        val builder = AlertDialog.Builder(activity)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = activity.layoutInflater
-
-        val view = inflater.inflate(R.layout.location_dialog, null)
-        builder.setView(view)
-        builder.setTitle(R.string.locationDialogText)
-        builder.setPositiveButton(R.string.ok) { dialog, which ->
-            //overridden in onStart
-        }
+        val v = inflater!!.inflate(R.layout.location_dialog, null, false)
+        return AlertDialog.Builder(activity)
+                .setView(v)
+                .setTitle(R.string.locationDialogText)
+                .setPositiveButton(R.string.ok) { dialog, which ->
+                    //overridden in onStart
+                }
                 .setNegativeButton(R.string.cancel) { dialog, which ->
                     mListener!!.onDialogNegativeCheck()
                     dialog.dismiss()
                 }
-        return builder.create()
+                .create()
     }
 }

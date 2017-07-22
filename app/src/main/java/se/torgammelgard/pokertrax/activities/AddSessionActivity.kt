@@ -68,9 +68,9 @@ class AddSessionActivity : Activity(), TimePickerDialog.OnTimeSetListener, DateP
         val gameTypes = (application as MainApp).mDataSource!!.allGameTypes
         //gameTypes.add(NEW_ITEM_STR);
         val gameType_spinner = findViewById<Spinner>(R.id.gameType_spinner)
-        val adapter = ArrayAdapter(
+        val gameTypeAdapter = ArrayAdapter(
                 this, R.layout.my_simple_spinner_dropdown_item, gameTypes)
-        gameType_spinner.adapter = adapter
+        gameType_spinner.adapter = gameTypeAdapter
         gameType_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 mGame_type_ref = id.toInt() + 1
@@ -102,8 +102,8 @@ class AddSessionActivity : Activity(), TimePickerDialog.OnTimeSetListener, DateP
                 if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
                         .toString() == NEW_ITEM_STR) {
                     //start new location dialog
-                    val a = LocationDialogFragment()
-                    a.show(fragmentManager, "locationDialog")
+                    val locationDialogFragment = LocationDialogFragment()
+                    locationDialogFragment.show(fragmentManager, "locationDialog")
                 } else {
                     mLocation = (view.findViewById<View>(android.R.id.text1) as CheckedTextView)
                             .text.toString()
