@@ -11,9 +11,9 @@ import java.util.ArrayList
 /**
  * TODO: Class header comment. CRAP!
  */
-class ResultAdapter(context: Context, data: List<Map<String, String>>,
+class ResultAdapter(context: Context, dataList: List<Map<String, String>>,
                     gameTypeList: ArrayList<String>,
-                    resource: Int, from: Array<String>, to: IntArray) : SimpleAdapter(context, data, resource, from, to) {
+                    resource: Int, from: Array<String>, to: IntArray) : SimpleAdapter(context, dataList, resource, from, to) {
 
     init {
 

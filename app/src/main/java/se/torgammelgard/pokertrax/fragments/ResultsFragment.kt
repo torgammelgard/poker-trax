@@ -20,8 +20,8 @@ import java.util.ArrayList
 import java.util.HashMap
 
 class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLongClickListener {
-    protected var mActionMode: Any? = null
-    private var selectedItemPos = -1
+    private var mActionMode: Any? = null
+    private var mSelectedItemPos = -1
     private var mResultListView: ListView? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -63,8 +63,6 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
 
                 return ResultAdapter(activity, dataList, allGameTypes!!,
                         R.layout.result_list_item, from, to)
-
-
             }
 
             override fun onPostExecute(adapter: ResultAdapter) {
@@ -92,7 +90,7 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
         override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
             if (item.itemId == R.id.menuitem_discard) {
                 try {
-                    val mapOfSession = mResultListView!!.adapter.getItem(selectedItemPos) as HashMap<String, String>
+                    val mapOfSession = mResultListView!!.adapter.getItem(mSelectedItemPos) as HashMap<String, String>
                     val sessionID = java.lang.Long.valueOf(mapOfSession["id"])!!
                     (activity.application as MainApp).mDataSource!!.deleteSession(sessionID)
                 } catch (e: NumberFormatException) {
@@ -109,15 +107,15 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
         override fun onDestroyActionMode(mode: ActionMode) {
             // when the action mode is closed
             mActionMode = null
-            selectedItemPos = -1
+            mSelectedItemPos = -1
             updateListView()
         }
     }
 
     override fun onItemLongClick(parent: AdapterView<*>, view: View, position: Int, id: Long): Boolean {
-        if (selectedItemPos != -1)
+        if (mSelectedItemPos != -1)
             return true
-        selectedItemPos = position
+        mSelectedItemPos = position
         view.setBackgroundColor(Color.RED)
         if (mActionMode != null)
             return false

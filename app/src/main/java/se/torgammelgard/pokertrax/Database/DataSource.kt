@@ -114,7 +114,7 @@ class DataSource(context: Context) {
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
                     val game_type = cursorToGameType(cursor)
-                    game_types.add(game_type.toString())
+                    game_types.add(game_type.getOutputString())
                     cursor.moveToNext()
                 }
                 cursor.close()
