@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.Database
 
 import android.content.ContentValues
 import android.content.Context
@@ -11,10 +11,8 @@ import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 
-import se.torgammelgard.pokertrax.Database.Game_StructureTable
-import se.torgammelgard.pokertrax.Database.Game_TypeTable
-import se.torgammelgard.pokertrax.Database.MySQLiteHelper
-import se.torgammelgard.pokertrax.Database.SessionTable
+import se.torgammelgard.pokertrax.model.Game_Structure
+import se.torgammelgard.pokertrax.model.Game_type
 import se.torgammelgard.pokertrax.model.Session
 
 class DataSource(context: Context) {

@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.activities
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -15,6 +15,11 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TimePicker
+import se.torgammelgard.pokertrax.MainApp
+import se.torgammelgard.pokertrax.R
+import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
+import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
+import se.torgammelgard.pokertrax.model.Game_Structure
 
 import java.text.SimpleDateFormat
 import java.util.ArrayList

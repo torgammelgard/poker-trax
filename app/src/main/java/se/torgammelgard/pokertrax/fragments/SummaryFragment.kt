@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.fragments
 
 import android.graphics.Color
 import android.os.Bundle
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
+import se.torgammelgard.pokertrax.MainApp
+import se.torgammelgard.pokertrax.R
 
 /**
  * Contains an overview of some results.

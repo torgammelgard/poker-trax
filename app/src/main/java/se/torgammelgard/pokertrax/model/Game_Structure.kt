@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.model
 
 /**
  * TODO: Class header comment.

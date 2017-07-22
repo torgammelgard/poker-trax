@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
-
-import java.util.ArrayList
-
-import se.torgammelgard.pokertrax.model.Session
+import se.torgammelgard.pokertrax.MainApp
+import se.torgammelgard.pokertrax.R
 
 class GraphFragment : android.support.v4.app.Fragment() {
 

@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.model
 
 /**
  * Refers to table game_type. For example NL, PL, limit.

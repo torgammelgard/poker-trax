@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 
-import se.torgammelgard.pokertrax.GraphFragment
-import se.torgammelgard.pokertrax.MainFragment
-import se.torgammelgard.pokertrax.ResultsFragment
-import se.torgammelgard.pokertrax.SummaryFragment
+import se.torgammelgard.pokertrax.fragments.GraphFragment
+import se.torgammelgard.pokertrax.fragments.MainFragment
+import se.torgammelgard.pokertrax.fragments.ResultsFragment
+import se.torgammelgard.pokertrax.fragments.SummaryFragment
 
 class TabsPagerAdapter(activity: FragmentActivity, private val mViewPager: ViewPager) : FragmentPagerAdapter(activity.supportFragmentManager), ActionBar.TabListener, ViewPager.OnPageChangeListener {
     private val mActionBar: ActionBar

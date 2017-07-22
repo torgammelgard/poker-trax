@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.activities
 
 import android.app.ActionBar
 import android.app.Activity
@@ -16,6 +16,9 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import se.torgammelgard.pokertrax.Adapters.TabsPagerAdapter
+import se.torgammelgard.pokertrax.MainApp
+import se.torgammelgard.pokertrax.R
+import se.torgammelgard.pokertrax.fragments.ResultsFragment
 import se.torgammelgard.pokertrax.util.IabHelper
 import se.torgammelgard.pokertrax.util.IabResult
 import se.torgammelgard.pokertrax.util.Inventory

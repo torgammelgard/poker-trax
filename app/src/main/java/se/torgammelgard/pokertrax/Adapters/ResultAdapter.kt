@@ -1,10 +1,10 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.Adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.view.View
 import android.widget.SimpleAdapter
 import android.widget.TextView
+import se.torgammelgard.pokertrax.R
 
 import java.util.ArrayList
 

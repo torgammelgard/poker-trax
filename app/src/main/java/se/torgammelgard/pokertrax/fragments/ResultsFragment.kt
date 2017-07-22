@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax
+package se.torgammelgard.pokertrax.fragments
 
 import android.graphics.Color
 import android.os.AsyncTask
@@ -7,17 +7,17 @@ import android.util.Log
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
+import se.torgammelgard.pokertrax.MainApp
+import se.torgammelgard.pokertrax.R
+import se.torgammelgard.pokertrax.Adapters.ResultAdapter
 
 import java.util.ArrayList
 import java.util.HashMap
-
-import se.torgammelgard.pokertrax.model.Session
 
 class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLongClickListener {
     protected var mActionMode: Any? = null
