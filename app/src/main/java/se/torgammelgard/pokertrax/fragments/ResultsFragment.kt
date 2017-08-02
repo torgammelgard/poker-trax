@@ -42,17 +42,14 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
                 val dataList = ArrayList<Map<String, String>>()
                 val sessions = (activity.application as MainApp).mDataSource!!.getLastSessions(20)
                 val game_structures = (activity.application as MainApp).mDataSource!!.allGameStructures
-                val gameStructureStringList = ArrayList<String>()
-                for (game_structure in game_structures!!) {
-                    gameStructureStringList.add(game_structure.toString())
-                }
-                for (session in sessions!!) {
+                val gameStructureStringList = game_structures!!.map { it.toString() }
+                sessions!!.forEach { (id, game_type_ref, _, game_structure_ref, duration, _, result) ->
                     val map = HashMap<String, String>()
-                    map.put("id", session.id.toString())
-                    map.put("gameTypeRef", session.game_type_ref.toString())
-                    map.put("gameStructure", gameStructureStringList[session.game_structure_ref - 1])
-                    map.put("minutes", session.duration.toString())
-                    map.put("result", session.result.toString())
+                    map.put("id", id.toString())
+                    map.put("gameTypeRef", game_type_ref.toString())
+                    map.put("gameStructure", gameStructureStringList[game_structure_ref - 1])
+                    map.put("minutes", duration.toString())
+                    map.put("result", result.toString())
                     dataList.add(map)
                 }
 

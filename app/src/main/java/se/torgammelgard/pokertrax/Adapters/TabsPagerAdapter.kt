@@ -12,10 +12,9 @@ import se.torgammelgard.pokertrax.fragments.ResultsFragment
 import se.torgammelgard.pokertrax.fragments.SummaryFragment
 
 class TabsPagerAdapter(activity: FragmentActivity, private val mViewPager: ViewPager) : FragmentPagerAdapter(activity.supportFragmentManager), ActionBar.TabListener, ViewPager.OnPageChangeListener {
-    private val mActionBar: ActionBar
+    private val mActionBar: ActionBar = activity.actionBar
 
     init {
-        mActionBar = activity.actionBar
         mViewPager.adapter = this
         mViewPager.setOnPageChangeListener(this)
     }

@@ -28,9 +28,14 @@ import java.util.Calendar
 import se.torgammelgard.pokertrax.model.Session
 
 /**
- * Activity which lets the user add a session
+ * Lets the user add a session
  */
-class AddSessionActivity : Activity(), TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener, LocationDialogFragment.LocationDialogListener, GameStructureDialogFragment.GameStructureListener {
+class AddSessionActivity : Activity(),
+        TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener,
+        LocationDialogFragment.LocationDialogListener,
+        GameStructureDialogFragment.GameStructureListener {
+
     private var mLocation: String? = null
     private var mGame_type_ref: Int = 0
     private var mGame_structure_ref: Int = 0
@@ -64,7 +69,7 @@ class AddSessionActivity : Activity(), TimePickerDialog.OnTimeSetListener, DateP
         setContentView(R.layout.add_session)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        /* Game type stuff */
+        // Game type stuff
         val gameTypes = (application as MainApp).mDataSource!!.allGameTypes
         //gameTypes.add(NEW_ITEM_STR);
         val gameType_spinner = findViewById<Spinner>(R.id.gameType_spinner)
@@ -117,10 +122,7 @@ class AddSessionActivity : Activity(), TimePickerDialog.OnTimeSetListener, DateP
         }
 
         val gameStructureList = (application as MainApp).mDataSource!!.allGameStructures
-        val gameStructureStringList = ArrayList<String>()
-        for (g in gameStructureList!!) {
-            gameStructureStringList.add(g.toString())
-        }
+        val gameStructureStringList = gameStructureList!!.mapTo(ArrayList<String>()) { it.toString() }
         gameStructureStringList.add(NEW_ITEM_STR)
         mGameStructureSpinner = findViewById<Spinner>(R.id.game_structure_spinner)
         mGameStructureAdapter = ArrayAdapter(this,
@@ -165,13 +167,7 @@ class AddSessionActivity : Activity(), TimePickerDialog.OnTimeSetListener, DateP
 
     override fun onPause() {
         super.onPause()
-
-        try {
-            (application as MainApp).mDataSource!!.close()
-        } catch (e: NullPointerException) {
-            Log.d(LOG, "Data source is null")
-        }
-
+        (application as MainApp).mDataSource?.close()
     }
 
     fun duration_pick_onClick(view: View) {
@@ -242,31 +238,30 @@ class AddSessionActivity : Activity(), TimePickerDialog.OnTimeSetListener, DateP
     /** Adds a location to the location spinner */
     override fun onDialogPositiveCheck(dialog: LocationDialogFragment) {
         mLocation = dialog.location
-        mLocation_adapter!!.remove(NEW_ITEM_STR)
-        mLocation_adapter!!.add(mLocation)
-        mLocation_adapter!!.notifyDataSetChanged()
+        mLocation_adapter?.remove(NEW_ITEM_STR)
+        mLocation_adapter?.add(mLocation)
+        mLocation_adapter?.notifyDataSetChanged()
     }
 
     override fun onDialogNegativeCheck() {
-        mLocationSpinner!!.setSelection(0)
-        mLocationSpinner!!.invalidate()
+        mLocationSpinner?.setSelection(0)
+        mLocationSpinner?.invalidate()
     }
 
     override fun doGameStructureDialogPositiveClick(g: Game_Structure) {
-        mGameStructureAdapter!!.remove(NEW_ITEM_STR)
-        mGameStructureAdapter!!.add(g.toString())
-        mGameStructureAdapter!!.notifyDataSetChanged()
-        mGame_structure_ref = mGameStructureAdapter!!.count
-        (application as MainApp).mDataSource!!.addGameStructure(g)
+        mGameStructureAdapter?.remove(NEW_ITEM_STR)
+        mGameStructureAdapter?.add(g.toString())
+        mGameStructureAdapter?.notifyDataSetChanged()
+        mGame_structure_ref = mGameStructureAdapter?.count as Int
+        (application as MainApp).mDataSource?.addGameStructure(g)
     }
 
     override fun doGameStructureDialogNegativeClick() {
-        mGameStructureSpinner!!.setSelection(0)
-        mGameStructureSpinner!!.invalidate()
+        mGameStructureSpinner?.setSelection(0)
+        mGameStructureSpinner?.invalidate()
     }
 
     companion object {
-
         private val LOG = "AddSessionActivity"
         private val NEW_ITEM_STR = "---new---"
     }

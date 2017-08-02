@@ -32,42 +32,35 @@ class TabMain_FragmentActivity : FragmentActivity() {
     internal var isPremiumUser = false
 
     internal var mHelper: IabHelper? = null
-    internal var mPurchaseFinishedListener = object : IabHelper.OnIabPurchaseFinishedListener {
-        override fun onIabPurchaseFinished(result: IabResult, purchase: Purchase?) {
-            if (result.isFailure) {
-                //TODO: handle error
-                Log.d(LOG, "Error purchasing: " + result)
-                return      //@OnIabPurchaseFinishedListener
-            } else if (purchase?.sku == SKU_PREMIUM) {
-                consumeItem()
-            }
-        } 
-        
-    }
-    internal var mReceivedInventoryListener = object : IabHelper.QueryInventoryFinishedListener {
-        override fun onQueryInventoryFinished(result: IabResult, inv: Inventory) {
-            if (result.isFailure) {
-                //TODO: handle failure
-                return      //@QueryInventoryFinishedListener
-            } else {
-                mHelper!!.consumeAsync(inv.getPurchase(SKU_PREMIUM), mConsumeFinishedListener)
-            }
+    internal var mPurchaseFinishedListener = IabHelper.OnIabPurchaseFinishedListener { result, purchase ->
+        if (result.isFailure) {
+            //TODO: handle error
+            Log.d(LOG, "Error purchasing: " + result)
+            return@OnIabPurchaseFinishedListener      //@OnIabPurchaseFinishedListener
+        } else if (purchase?.sku == SKU_PREMIUM) {
+            consumeItem()
         }
     }
-    internal var mConsumeFinishedListener = object : IabHelper.OnConsumeFinishedListener {
-        override fun onConsumeFinished(purchase: Purchase, result: IabResult) {
-            if (result.isSuccess) {
-                val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                val editor = settings.edit()
-                editor.putBoolean(PREMIUM_USER, true)
-                editor.apply()
-                isPremiumUser = true
-                updateUI()
-                Log.d(LOG, "Great success, purchase successful!")
-            } else {
-                //TODO: handle failure
-                Log.d(LOG, "Purchase not successful")
-            }
+    internal var mReceivedInventoryListener = IabHelper.QueryInventoryFinishedListener { result, inv ->
+        if (result.isFailure) {
+            //TODO: handle failure
+            return@QueryInventoryFinishedListener
+        } else {
+            mHelper!!.consumeAsync(inv.getPurchase(SKU_PREMIUM), mConsumeFinishedListener)
+        }
+    }
+    internal var mConsumeFinishedListener = IabHelper.OnConsumeFinishedListener { purchase, result ->
+        if (result.isSuccess) {
+            val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val editor = settings.edit()
+            editor.putBoolean(PREMIUM_USER, true)
+            editor.apply()
+            isPremiumUser = true
+            updateUI()
+            Log.d(LOG, "Great success, purchase successful!")
+        } else {
+            //TODO: handle failure
+            Log.d(LOG, "Purchase not successful")
         }
     }
 
@@ -101,7 +94,6 @@ class TabMain_FragmentActivity : FragmentActivity() {
             tabsPagerAdapter.addTab(actionBar.newTab().setText(mTab_names!![3]))
         }
     }
-
 
     private fun doInAppInits() {
         val base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmKnKmAezW5NwddMOyi+YS3shhtdhZn6gYqtpcXSRleu1JVvw3EgLW5Be3IJwu7/BGwq2/AVbrBvQ+SGhEPjKJY/cMjfuzsjHT02HQxTUxPAoLnPrRHdWl5x4yBnD1i3P75GPEgF9MAwGJKPV7+CpaPtRV4qJppDGArh8sgCfETpMUDTatZcsr9qKKQZm7+1xjgOtkZnyRon+7QMpmlGqgHTqz9qTFxoBaf2lfimOQMjybXp34gHdKUN8oUTzvV1VHUnBLBkPFfGDK/gH2nzgTdVCpAPU5aWbsdvVhMufXJOXZym9eneeUpiNVmrfVh0OkGLYTfL0GJrSYpMRp5qwgQIDAQAB"

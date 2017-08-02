@@ -26,7 +26,6 @@ ehthumbs.db
 Thumbs.db
 
 .idea/**
-.idea/workspace.xml
 
 ## File-based project format:
 *.iws

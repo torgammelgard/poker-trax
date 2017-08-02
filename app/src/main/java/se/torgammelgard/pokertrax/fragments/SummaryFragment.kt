@@ -55,12 +55,10 @@ class SummaryFragment : Fragment() {
             }
         }
 
-        /* Footer */
+        // Footer
         val footer = View.inflate(activity, R.layout.summary_list_item, null)
-        var totalCents = 0
-        for (result in resultList) {
-            totalCents += Integer.valueOf(result)!!
-        }
+        val totalCents = resultList.sumBy { Integer.valueOf(it)!! }
+
         (footer.findViewById<View>(R.id.text1) as TextView).setText(R.string.summary_total)
         val result_textView = footer.findViewById<TextView>(R.id.text2)
         if (totalCents < 0) {
