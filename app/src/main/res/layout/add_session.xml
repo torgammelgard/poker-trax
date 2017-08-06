@@ -1,150 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TableLayout
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_session"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    android:layout_height="fill_parent">
 
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/game_type" />
+            android:text="@string/game_type"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <Spinner
             android:id="@+id/gameType_spinner"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
     </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/location" />
+            android:layout_weight="1"
+            android:text="@string/location"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <Spinner
             android:id="@+id/location_spinner"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/blinds"/>
+            android:layout_weight="1"
+            android:text="@string/blinds"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <Spinner
             android:id="@+id/game_structure_spinner"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </TableRow>
+
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/profit"/>
+            android:layout_weight="1"
+            android:text="@string/profit"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <EditText
             android:id="@+id/result_editText"
-            android:inputType="number|numberSigned|numberDecimal"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/default_result"/>
+            android:layout_weight="1"
+            android:inputType="number|numberSigned|numberDecimal"
+            android:text="@string/default_result"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </TableRow>
 
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/play_time"/>
+            android:layout_weight="1"
+            android:text="@string/play_time"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
             android:id="@+id/button_duration"
-            android:layout_weight="1"
-            android:layout_width="0dp"
             style="@style/MyButtonStyle"
-            android:onClick="duration_pick_onClick"/>
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="duration_pick_onClick" />
     </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/date"/>
+            android:layout_weight="1"
+            android:text="@string/date"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
             android:id="@+id/button_pick_date"
-            android:layout_weight="1"
-            android:layout_width="0dp"
             style="@style/MyButtonStyle"
-            android:onClick="pick_date_onClick"/>
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="pick_date_onClick" />
     </TableRow>
+
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
+
         <Button
-            android:layout_weight="1"
-            android:layout_width="0dp"
             style="@style/MyButtonStyle"
-            android:text="@string/cancel"
-            android:onClick="cancel_onClick" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="cancel_onClick"
+            android:text="@string/cancel" />
+
         <Button
-            android:layout_weight="1"
-            android:layout_width="0dp"
             style="@style/MyButtonStyle"
-            android:text="@string/add"
-            android:onClick="add_onClick" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="add_onClick"
+            android:text="@string/add" />
     </TableRow>
 
 </TableLayout>
