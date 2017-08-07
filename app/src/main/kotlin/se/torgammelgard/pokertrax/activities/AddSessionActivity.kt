@@ -77,10 +77,10 @@ class AddSessionActivity : Activity(),
                 this, R.layout.my_simple_spinner_dropdown_item, gameTypes)
         gameType_spinner.adapter = gameTypeAdapter
         gameType_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
                 mGame_type_ref = id.toInt() + 1
-                //if ((position + 1) == parent.getCount())
-                //    Toast.makeText(parent.getContext(), "Not yet", Toast.LENGTH_SHORT).show();
+                //if ((position + 1) == adapterView.getCount())
+                //    Toast.makeText(adapterView.getContext(), "Not yet", Toast.LENGTH_SHORT).show();
                 // TODO: add a new addGameTypeActivity
             }
 
@@ -93,31 +93,23 @@ class AddSessionActivity : Activity(),
 
         //Location stuff
         val location_list = (application as MainApp).mDataSource!!.locations
-        location_list.add(NEW_ITEM_STR)
 
         mLocationSpinner = findViewById<Spinner>(R.id.location_spinner)
         mLocation_adapter = ArrayAdapter(this,
                 R.layout.my_simple_spinner_dropdown_item, location_list)
         mLocationSpinner!!.adapter = mLocation_adapter
         mLocationSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (view == null)
-                    return
-                // check if new location is selected
-                if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
-                        .toString() == NEW_ITEM_STR) {
-                    //start new location dialog
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View?, position: Int, id: Long) {
+                Log.d(LOG, "Item $position selected")
+                if (adapterView.count == 0) {
                     val locationDialogFragment = LocationDialogFragment()
                     locationDialogFragment.show(fragmentManager, "locationDialog")
-                } else {
-                    mLocation = (view.findViewById<View>(android.R.id.text1) as CheckedTextView)
-                            .text.toString()
-
-                }
+                } else
+                    mLocation = (view?.findViewById<View>(android.R.id.text1) as CheckedTextView).text.toString()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-
+                Log.d(LOG, "nothing selected")
             }
         }
 
@@ -129,8 +121,8 @@ class AddSessionActivity : Activity(),
                 R.layout.my_simple_spinner_dropdown_item, gameStructureStringList)
         mGameStructureSpinner!!.adapter = mGameStructureAdapter
         mGameStructureSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
+            override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
+                if (position + 1 == adapterView.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
                         .toString() == NEW_ITEM_STR) {
                     val g = GameStructureDialogFragment.newInstance()
                     g.show(fragmentManager, "g")
@@ -238,7 +230,7 @@ class AddSessionActivity : Activity(),
     /** Adds a location to the location spinner */
     override fun onDialogPositiveCheck(dialog: LocationDialogFragment) {
         mLocation = dialog.location
-        mLocation_adapter?.remove(NEW_ITEM_STR)
+        //mLocation_adapter?.remove(NEW_ITEM_STR)
         mLocation_adapter?.add(mLocation)
         mLocation_adapter?.notifyDataSetChanged()
     }
