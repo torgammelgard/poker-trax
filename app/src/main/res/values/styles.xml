@@ -1,12 +1,17 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Base application theme.
     <style name="AppTheme" parent="android:Theme.Holo">
         <item name="android:textViewStyle">@style/MyTextViewStyle</item>
         <item name="android:buttonStyle">@style/MyButtonStyle</item>
         <item name="android:editTextStyle">@style/MyEditTextStyle</item>
 
         <item name="android:fontFamily">"sans-serif-condensed</item>
+    </style>
+ -->
+
+    <style name="Theme.AppThemeLight" parent="android:Theme.Holo.Light">
+
     </style>
 
     <style name="MyTextViewStyle" parent="android:Widget.Holo.TextView">
@@ -28,14 +33,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:padding">5dp</item>
         <item name="android:background">@drawable/custom_button</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>
 
     <style name="MyActionBarStyle" parent="android:Widget.Holo.ActionBar.TabText">
         <item name="android:fontFamily">"sans-serif-condensed"</item>
-        <item name="android:textColor">#ffffeccc</item>
+        <item name="android:textColor">#131211</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>
