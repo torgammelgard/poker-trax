@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.Adapters
+package se.torgammelgard.pokertrax.adapters
 
 import android.app.ActionBar
 import android.app.FragmentTransaction

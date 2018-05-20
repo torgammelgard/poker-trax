@@ -15,24 +15,21 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import se.torgammelgard.pokertrax.Adapters.TabsPagerAdapter
+import se.torgammelgard.pokertrax.adapters.TabsPagerAdapter
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.fragments.ResultsFragment
 import se.torgammelgard.pokertrax.util.IabHelper
-import se.torgammelgard.pokertrax.util.IabResult
-import se.torgammelgard.pokertrax.util.Inventory
-import se.torgammelgard.pokertrax.util.Purchase
 
-class TabMain_FragmentActivity : FragmentActivity() {
+class TabMainFragmentActivity : FragmentActivity() {
 
-    var mMenu: Menu? = null
-    private var mTab_names: Array<String>? = null
+    private var mMenu: Menu? = null
+    private var mTabNames: Array<String>? = null
 
-    internal var isPremiumUser = false
+    private var isPremiumUser = false
 
-    internal var mHelper: IabHelper? = null
-    internal var mPurchaseFinishedListener = IabHelper.OnIabPurchaseFinishedListener { result, purchase ->
+    private var mHelper: IabHelper? = null
+    private var mPurchaseFinishedListener = IabHelper.OnIabPurchaseFinishedListener { result, purchase ->
         if (result.isFailure) {
             //TODO: handle error
             Log.d(LOG, "Error purchasing: " + result)
@@ -41,7 +38,7 @@ class TabMain_FragmentActivity : FragmentActivity() {
             consumeItem()
         }
     }
-    internal var mReceivedInventoryListener = IabHelper.QueryInventoryFinishedListener { result, inv ->
+    private var mReceivedInventoryListener = IabHelper.QueryInventoryFinishedListener { result, inv ->
         if (result.isFailure) {
             //TODO: handle failure
             return@QueryInventoryFinishedListener
@@ -49,7 +46,7 @@ class TabMain_FragmentActivity : FragmentActivity() {
             mHelper!!.consumeAsync(inv.getPurchase(SKU_PREMIUM), mConsumeFinishedListener)
         }
     }
-    internal var mConsumeFinishedListener = IabHelper.OnConsumeFinishedListener { purchase, result ->
+    private var mConsumeFinishedListener = IabHelper.OnConsumeFinishedListener { purchase, result ->
         if (result.isSuccess) {
             val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             val editor = settings.edit()
@@ -71,13 +68,13 @@ class TabMain_FragmentActivity : FragmentActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         /* in app stuff */
-        doInAppInits()
+        doInAppInit()
         isPremiumUser = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).getBoolean(PREMIUM_USER, false)
         if (!isPremiumUser) {
             //check with store if the user really isn't premium
         }
 
-        mTab_names = resources.getStringArray(R.array.tab_names)
+        mTabNames = resources.getStringArray(R.array.tab_names)
 
         val viewPager = findViewById<ViewPager>(R.id.pager)
         val actionBar = actionBar
@@ -88,14 +85,14 @@ class TabMain_FragmentActivity : FragmentActivity() {
             actionBar.setHomeButtonEnabled(false)
 
             val tabsPagerAdapter = TabsPagerAdapter(this, viewPager)
-            tabsPagerAdapter.addTab(actionBar.newTab().setText(mTab_names!![0]))
-            tabsPagerAdapter.addTab(actionBar.newTab().setText(mTab_names!![1]))
-            tabsPagerAdapter.addTab(actionBar.newTab().setText(mTab_names!![2]))
-            tabsPagerAdapter.addTab(actionBar.newTab().setText(mTab_names!![3]))
+            tabsPagerAdapter.addTab(actionBar.newTab().setText(mTabNames!![0]))
+            tabsPagerAdapter.addTab(actionBar.newTab().setText(mTabNames!![1]))
+            tabsPagerAdapter.addTab(actionBar.newTab().setText(mTabNames!![2]))
+            tabsPagerAdapter.addTab(actionBar.newTab().setText(mTabNames!![3]))
         }
     }
 
-    private fun doInAppInits() {
+    private fun doInAppInit() {
         val base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmKnKmAezW5NwddMOyi+YS3shhtdhZn6gYqtpcXSRleu1JVvw3EgLW5Be3IJwu7/BGwq2/AVbrBvQ+SGhEPjKJY/cMjfuzsjHT02HQxTUxPAoLnPrRHdWl5x4yBnD1i3P75GPEgF9MAwGJKPV7+CpaPtRV4qJppDGArh8sgCfETpMUDTatZcsr9qKKQZm7+1xjgOtkZnyRon+7QMpmlGqgHTqz9qTFxoBaf2lfimOQMjybXp34gHdKUN8oUTzvV1VHUnBLBkPFfGDK/gH2nzgTdVCpAPU5aWbsdvVhMufXJOXZym9eneeUpiNVmrfVh0OkGLYTfL0GJrSYpMRp5qwgQIDAQAB"
 
         mHelper = IabHelper(this, base64EncodedPublicKey)
@@ -109,7 +106,7 @@ class TabMain_FragmentActivity : FragmentActivity() {
         }
     }
 
-    fun buyPremium(view: View) {
+    fun buyPremium() {
         mHelper!!.launchPurchaseFlow(this, SKU_PREMIUM, RC_REQUEST, mPurchaseFinishedListener, "mypurchasetoken")
     }
 
@@ -125,11 +122,9 @@ class TabMain_FragmentActivity : FragmentActivity() {
     }
 
     override fun onMenuItemSelected(featureId: Int, item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings ->
-
-                return false
-            else -> return super.onMenuItemSelected(featureId, item)
+        return when (item.itemId) {
+            R.id.action_settings -> false
+            else -> super.onMenuItemSelected(featureId, item)
         }
     }
 
@@ -151,7 +146,7 @@ class TabMain_FragmentActivity : FragmentActivity() {
     }
 
     /** Starts an activity where the user can add a Session  */
-    fun addSessionOnClick(view: View) {
+    fun addSessionOnClick() {
         if (!isPremiumUser) {
             val entries = (application as MainApp).mDataSource!!.entriesCount
             if (entries > 4) {
@@ -207,11 +202,11 @@ class TabMain_FragmentActivity : FragmentActivity() {
 
     companion object {
 
-        private val ADD_SESSION_REQUEST = 1
-        private val LOG = "TabMain"
-        private val PREFS_NAME = "MyPreferences"
-        private val PREMIUM_USER = "Premium User"
-        internal val SKU_PREMIUM = "android.test.purchased"
-        internal val RC_REQUEST = 10001
+        private const val ADD_SESSION_REQUEST = 1
+        private const val LOG = "TabMain"
+        private const val PREFS_NAME = "MyPreferences"
+        private const val PREMIUM_USER = "Premium User"
+        internal const val SKU_PREMIUM = "android.test.purchased"
+        internal const val RC_REQUEST = 10001
     }
 }

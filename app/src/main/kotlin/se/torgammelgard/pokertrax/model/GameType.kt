@@ -3,7 +3,7 @@ package se.torgammelgard.pokertrax.model
 /**
  * Refers to table game_type. For example NL, PL, limit.
  */
-class Game_type {
+class GameType {
     var id: Long = 0             //refers to id in table game_type
     var type: String? = null
 
@@ -12,6 +12,6 @@ class Game_type {
     }
 
     override fun toString(): String {
-        return "Game_type(id=$id, type=$type)"
+        return "GameType(id=$id, type=$type)"
     }
 }

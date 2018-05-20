@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.activities.TabMain_FragmentActivity
+import se.torgammelgard.pokertrax.activities.TabMainFragmentActivity
 
 class MainFragment : Fragment() {
 
@@ -15,14 +15,14 @@ class MainFragment : Fragment() {
         retainInstance = true
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.activity_main, container, false)
+        return inflater.inflate(R.layout.activity_main, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as TabMain_FragmentActivity).updateUI()
+        (activity as TabMainFragmentActivity).updateUI()
     }
 
     companion object {

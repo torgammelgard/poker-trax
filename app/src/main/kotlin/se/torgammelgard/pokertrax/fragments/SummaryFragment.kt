@@ -17,8 +17,8 @@ import se.torgammelgard.pokertrax.R
  */
 class SummaryFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.summary_frag, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.summary_frag, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -26,16 +26,16 @@ class SummaryFragment : Fragment() {
 
         /* Handle the list*/
 
-        val listView = activity.findViewById<ListView>(R.id.listView_summary)
+        val listView = activity?.findViewById<ListView>(R.id.listView_summary)
 
         /* Header */
         val header = View.inflate(activity, R.layout.summary_list_item, null)
-        listView.addHeaderView(header)
+        listView?.addHeaderView(header)
 
         /* List */
-        val gameTypes = (activity.application as MainApp).mDataSource!!.allGameTypes
-        val resultList = (activity.application as MainApp).mDataSource!!.resultFromGametypes
-        listView.adapter = object : ArrayAdapter<String>(activity,
+        val gameTypes = (activity?.application as MainApp).mDataSource!!.allGameTypes
+        val resultList = (activity!!.application as MainApp).mDataSource!!.resultFromGametypes
+        listView!!.adapter = object : ArrayAdapter<String>(activity,
                 R.layout.summary_list_item, R.id.text1, gameTypes) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
@@ -73,13 +73,13 @@ class SummaryFragment : Fragment() {
         listView.setFooterDividersEnabled(true)
 
         // total time played
-        val mins = (activity.application as MainApp).mDataSource!!.totalTimePlayed
+        val mins = (activity!!.application as MainApp).mDataSource!!.totalTimePlayed
         val str = String.format("%02d:%02d", mins / 60, mins % 60)
-        (activity.findViewById<View>(R.id.textViewTotalTime) as TextView).text = str
+        (activity!!.findViewById<View>(R.id.textViewTotalTime) as TextView).text = str
 
         // profit per hour
         val profitPerHour = totalCents.toDouble() / 100.0 / mins.toDouble() * 60
-        val tv = activity.findViewById<TextView>(R.id.textViewTotalPerHour)
+        val tv = activity!!.findViewById<TextView>(R.id.textViewTotalPerHour)
         if (profitPerHour < 0)
             tv.setTextColor(Color.RED)
         else
@@ -87,8 +87,8 @@ class SummaryFragment : Fragment() {
         tv.text = String.format("%.2f", profitPerHour)
 
         // average per hour
-        val avg_bb_per_hour = (activity.application as MainApp).mDataSource!!.avgbbPH
-        val avgbbPerHour_textView = activity.findViewById<TextView>(R.id.avgbbPerHour)
+        val avg_bb_per_hour = (activity!!.application as MainApp).mDataSource!!.avgbbPH
+        val avgbbPerHour_textView = activity!!.findViewById<TextView>(R.id.avgbbPerHour)
         if (avg_bb_per_hour < 0)
             avgbbPerHour_textView.setTextColor(Color.RED)
         else

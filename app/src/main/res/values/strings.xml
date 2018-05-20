@@ -47,4 +47,7 @@
     <string name="avgbbperhour">Average bb/h</string>
     <string name="buypremium">Buy premium</string>
     <string name="premium">Premium</string>
+    <string name="menu_settings">menu_settings_placeholder</string>
+    <string name="menu_search">menu_search_placeholder</string>
+    <string name="menu_navigation">menu_navigation_placeholder</string>
 </resources>

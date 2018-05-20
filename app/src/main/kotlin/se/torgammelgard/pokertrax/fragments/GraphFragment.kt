@@ -13,8 +13,8 @@ import se.torgammelgard.pokertrax.R
 
 class GraphFragment : android.support.v4.app.Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.graph_frag, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.graph_frag, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class GraphFragment : android.support.v4.app.Fragment() {
         val graph = view!!.findViewById<GraphView>(R.id.graph)
 
         // get and construct the data
-        val sessionList = (activity.application as MainApp).mDataSource!!.getLastSessions(20)
+        val sessionList = (activity?.application as MainApp).mDataSource!!.getLastSessions(20)
 
         val dataPoints = arrayOfNulls<DataPoint>(sessionList!!.size + 1)
 

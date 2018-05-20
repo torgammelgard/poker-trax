@@ -11,7 +11,7 @@ class SessionTest {
 
     @Test
     fun testEmptyConstructor() {
-        var session = Session()
+        val session = Session()
         assertEquals(0, session.id)
         assertEquals(0, session.game_type_ref)
         assertEquals("", session.location)

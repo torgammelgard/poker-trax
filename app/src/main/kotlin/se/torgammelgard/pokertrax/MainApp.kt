@@ -1,7 +1,7 @@
 package se.torgammelgard.pokertrax
 
 import android.app.Application
-import se.torgammelgard.pokertrax.Database.DataSource
+import se.torgammelgard.pokertrax.database.DataSource
 
 /**
  * Main application

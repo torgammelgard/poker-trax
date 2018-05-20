@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.Database
+package se.torgammelgard.pokertrax.database
 
 import android.database.sqlite.SQLiteDatabase
 

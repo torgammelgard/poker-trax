@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.Adapters
+package se.torgammelgard.pokertrax.adapters
 
 import android.content.Context
 import android.graphics.Color
@@ -17,7 +17,7 @@ class ResultAdapter(context: Context, dataList: List<Map<String, String>>,
 
     init {
 
-        viewBinder = ViewBinder { view, data, text ->
+        viewBinder = ViewBinder { view, _, text ->
             when (view.id) {
                 R.id.text0 -> false
                 R.id.text1 -> {
@@ -49,13 +49,4 @@ class ResultAdapter(context: Context, dataList: List<Map<String, String>>,
         return String.format("%02d:%02d", mins / 60, mins % 60)
     }
 }
-/*
 
-    @Override
-    public void setViewText(TextView v, String text) {
-        if (v.getId() == R.id.text1) {
-            text = mGameStructureList.get(Integer.valueOf(text)-1);
-        }
-        v.setText(text);
-    }
-*/

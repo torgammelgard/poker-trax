@@ -17,10 +17,10 @@ import se.torgammelgard.pokertrax.R
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class TabMain_FragmentActivityTest {
+class TabMainFragmentActivityTest {
 
     @Rule @JvmField
-    var mActivityRule = IntentsTestRule<TabMain_FragmentActivity>(TabMain_FragmentActivity::class.java)
+    var mActivityRule = IntentsTestRule<TabMainFragmentActivity>(TabMainFragmentActivity::class.java)
 
     @Test
     fun testAddSessionButton() {

@@ -14,7 +14,7 @@ import android.widget.AdapterView
 import android.widget.ListView
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.Adapters.ResultAdapter
+import se.torgammelgard.pokertrax.adapters.ResultAdapter
 
 import java.util.ArrayList
 import java.util.HashMap
@@ -24,7 +24,7 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
     private var mSelectedItemPos = -1
     private var mResultListView: ListView? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.results, container, false)
         mResultListView = view.findViewById<ListView>(R.id.list_result)
@@ -40,8 +40,8 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
 
             override fun doInBackground(vararg params: Void): ResultAdapter {
                 val dataList = ArrayList<Map<String, String>>()
-                val sessions = (activity.application as MainApp).mDataSource!!.getLastSessions(20)
-                val game_structures = (activity.application as MainApp).mDataSource!!.allGameStructures
+                val sessions = (activity?.application as MainApp).mDataSource!!.getLastSessions(20)
+                val game_structures = (activity!!.application as MainApp).mDataSource!!.allGameStructures
                 val gameStructureStringList = game_structures!!.map { it.toString() }
                 sessions!!.forEach { (id, game_type_ref, _, game_structure_ref, duration, _, result) ->
                     val map = HashMap<String, String>()
@@ -53,12 +53,12 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
                     dataList.add(map)
                 }
 
-                val allGameTypes = (activity.application as MainApp).mDataSource!!.allGameTypes
+                val allGameTypes = (activity!!.application as MainApp).mDataSource!!.allGameTypes
 
                 val from = arrayOf("gameStructure", "gameTypeRef", "minutes", "result")
                 val to = intArrayOf(R.id.text0, R.id.text1, R.id.text2, R.id.text3)
 
-                return ResultAdapter(activity, dataList, allGameTypes!!,
+                return ResultAdapter(activity!!, dataList, allGameTypes!!,
                         R.layout.result_list_item, from, to)
             }
 
@@ -89,7 +89,7 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
                 try {
                     val mapOfSession = mResultListView!!.adapter.getItem(mSelectedItemPos) as HashMap<String, String>
                     val sessionID = java.lang.Long.valueOf(mapOfSession["id"])!!
-                    (activity.application as MainApp).mDataSource!!.deleteSession(sessionID)
+                    (activity?.application as MainApp).mDataSource!!.deleteSession(sessionID)
                 } catch (e: NumberFormatException) {
                     Log.d(LOG, "Couldn't delete", e)
                 } catch (e: ClassCastException) {

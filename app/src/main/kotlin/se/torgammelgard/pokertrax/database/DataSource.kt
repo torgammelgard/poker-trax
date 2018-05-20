@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.Database
+package se.torgammelgard.pokertrax.database
 
 import android.content.ContentValues
 import android.content.Context
@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.ArrayList
 
 import se.torgammelgard.pokertrax.model.Game_Structure
-import se.torgammelgard.pokertrax.model.Game_type
+import se.torgammelgard.pokertrax.model.GameType
 import se.torgammelgard.pokertrax.model.Session
 
 class DataSource(context: Context) {
@@ -197,7 +197,7 @@ class DataSource(context: Context) {
             val resultList = ArrayList<String>()
             try {
                 database = dbHelper.readableDatabase
-                val game_types = ArrayList<Game_type>()
+                val game_types = ArrayList<GameType>()
                 val cursor = database!!.query(Game_TypeTable.TABLE_GAMETYPE, null, null, null, null, null, null)
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
@@ -309,8 +309,8 @@ class DataSource(context: Context) {
 
     }
 
-    private fun cursorToGameType(cursor: Cursor): Game_type {
-        val game_type = Game_type()
+    private fun cursorToGameType(cursor: Cursor): GameType {
+        val game_type = GameType()
         game_type.id = cursor.getLong(0)
         game_type.type = cursor.getString(1)
         return game_type
