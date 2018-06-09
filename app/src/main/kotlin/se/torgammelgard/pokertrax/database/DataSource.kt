@@ -11,7 +11,7 @@ import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 
-import se.torgammelgard.pokertrax.model.Game_Structure
+import se.torgammelgard.pokertrax.model.GameStructure
 import se.torgammelgard.pokertrax.model.GameType
 import se.torgammelgard.pokertrax.model.Session
 
@@ -68,9 +68,9 @@ class DataSource(context: Context) {
                 database = dbHelper.readableDatabase
                 val sessionCursor = database!!.rawQuery(
                         "SELECT total(CAST (" + SessionTable.COLUMN_RESULT + " AS float)/(SELECT " +
-                                Game_StructureTable.COLUMN_BIGBLIND + " FROM " +
-                                Game_StructureTable.TABLE_GAME_STRUCTURE +
-                                " WHERE " + Game_StructureTable.COLUMN_ID + " = " +
+                                GameStructureTable.COLUMN_BIGBLIND + " FROM " +
+                                GameStructureTable.TABLE_GAME_STRUCTURE +
+                                " WHERE " + GameStructureTable.COLUMN_ID + " = " +
                                 SessionTable.COLUMN_GAMESTRUCTURE + "))/total(CAST (" + SessionTable.COLUMN_DURATION +
                                 " AS float)/?) FROM " + SessionTable.TABLE_SESSION,
                         arrayOf(60.toString())
@@ -110,7 +110,7 @@ class DataSource(context: Context) {
             try {
                 database = dbHelper.readableDatabase
                 game_types = ArrayList<String>()
-                val cursor = database!!.query(Game_TypeTable.TABLE_GAMETYPE, null, null, null, null, null, null)
+                val cursor = database!!.query(GameTypeTable.TABLE_GAMETYPE, null, null, null, null, null, null)
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
                     val game_type = cursorToGameType(cursor)
@@ -126,13 +126,13 @@ class DataSource(context: Context) {
             return game_types
         }
 
-    val allGameStructures: ArrayList<Game_Structure>?
+    val allGameStructures: ArrayList<GameStructure>?
         get() {
-            var game_structures: ArrayList<Game_Structure>? = null
+            var game_structures: ArrayList<GameStructure>? = null
             try {
                 database = dbHelper.readableDatabase
-                game_structures = ArrayList<Game_Structure>()
-                val cursor = database!!.query(Game_StructureTable.TABLE_GAME_STRUCTURE, null, null, null, null, null, null)
+                game_structures = ArrayList<GameStructure>()
+                val cursor = database!!.query(GameStructureTable.TABLE_GAME_STRUCTURE, null, null, null, null, null, null)
 
                 while (cursor.moveToNext()) {
                     val game_structure = cursorToGameStructure(cursor)
@@ -147,14 +147,14 @@ class DataSource(context: Context) {
             return game_structures
         }
 
-    fun addGameStructure(gs: Game_Structure) {
+    fun addGameStructure(gs: GameStructure) {
         try {
             database = dbHelper.writableDatabase
             val cv = ContentValues()
-            cv.put(Game_StructureTable.COLUMN_SMALLBLIND, gs.small_blind)
-            cv.put(Game_StructureTable.COLUMN_BIGBLIND, gs.big_blind)
-            cv.put(Game_StructureTable.COLUMN_ANTE, gs.ante)
-            database!!.insert(Game_StructureTable.TABLE_GAME_STRUCTURE, null, cv)
+            cv.put(GameStructureTable.COLUMN_SMALLBLIND, gs.small_blind)
+            cv.put(GameStructureTable.COLUMN_BIGBLIND, gs.big_blind)
+            cv.put(GameStructureTable.COLUMN_ANTE, gs.ante)
+            database!!.insert(GameStructureTable.TABLE_GAME_STRUCTURE, null, cv)
             database!!.close()
         } catch (e: SQLiteException) {
             Log.e(LOG, "Failed to connect to database", e)
@@ -198,7 +198,7 @@ class DataSource(context: Context) {
             try {
                 database = dbHelper.readableDatabase
                 val game_types = ArrayList<GameType>()
-                val cursor = database!!.query(Game_TypeTable.TABLE_GAMETYPE, null, null, null, null, null, null)
+                val cursor = database!!.query(GameTypeTable.TABLE_GAMETYPE, null, null, null, null, null, null)
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
                     val game_type = cursorToGameType(cursor)
@@ -316,8 +316,8 @@ class DataSource(context: Context) {
         return game_type
     }
 
-    private fun cursorToGameStructure(cursor: Cursor): Game_Structure {
-        val game_structure = Game_Structure()
+    private fun cursorToGameStructure(cursor: Cursor): GameStructure {
+        val game_structure = GameStructure()
         game_structure.id = cursor.getLong(0)
         game_structure.small_blind = cursor.getInt(1)
         game_structure.big_blind = cursor.getInt(2)

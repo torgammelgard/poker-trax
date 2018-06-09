@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 /**
  * TODO: Class header comment and change blinds to REAL or FLOAT
  */
-object Game_StructureTable {
+object GameStructureTable {
 
     val TABLE_GAME_STRUCTURE = "game_structure"
     val COLUMN_ID = "_id"

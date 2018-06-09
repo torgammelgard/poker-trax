@@ -1,5 +1,6 @@
 package se.torgammelgard.pokertrax.activities
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Context
@@ -106,7 +107,8 @@ class TabMainFragmentActivity : FragmentActivity() {
         }
     }
 
-    fun buyPremium() {
+    @Suppress("UNUSED_PARAMETER")
+    fun buyPremium(view: View) {
         mHelper!!.launchPurchaseFlow(this, SKU_PREMIUM, RC_REQUEST, mPurchaseFinishedListener, "mypurchasetoken")
     }
 
@@ -146,7 +148,8 @@ class TabMainFragmentActivity : FragmentActivity() {
     }
 
     /** Starts an activity where the user can add a Session  */
-    fun addSessionOnClick() {
+    @Suppress("UNUSED_PARAMETER")
+    fun addSessionOnClick(view: View) {
         if (!isPremiumUser) {
             val entries = (application as MainApp).mDataSource!!.entriesCount
             if (entries > 4) {

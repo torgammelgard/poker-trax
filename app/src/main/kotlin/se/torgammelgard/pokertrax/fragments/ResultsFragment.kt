@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.adapters.ResultAdapter
@@ -23,6 +25,7 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
     private var mActionMode: Any? = null
     private var mSelectedItemPos = -1
     private var mResultListView: ListView? = null
+    private var resultAdapter: ResultAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -36,36 +39,32 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
 
     /** updates the result list  in an AsyncTask */
     fun updateListView() {
-        object : AsyncTask<Void, Void, ResultAdapter>() {
-
-            override fun doInBackground(vararg params: Void): ResultAdapter {
-                val dataList = ArrayList<Map<String, String>>()
-                val sessions = (activity?.application as MainApp).mDataSource!!.getLastSessions(20)
-                val game_structures = (activity!!.application as MainApp).mDataSource!!.allGameStructures
-                val gameStructureStringList = game_structures!!.map { it.toString() }
-                sessions!!.forEach { (id, game_type_ref, _, game_structure_ref, duration, _, result) ->
-                    val map = HashMap<String, String>()
-                    map.put("id", id.toString())
-                    map.put("gameTypeRef", game_type_ref.toString())
-                    map.put("gameStructure", gameStructureStringList[game_structure_ref - 1])
-                    map.put("minutes", duration.toString())
-                    map.put("result", result.toString())
-                    dataList.add(map)
-                }
-
-                val allGameTypes = (activity!!.application as MainApp).mDataSource!!.allGameTypes
-
-                val from = arrayOf("gameStructure", "gameTypeRef", "minutes", "result")
-                val to = intArrayOf(R.id.text0, R.id.text1, R.id.text2, R.id.text3)
-
-                return ResultAdapter(activity!!, dataList, allGameTypes!!,
-                        R.layout.result_list_item, from, to)
+        doAsync {
+            val dataList = ArrayList<Map<String, String>>()
+            val sessions = (activity?.application as MainApp).mDataSource!!.getLastSessions(20)
+            val game_structures = (activity!!.application as MainApp).mDataSource!!.allGameStructures
+            val gameStructureStringList = game_structures!!.map { it.toString() }
+            sessions!!.forEach { (id, game_type_ref, _, game_structure_ref, duration, _, result) ->
+                val map = HashMap<String, String>()
+                map.put("id", id.toString())
+                map.put("gameTypeRef", game_type_ref.toString())
+                map.put("gameStructure", gameStructureStringList[game_structure_ref - 1])
+                map.put("minutes", duration.toString())
+                map.put("result", result.toString())
+                dataList.add(map)
             }
 
-            override fun onPostExecute(adapter: ResultAdapter) {
-                mResultListView!!.adapter = adapter
+            val allGameTypes = (activity!!.application as MainApp).mDataSource!!.allGameTypes
+
+            val from = arrayOf("gameStructure", "gameTypeRef", "minutes", "result")
+            val to = intArrayOf(R.id.text0, R.id.text1, R.id.text2, R.id.text3)
+            resultAdapter = ResultAdapter(activity!!, dataList, allGameTypes!!,
+                    R.layout.result_list_item, from, to)
+
+            uiThread {
+                mResultListView!!.adapter = resultAdapter
             }
-        }.execute()
+        }
 
         if (mResultListView != null)
             mResultListView!!.onItemLongClickListener = this

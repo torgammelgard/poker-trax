@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import se.torgammelgard.pokertrax.model.Game_Structure
+import se.torgammelgard.pokertrax.model.GameStructure
 import se.torgammelgard.pokertrax.R
 
 /**
@@ -20,7 +20,7 @@ class GameStructureDialogFragment : DialogFragment() {
     private var mListener: GameStructureListener? = null
 
     interface GameStructureListener {
-        fun doGameStructureDialogPositiveClick(g: Game_Structure)
+        fun doGameStructureDialogPositiveClick(g: GameStructure)
         fun doGameStructureDialogNegativeClick()
     }
 
@@ -77,7 +77,7 @@ class GameStructureDialogFragment : DialogFragment() {
 
     }
 
-    private val gameStructure: Game_Structure
+    private val gameStructure: GameStructure
         @Throws(NumberFormatException::class)
         get() {
             val smallBlind: Int
@@ -99,7 +99,7 @@ class GameStructureDialogFragment : DialogFragment() {
                 throw NumberFormatException("Fill in the blinds")
             }
 
-            val g = Game_Structure()
+            val g = GameStructure()
             g.small_blind = smallBlind
             g.big_blind = bigBlind
             g.ante = ante

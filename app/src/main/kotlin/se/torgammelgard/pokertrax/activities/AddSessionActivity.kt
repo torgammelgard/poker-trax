@@ -19,7 +19,7 @@ import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
-import se.torgammelgard.pokertrax.model.Game_Structure
+import se.torgammelgard.pokertrax.model.GameStructure
 
 import java.text.SimpleDateFormat
 import java.util.ArrayList
@@ -248,7 +248,7 @@ class AddSessionActivity : Activity(),
         mLocationSpinner?.invalidate()
     }
 
-    override fun doGameStructureDialogPositiveClick(g: Game_Structure) {
+    override fun doGameStructureDialogPositiveClick(g: GameStructure) {
         mGameStructureAdapter?.remove(NEW_ITEM_STR)
         mGameStructureAdapter?.add(g.toString())
         mGameStructureAdapter?.notifyDataSetChanged()

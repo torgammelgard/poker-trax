@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 /**
  * TODO: Class header comment.
  */
-object Game_TypeTable {
+object GameTypeTable {
 
     val TABLE_GAMETYPE = "game_type"
     val COLUMN_ID = "_id"

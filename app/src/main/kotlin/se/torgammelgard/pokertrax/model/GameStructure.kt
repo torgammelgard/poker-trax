@@ -3,7 +3,7 @@ package se.torgammelgard.pokertrax.model
 /**
  * TODO: Class header comment.
  */
-class Game_Structure {
+class GameStructure {
     var id: Long = 0
     // blinds and ante stored in cents
     var small_blind: Int = 0

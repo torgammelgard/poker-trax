@@ -8,8 +8,8 @@ class MySQLiteHelper private constructor(context: Context) : SQLiteOpenHelper(co
 
     override fun onCreate(database: SQLiteDatabase) {
         /* creation of tables and initial population */
-        Game_TypeTable.onCreate(database)
-        Game_StructureTable.onCreate(database)
+        GameTypeTable.onCreate(database)
+        GameStructureTable.onCreate(database)
         SessionTable.onCreate(database)
         database.execSQL(
                 "INSERT INTO game_type(name) VALUES('No Limit'), ('Limit'), ('Pot Limit');"
@@ -25,8 +25,8 @@ class MySQLiteHelper private constructor(context: Context) : SQLiteOpenHelper(co
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        Game_StructureTable.onUpgrade(db, oldVersion, newVersion)
-        Game_TypeTable.onUpgrade(db, oldVersion, newVersion)
+        GameStructureTable.onUpgrade(db, oldVersion, newVersion)
+        GameTypeTable.onUpgrade(db, oldVersion, newVersion)
         SessionTable.onUpgrade(db, oldVersion, newVersion)
     }
 
