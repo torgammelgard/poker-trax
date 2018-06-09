@@ -1,5 +1,6 @@
 package se.torgammelgard.pokertrax.database
 
+import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import org.junit.After
@@ -17,20 +18,23 @@ import se.torgammelgard.pokertrax.entity.Session
 @RunWith(AndroidJUnit4::class)
 class AwesomeSimpleEntityReadWriteTest {
 
+    private lateinit var appDatabase: AppDatabase
     private var gameStructureDao: GameStructureDao? = null
     private var sessionDao: SessionDao? = null
     private var gameTypeDao: GameTypeDao? = null
 
     @Before
     fun setup() {
-        gameStructureDao = AppDatabase.getInstance(InstrumentationRegistry.getTargetContext())?.gameStructureDao()
-        sessionDao = AppDatabase.getInstance(InstrumentationRegistry.getTargetContext())?.sessionDao()
-        gameTypeDao = AppDatabase.getInstance(InstrumentationRegistry.getTargetContext())?.gameTypeDao()
+        appDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(), AppDatabase::class.java).build()
+
+        gameStructureDao = appDatabase.gameStructureDao()
+        sessionDao = appDatabase.sessionDao()
+        gameTypeDao = appDatabase.gameTypeDao()
     }
 
     @After
     fun tearDown() {
-        AppDatabase.destroyInstance()
+        appDatabase.close()
     }
 
     @Test
