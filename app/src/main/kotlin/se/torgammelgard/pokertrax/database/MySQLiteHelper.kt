@@ -4,10 +4,12 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
+/**
+ *
+ */
 class MySQLiteHelper private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(database: SQLiteDatabase) {
-        /* creation of tables and initial population */
         GameTypeTable.onCreate(database)
         GameStructureTable.onCreate(database)
         SessionTable.onCreate(database)
@@ -34,8 +36,8 @@ class MySQLiteHelper private constructor(context: Context) : SQLiteOpenHelper(co
 
         private var sInstance: MySQLiteHelper? = null
 
-        private val DATABASE_NAME = "sessions.db"
-        private val DATABASE_VERSION = 1
+        private const val DATABASE_NAME = "sessions.db"
+        private const val DATABASE_VERSION = 1
 
         fun getInstance(context: Context): MySQLiteHelper {
             return sInstance ?: MySQLiteHelper(context.applicationContext)

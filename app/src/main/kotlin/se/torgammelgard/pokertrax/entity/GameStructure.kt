@@ -21,6 +21,8 @@ class GameStructure {
     @ColumnInfo(name = "ante")
     var ante: Int = 0
 
+    constructor()
+
     constructor(id: Long, small_blind: Int, big_blind: Int, ante: Int) {
         this.id = id
         this.smallBlind = small_blind
@@ -28,5 +30,4 @@ class GameStructure {
         this.ante = ante
     }
 
-    constructor()
 }

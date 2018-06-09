@@ -4,14 +4,14 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
-import se.torgammelgard.pokertrax.entity.GameStructure
+import se.torgammelgard.pokertrax.entity.Session
 
 @Dao
-interface GameStructureDao {
+interface SessionDao {
 
-    @Query("SELECT * FROM game_structure")
-    fun getAll(): List<GameStructure>
+    @Query("SELECT * FROM session")
+    fun getAll(): List<Session>
 
     @Insert(onConflict = REPLACE)
-    fun add(gameStructure: GameStructure)
+    fun add(session: Session)
 }
