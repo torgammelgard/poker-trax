@@ -15,8 +15,8 @@ object GameStructureTable {
     private val TABLE_CREATE = "CREATE TABLE " + TABLE_GAME_STRUCTURE +
             "(" +
             COLUMN_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_SMALLBLIND + " small_blind INT, " +
-            COLUMN_BIGBLIND + " big_blind INT, " +
+            COLUMN_SMALLBLIND + " smallBlind INT, " +
+            COLUMN_BIGBLIND + " bigBlind INT, " +
             COLUMN_ANTE + " ante INT" +
             ");"
 

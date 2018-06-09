@@ -31,5 +31,9 @@ class AwesomeSimpleEntityReadWriteTest {
         gameStructureDao?.insertGameStructure(gameStructure)
         val allGameStructures = gameStructureDao?.getAll()
         assertEquals(1, allGameStructures?.size)
+        assert(gameStructureDao?.getAll().orEmpty()[0].id == 1L)
+        assert(gameStructureDao?.getAll().orEmpty()[0].bigBlind == 100)
+        assert(gameStructureDao?.getAll().orEmpty()[0].smallBlind == 50)
+        assert(gameStructureDao?.getAll().orEmpty()[0].ante == 25)
     }
 }

@@ -15,8 +15,8 @@ class GameStructure {
         val sb = small_blind.toDouble() / 100
         val bb = big_blind.toDouble() / 100
         val ante = this.ante.toDouble() / 100
-        /*String sbStr = Double.toString((double) small_blind / 100);
-        String bbStr = Double.toString((double) big_blind / 100);
+        /*String sbStr = Double.toString((double) smallBlind / 100);
+        String bbStr = Double.toString((double) bigBlind / 100);
         String anteStr = Double.toString((double) ante / 100);
         String returnString = sbStr + " - " + bbStr;*/
         if (small_blind % 100 == 0 && big_blind % 100 == 0)
