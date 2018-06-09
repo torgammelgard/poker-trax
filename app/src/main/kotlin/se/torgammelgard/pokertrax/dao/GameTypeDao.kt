@@ -7,11 +7,11 @@ import android.arch.persistence.room.Query
 import se.torgammelgard.pokertrax.entity.GameType
 
 @Dao
-abstract class GameTypeDao {
+interface GameTypeDao {
 
     @Query("SELECT * FROM game_type")
-    abstract fun getAll(): List<GameType>
+    fun getAll(): List<GameType>
 
     @Insert(onConflict = REPLACE)
-    abstract fun add(gameType: GameType)
+    fun add(gameType: GameType)
 }
