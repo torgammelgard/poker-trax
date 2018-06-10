@@ -140,7 +140,7 @@ class TabMainFragmentActivity : FragmentActivity() {
         super.onPause()
 
         try {
-            (application as MainApp).mDataSource!!.close()
+            //(application as MainApp).mDataSource!!.close()
         } catch (e: NullPointerException) {
             Log.d(LOG, "Data source is null")
         }

@@ -21,7 +21,7 @@ class ResultAdapter(context: Context, dataList: List<Map<String, String>>,
             when (view.id) {
                 R.id.text0 -> false
                 R.id.text1 -> {
-                    val str = gameTypeList[Integer.valueOf(text)!! - 1]
+                    val str = if (gameTypeList.size > 0) gameTypeList[Integer.valueOf(text)!! - 1] else ""
                     (view as TextView).text = str
                     true
                 }

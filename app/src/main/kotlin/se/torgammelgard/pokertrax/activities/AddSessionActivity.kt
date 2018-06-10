@@ -17,6 +17,7 @@ import android.widget.Spinner
 import android.widget.TimePicker
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
+import se.torgammelgard.pokertrax.database.AppDatabase
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
 import se.torgammelgard.pokertrax.model.GameStructure
@@ -167,7 +168,7 @@ class AddSessionActivity : Activity(),
 
     override fun onPause() {
         super.onPause()
-        (application as MainApp).mDataSource?.close()
+        //(application as MainApp).mDataSource?.close()
     }
 
     fun duration_pick_onClick(view: View) {
@@ -223,15 +224,38 @@ class AddSessionActivity : Activity(),
         finish()
     }
 
+    private fun createEntitySession(): se.torgammelgard.pokertrax.entity.Session {
+        //if (mHoursPlayed == 0 && mMinutesPlayed == 0)
+        //    return null
+        val session = se.torgammelgard.pokertrax.entity.Session()
+        session.gameTypeReference = mGame_type_ref
+        session.location = mLocation
+        session.gameStructureReference= mGame_structure_ref
+        session.duration = mHoursPlayed * 60 + mMinutesPlayed
+        session.date = mCalendar!!.time
+        val result_EditText = findViewById<EditText>(R.id.result_editText)
+
+        var result_float: Float? = java.lang.Float.valueOf(result_EditText.text.toString())
+        result_float = 100 * result_float!! //store in cents
+        session.result = result_float.toInt()
+        session.gameNotes = "" //TODO: add note functionality
+        return session
+    }
+
     /** Adds the session to the database and finishes this activity
      * if this form is correctly filled in */
     fun add_onClick(view: View) {
-        val resultSession = createSession()
-        if (resultSession != null) {
-            (application as MainApp).mDataSource!!.addSession(resultSession)
-            setResult(Activity.RESULT_OK)
-            finish()
-        }
+        //val resultSession = createSession()
+        //if (resultSession != null) {
+        //    (application as MainApp).mDataSource!!.addSession(resultSession)
+        //    setResult(Activity.RESULT_OK)
+        //    finish()
+        //}
+        val session = createEntitySession()
+        val sessionDao = AppDatabase.getInstance(view.context)?.sessionDao()
+        sessionDao?.add(session)
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
     /*LocationDialogFragment callback*/

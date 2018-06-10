@@ -60,7 +60,7 @@ class GameStructureDialogFragment : DialogFragment() {
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle): Dialog {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = activity.layoutInflater
         val view = inflater.inflate(R.layout.add_game_structure, null)
         return AlertDialog.Builder(activity)
