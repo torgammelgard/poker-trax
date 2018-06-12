@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 
 import se.torgammelgard.pokertrax.entity.GameStructure;
+import se.torgammelgard.pokertrax.entity.GameType;
 
 @RunWith(AndroidJUnit4.class)
 public class MigrationTest {
@@ -75,7 +76,8 @@ public class MigrationTest {
                     "'_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                     "'name' TEXT NOT NULL)");
             // TODO copy from old to new table
-
+            database.execSQL("INSERT INTO 'game_type' (name) " +
+                    "SELECT name FROM game_type_old");
             // Clean up
             database.execSQL("DROP TABLE IF EXISTS 'game_type_old'");
         }
@@ -94,10 +96,14 @@ public class MigrationTest {
 
     @Test
     public void migrationFrom1To2_containsCorrectData() throws IOException {
-        SqliteDatabaseTestHelper.insertGameStructure(1, 100, 200, 50, mSqliteTestDbHelper);
+        //SqliteDatabaseTestHelper.insertGameStructure(1, 100, 200, 50, mSqliteTestDbHelper);
+        SqliteDatabaseTestHelper.insertGameType(1, "No limit test", mSqliteTestDbHelper);
         mMigrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 2, true, MIGRATION_1_2);
-        GameStructure gameStructure = getMigratedRoomDatabase().gameStructureDao().getAll().get(0);
-        assert gameStructure.getAnte() == 50;
+        //GameStructure gameStructure = getMigratedRoomDatabase().gameStructureDao().getAll().get(0);
+        GameType gameTypeTest = getMigratedRoomDatabase().gameTypeDao().getAll().get(0);
+
+        //assert gameStructure.getAnte() == 50;
+        assert gameTypeTest != null;
     }
 
     private AppDatabase getMigratedRoomDatabase() {

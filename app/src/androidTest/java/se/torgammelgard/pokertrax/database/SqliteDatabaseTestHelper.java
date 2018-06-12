@@ -19,6 +19,19 @@ public class SqliteDatabaseTestHelper {
         db.close();
     }
 
+    static void insertGameType(int id, String name, SqliteTestDbOpenHelper helper) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("_id", id);
+        values.put("name", name);
+
+        db.insertWithOnConflict("game_type", null, values,
+                SQLiteDatabase.CONFLICT_REPLACE);
+
+        db.close();
+    }
+
     static void createTable(SqliteTestDbOpenHelper helper) {
         SQLiteDatabase db = helper.getWritableDatabase();
         db.execSQL("CREATE TABLE IF NOT EXISTS game_structure (_id INTEGER PRIMARY KEY, "
