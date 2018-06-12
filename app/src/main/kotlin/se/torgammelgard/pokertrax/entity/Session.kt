@@ -2,10 +2,15 @@ package se.torgammelgard.pokertrax.entity
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "session")
+@Entity(tableName = "session", foreignKeys = arrayOf(ForeignKey(entity = GameStructure::class,
+        parentColumns = arrayOf("_id"), childColumns = arrayOf("game_ref"), onDelete = CASCADE),
+        ForeignKey(entity = GameType::class,
+                parentColumns = arrayOf("_id"), childColumns = arrayOf("game_ref"), onDelete = CASCADE)))
 class Session {
 
     @PrimaryKey(autoGenerate = true)
@@ -26,7 +31,7 @@ class Session {
 
     var result: Int = 0
 
-    @ColumnInfo(name = "game_notes")
+    @ColumnInfo(name = "game_info")
     var gameNotes: String? = ""
 
     constructor()

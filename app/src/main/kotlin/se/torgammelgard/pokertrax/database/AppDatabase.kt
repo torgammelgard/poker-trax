@@ -14,7 +14,7 @@ import se.torgammelgard.pokertrax.entity.GameStructure
 import se.torgammelgard.pokertrax.entity.GameType
 import se.torgammelgard.pokertrax.entity.Session
 import android.arch.persistence.db.SupportSQLiteDatabase
-
+import android.support.annotation.VisibleForTesting
 
 
 @Database(entities = [GameStructure::class, Session::class, GameType::class], version = 2)
@@ -28,10 +28,19 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         private var INSTANCE: AppDatabase? = null
+
+        /**
+         * Migrate from:
+         * version 1: using the SQLiteDatabase API
+         * to
+         * version 2: using Room
+         */
+        @VisibleForTesting
         private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
             }
         }
+
         fun getInstance(context: Context): AppDatabase? {
             if (INSTANCE == null) {
                 synchronized(AppDatabase::class) {

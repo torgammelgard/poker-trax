@@ -10,7 +10,7 @@ object GameTypeTable {
     val TABLE_GAMETYPE = "game_type"
     val COLUMN_ID = "_id"
     val COLUMN_NAME = "name"
-    private val TABLE_CREATE = "CREATE TABLE " + TABLE_GAMETYPE +
+    val TABLE_CREATE = "CREATE TABLE " + TABLE_GAMETYPE +
             "(" +
             COLUMN_ID + " INTEGER PRIMARY KEY, " +
             COLUMN_NAME + " TEXT" +
