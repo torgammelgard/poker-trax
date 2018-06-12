@@ -37,6 +37,47 @@ public class MigrationTest {
     static final Migration MIGRATION_1_2 =  new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Table session
+            // Backup (rename) the table
+            database.execSQL("ALTER TABLE 'session' RENAME TO 'session_old'");
+
+            // Create the new table
+            database.execSQL("CREATE TABLE IF NOT EXISTS 'session' " +
+                    "('_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "'date' INTEGER, " +
+                    "'duration' INTEGER NOT NULL, " +
+                    "'result' INTEGER NOT NULL, " +
+                    "'game_structure' INTEGER NOT NULL, " +
+                    "'game_type' INTEGER NOT NULL, " +
+                    "'location' TEXT, " +
+                    "'game_info' TEXT, " +
+                    "FOREIGN KEY(`game_structure`) REFERENCES `game_structure`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE," +
+                    "FOREIGN KEY(`game_type`) REFERENCES `game_type`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE)");
+            // TODO copy from old to new table
+            // Clean up
+            database.execSQL("DROP TABLE IF EXISTS 'session_old'");
+
+            // Table game_structure
+            database.execSQL("ALTER TABLE 'game_structure' RENAME TO 'game_structure_old'");
+            database.execSQL("CREATE TABLE IF NOT EXISTS 'game_structure'(" +
+                    "'_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    "'big_blind' INTEGER NOT NULL," +
+                    "'small_blind' INTEGER NOT NULL," +
+                    "'ante' INTEGER NOT NULL)");
+            // TODO copy from old to new table
+
+            // Clean up
+            database.execSQL("DROP TABLE IF EXISTS 'game_structure_old'");
+
+            // Table game_type
+            database.execSQL("ALTER TABLE 'game_type' RENAME TO 'game_type_old'");
+            database.execSQL("CREATE TABLE IF NOT EXISTS 'game_type'(" +
+                    "'_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    "'name' TEXT NOT NULL)");
+            // TODO copy from old to new table
+
+            // Clean up
+            database.execSQL("DROP TABLE IF EXISTS 'game_type_old'");
         }
     };
 

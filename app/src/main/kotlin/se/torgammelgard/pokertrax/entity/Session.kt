@@ -8,21 +8,21 @@ import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "session", foreignKeys = arrayOf(ForeignKey(entity = GameStructure::class,
-        parentColumns = arrayOf("_id"), childColumns = arrayOf("game_ref"), onDelete = CASCADE),
+        parentColumns = arrayOf("_id"), childColumns = arrayOf("game_structure"), onDelete = CASCADE),
         ForeignKey(entity = GameType::class,
-                parentColumns = arrayOf("_id"), childColumns = arrayOf("game_ref"), onDelete = CASCADE)))
+                parentColumns = arrayOf("_id"), childColumns = arrayOf("game_type"), onDelete = CASCADE)))
 class Session {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
 
-    @ColumnInfo(name = "game_ref")
+    @ColumnInfo(name = "game_type")
     var gameTypeReference: Int = 0
 
     var location: String? = ""
 
-    @ColumnInfo(name = "game_structure_ref")
+    @ColumnInfo(name = "game_structure")
     var gameStructureReference: Int = 0
 
     var duration: Int = 0

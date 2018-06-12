@@ -12,9 +12,9 @@ class GameType {
     var id: Long = 0
 
     @ColumnInfo(name = "name")
-    var type: String? = "" //TODO should this be nullable or not
+    var type: String = "" //TODO should this be nullable or not
 
-    constructor(id: Long, type: String?) {
+    constructor(id: Long, type: String) {
         this.id = id
         this.type = type
     }

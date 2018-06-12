@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "3d4b310c776e16e28b4bce64173d042b",
+    "identityHash": "cb19fb1f1cfe2deb4b87ad31b7527180",
     "entities": [
       {
         "tableName": "game_structure",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "session",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `game_ref` INTEGER NOT NULL, `location` TEXT, `game_structure_ref` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `date` INTEGER, `result` INTEGER NOT NULL, `game_info` TEXT, FOREIGN KEY(`game_ref`) REFERENCES `game_structure`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`game_ref`) REFERENCES `game_type`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `game_type` INTEGER NOT NULL, `location` TEXT, `game_structure` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `date` INTEGER, `result` INTEGER NOT NULL, `game_info` TEXT, FOREIGN KEY(`game_structure`) REFERENCES `game_structure`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`game_type`) REFERENCES `game_type`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -54,7 +54,7 @@
           },
           {
             "fieldPath": "gameTypeReference",
-            "columnName": "game_ref",
+            "columnName": "game_type",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -66,7 +66,7 @@
           },
           {
             "fieldPath": "gameStructureReference",
-            "columnName": "game_structure_ref",
+            "columnName": "game_structure",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -108,7 +108,7 @@
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "game_ref"
+              "game_structure"
             ],
             "referencedColumns": [
               "_id"
@@ -119,7 +119,7 @@
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "game_ref"
+              "game_type"
             ],
             "referencedColumns": [
               "_id"
@@ -129,7 +129,7 @@
       },
       {
         "tableName": "game_type",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -141,7 +141,7 @@
             "fieldPath": "type",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -156,7 +156,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3d4b310c776e16e28b4bce64173d042b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cb19fb1f1cfe2deb4b87ad31b7527180\")"
     ]
   }
 }
