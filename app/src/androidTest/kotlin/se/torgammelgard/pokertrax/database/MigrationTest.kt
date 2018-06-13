@@ -1,6 +1,5 @@
 package se.torgammelgard.pokertrax.database
 
-import android.arch.lifecycle.LiveData
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.db.framework.FrameworkSQLiteOpenHelperFactory
 import android.arch.persistence.room.Room
@@ -8,21 +7,13 @@ import android.arch.persistence.room.migration.Migration
 import android.arch.persistence.room.testing.MigrationTestHelper
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 import java.io.IOException
-import java.util.Date
-
-import se.torgammelgard.pokertrax.dao.GameTypeDao
-import se.torgammelgard.pokertrax.dao.SessionDao
-import se.torgammelgard.pokertrax.entity.GameStructure
-import se.torgammelgard.pokertrax.entity.GameType
-import se.torgammelgard.pokertrax.entity.Session
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class MigrationTest {
@@ -30,10 +21,12 @@ class MigrationTest {
     private var mSqliteTestDbHelper: SqliteTestDbOpenHelper? = null
 
     @get:Rule
-    var mMigrationTestHelper: MigrationTestHelper
+    var mMigrationTestHelper: MigrationTestHelper = MigrationTestHelper(InstrumentationRegistry.getInstrumentation(),
+            AppDatabase::class.java.canonicalName,
+            FrameworkSQLiteOpenHelperFactory())
 
-    private// close the database and release any stream resources when the test finishes
-    val migratedRoomDatabase: AppDatabase
+    // close the database and release any stream resources when the test finishes
+    private val migratedRoomDatabase: AppDatabase
         get() {
             val database = Room.databaseBuilder(InstrumentationRegistry.getTargetContext(),
                     AppDatabase::class.java, TEST_DB_NAME)
@@ -42,12 +35,6 @@ class MigrationTest {
             mMigrationTestHelper.closeWhenFinished(database)
             return database
         }
-
-    init {
-        mMigrationTestHelper = MigrationTestHelper(InstrumentationRegistry.getInstrumentation(),
-                AppDatabase::class.java.canonicalName,
-                FrameworkSQLiteOpenHelperFactory())
-    }
 
     @Before
     @Throws(Exception::class)
@@ -67,10 +54,9 @@ class MigrationTest {
     fun migrationFrom1To2_containsCorrectData_Table_GameType() {
         SqliteDatabaseTestHelper.insertGameType(1, "No limit test", mSqliteTestDbHelper!!)
         val gameTypeDao = migratedRoomDatabase.gameTypeDao()
-
         val gameTypes = gameTypeDao.getAll()
         assert(gameTypes.size == 1)
-        assert(gameTypes[0] != null)
+        assert(gameTypes[0].type == "No limit test")
     }
 
     @Test
@@ -99,7 +85,7 @@ class MigrationTest {
     }
 
     companion object {
-        private val TEST_DB_NAME = "test-db"
+        private const val TEST_DB_NAME = "test-db"
 
         internal val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {

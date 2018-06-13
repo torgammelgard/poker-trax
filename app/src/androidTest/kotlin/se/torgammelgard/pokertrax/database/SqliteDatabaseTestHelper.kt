@@ -8,6 +8,7 @@ import java.util.Date
 
 object SqliteDatabaseTestHelper {
 
+    /** Used in androidTests to insert a (old) GameStructure in SQLite3 */
     internal fun insertGameStructure(id: Int, smallBlind: Int, bigBlind: Int, ante: Int, helper: SqliteTestDbOpenHelper) {
         val db = helper.writableDatabase
         val values = ContentValues()
@@ -22,6 +23,7 @@ object SqliteDatabaseTestHelper {
         db.close()
     }
 
+    /** Used in androidTests to insert a (old) GameType in SQLite3 */
     internal fun insertGameType(id: Int, name: String, helper: SqliteTestDbOpenHelper) {
         val db = helper.writableDatabase
 
@@ -35,6 +37,7 @@ object SqliteDatabaseTestHelper {
         db.close()
     }
 
+    /** Used in androidTests to insert a (old) Session in SQLite3 */
     internal fun insertSession(id: Int, game_type: Int, location: String, gameStructureReference: Int, duration: Int, date: Date, result: Int, game_notes: String, helper: SqliteTestDbOpenHelper) {
         val db = helper.writableDatabase
 
@@ -55,6 +58,7 @@ object SqliteDatabaseTestHelper {
         db.close()
     }
 
+    /** This will get run before all the database androidTests */
     internal fun createTable(helper: SqliteTestDbOpenHelper) {
         val db = helper.writableDatabase
         db.execSQL("CREATE TABLE IF NOT EXISTS game_structure (_id INTEGER PRIMARY KEY, " + "small_blind INT, big_blind INT, ante INT)")
@@ -69,6 +73,7 @@ object SqliteDatabaseTestHelper {
         db.close()
     }
 
+    /** This will get run after all the database androidTests */
     internal fun clearDatabase(helper: SqliteTestDbOpenHelper) {
         val db = helper.writableDatabase
         db.execSQL("DROP TABLE IF EXISTS game_structure")

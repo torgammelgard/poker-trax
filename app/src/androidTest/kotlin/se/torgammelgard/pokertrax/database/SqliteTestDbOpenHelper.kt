@@ -23,6 +23,6 @@ class SqliteTestDbOpenHelper(context: Context, databaseName: String) : SQLiteOpe
 
     companion object {
 
-        val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 1
     }
 }
