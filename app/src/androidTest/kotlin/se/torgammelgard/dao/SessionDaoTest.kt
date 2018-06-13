@@ -1,16 +1,14 @@
-package se.torgammelgard.pokertrax.database
+package se.torgammelgard.dao
 
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import se.torgammelgard.pokertrax.dao.SessionDao
-import se.torgammelgard.pokertrax.entity.Session
-import java.util.*
+import se.torgammelgard.pokertrax.database.AppDatabase
 
 @RunWith(AndroidJUnit4::class)
 class SessionDaoTest {
