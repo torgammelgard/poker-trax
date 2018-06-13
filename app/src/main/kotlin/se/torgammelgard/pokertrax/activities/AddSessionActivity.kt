@@ -37,7 +37,7 @@ class AddSessionActivity : Activity(),
         LocationDialogFragment.LocationDialogListener,
         GameStructureDialogFragment.GameStructureListener {
 
-    private var mLocation: String? = null
+    private var mLocation: String = ""
     private var mGame_type_ref: Int = 0
     private var mGame_structure_ref: Int = 0
     private var mHoursPlayed = 0

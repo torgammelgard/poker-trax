@@ -20,7 +20,7 @@ class Session {
     @ColumnInfo(name = "game_type")
     var gameTypeReference: Int = 0
 
-    var location: String? = ""
+    var location: String = ""
 
     @ColumnInfo(name = "game_structure")
     var gameStructureReference: Int = 0
@@ -36,7 +36,7 @@ class Session {
 
     constructor()
 
-    constructor(id: Long, gameTypeReference: Int, location: String?, gameStructureReference: Int, duration: Int, date: Date?, result: Int, gameNotes: String?) {
+    constructor(id: Long, gameTypeReference: Int, location: String, gameStructureReference: Int, duration: Int, date: Date?, result: Int, gameNotes: String?) {
         this.id = id
         this.gameTypeReference = gameTypeReference
         this.location = location

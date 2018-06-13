@@ -1,13 +1,14 @@
 package se.torgammelgard.pokertrax.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.db.framework.FrameworkSQLiteOpenHelperFactory;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.migration.Migration;
+import android.arch.persistence.room.testing.MigrationTestHelper;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.arch.persistence.room.testing.MigrationTestHelper;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,9 +17,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
+import se.torgammelgard.pokertrax.dao.GameTypeDao;
+import se.torgammelgard.pokertrax.dao.SessionDao;
 import se.torgammelgard.pokertrax.entity.GameStructure;
 import se.torgammelgard.pokertrax.entity.GameType;
+import se.torgammelgard.pokertrax.entity.Session;
 
 @RunWith(AndroidJUnit4.class)
 public class MigrationTest {
@@ -35,7 +41,7 @@ public class MigrationTest {
                 new FrameworkSQLiteOpenHelperFactory());
     }
 
-    static final Migration MIGRATION_1_2 =  new Migration(1, 2) {
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             // Table session
@@ -50,7 +56,7 @@ public class MigrationTest {
                     "'result' INTEGER NOT NULL, " +
                     "'game_structure' INTEGER NOT NULL, " +
                     "'game_type' INTEGER NOT NULL, " +
-                    "'location' TEXT, " +
+                    "'location' TEXT NOT NULL, " +
                     "'game_info' TEXT, " +
                     "FOREIGN KEY(`game_structure`) REFERENCES `game_structure`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE," +
                     "FOREIGN KEY(`game_type`) REFERENCES `game_type`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE)");
@@ -62,11 +68,12 @@ public class MigrationTest {
             database.execSQL("ALTER TABLE 'game_structure' RENAME TO 'game_structure_old'");
             database.execSQL("CREATE TABLE IF NOT EXISTS 'game_structure'(" +
                     "'_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                    "'big_blind' INTEGER NOT NULL," +
                     "'small_blind' INTEGER NOT NULL," +
+                    "'big_blind' INTEGER NOT NULL," +
                     "'ante' INTEGER NOT NULL)");
-            // TODO copy from old to new table
-
+            // Copy data from old table
+            database.execSQL("INSERT INTO 'game_structure' (small_blind, big_blind, ante) " +
+                    "SELECT small_blind, big_blind, ante FROM game_structure_old");
             // Clean up
             database.execSQL("DROP TABLE IF EXISTS 'game_structure_old'");
 
@@ -75,7 +82,7 @@ public class MigrationTest {
             database.execSQL("CREATE TABLE IF NOT EXISTS 'game_type'(" +
                     "'_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                     "'name' TEXT NOT NULL)");
-            // TODO copy from old to new table
+            // Copy data from old table
             database.execSQL("INSERT INTO 'game_type' (name) " +
                     "SELECT name FROM game_type_old");
             // Clean up
@@ -95,15 +102,33 @@ public class MigrationTest {
     }
 
     @Test
-    public void migrationFrom1To2_containsCorrectData() throws IOException {
-        //SqliteDatabaseTestHelper.insertGameStructure(1, 100, 200, 50, mSqliteTestDbHelper);
+    public void migrationFrom1To2_containsCorrectData_Table_GameType() throws IOException {
         SqliteDatabaseTestHelper.insertGameType(1, "No limit test", mSqliteTestDbHelper);
-        mMigrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 2, true, MIGRATION_1_2);
-        //GameStructure gameStructure = getMigratedRoomDatabase().gameStructureDao().getAll().get(0);
-        GameType gameTypeTest = getMigratedRoomDatabase().gameTypeDao().getAll().get(0);
+        GameTypeDao gameTypeDao = getMigratedRoomDatabase().gameTypeDao();
 
-        //assert gameStructure.getAnte() == 50;
-        assert gameTypeTest != null;
+        List<GameType> gameTypes = gameTypeDao.getAll();
+        assert  gameTypes.size() == 1;
+        assert gameTypes.get(0) != null;
+    }
+
+    @Test
+    public void migrationFrom1To2_containsCorrectData_Table_GameStructure() throws IOException {
+        SqliteDatabaseTestHelper.insertGameStructure(1, 100, 200, 50, mSqliteTestDbHelper);
+        mMigrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 2, true, MIGRATION_1_2);
+        GameStructure gameStructure = getMigratedRoomDatabase().gameStructureDao().getAll().get(0);
+        assert gameStructure.getAnte() == 50;
+    }
+
+    @Test
+    public void migrationFrom1To2_containsCorrectData_Table_Session() throws IOException {
+        Date date = new Date(1000);
+        SqliteDatabaseTestHelper.insertSession(1, 1, "test_location", 1, 100, date, 1000, "game notes", mSqliteTestDbHelper);
+        mMigrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 2, true, MIGRATION_1_2);
+        SessionDao sessionDao = getMigratedRoomDatabase().sessionDao();
+        LiveData<List<Session>> sessions = sessionDao.getAll();
+        assert sessions.getValue(). size() == 1;
+        assert sessions.getValue().get(0).getLocation().equals("test_location");
+        assert sessions.getValue().get(0).getDate().equals(date);
     }
 
     private AppDatabase getMigratedRoomDatabase() {

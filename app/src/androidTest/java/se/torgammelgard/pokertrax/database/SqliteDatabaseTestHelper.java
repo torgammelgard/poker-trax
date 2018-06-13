@@ -3,6 +3,9 @@ package se.torgammelgard.pokertrax.database;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SqliteDatabaseTestHelper {
 
     static void insertGameStructure(int id, int smallBlind, int bigBlind, int ante, SqliteTestDbOpenHelper helper) {
@@ -27,6 +30,26 @@ public class SqliteDatabaseTestHelper {
         values.put("name", name);
 
         db.insertWithOnConflict("game_type", null, values,
+                SQLiteDatabase.CONFLICT_REPLACE);
+
+        db.close();
+    }
+
+    static void insertSession(int id, int game_type, String location, int gameStructureReference, int duration, Date date, int result, String game_notes, SqliteTestDbOpenHelper helper) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        ContentValues values = new ContentValues();
+        values.put("_id", id);
+        values.put("game_type", game_type);
+        values.put("location", location);
+        values.put("game_structure", gameStructureReference);
+        values.put("duration", duration);
+        values.put("date", formatter.format(date));
+        values.put("result", result);
+        values.put("game_info", game_notes);
+
+        db.insertWithOnConflict("session", null, values,
                 SQLiteDatabase.CONFLICT_REPLACE);
 
         db.close();
