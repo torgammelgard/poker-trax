@@ -36,8 +36,53 @@ abstract class AppDatabase : RoomDatabase() {
          * version 2: using Room
          */
         @VisibleForTesting
-        private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
+                // Table session
+                // Backup (rename) the table
+                database.execSQL("DROP TABLE IF EXISTS 'session_old'")
+                database.execSQL("ALTER TABLE 'session' RENAME TO 'session_old'")
+
+                // Create the new table
+                database.execSQL("CREATE TABLE IF NOT EXISTS 'session' " +
+                        "('_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "'date' INTEGER, " +
+                        "'duration' INTEGER NOT NULL, " +
+                        "'result' INTEGER NOT NULL, " +
+                        "'game_structure' INTEGER NOT NULL, " +
+                        "'game_type' INTEGER NOT NULL, " +
+                        "'location' TEXT NOT NULL, " +
+                        "'game_info' TEXT, " +
+                        "FOREIGN KEY(`game_structure`) REFERENCES `game_structure`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE," +
+                        "FOREIGN KEY(`game_type`) REFERENCES `game_type`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE)")
+                database.execSQL("INSERT INTO 'session' (date, duration, result, game_structure, game_type, location, game_info) " +
+                        "SELECT strftime('%s000', date), duration, result, game_structure, game_type, location, game_info FROM session_old")
+                // Clean up
+                database.execSQL("DROP TABLE IF EXISTS 'session_old'")
+
+                // Table game_structure
+                database.execSQL("DROP TABLE IF EXISTS 'game_structure_old'")
+                database.execSQL("ALTER TABLE 'game_structure' RENAME TO 'game_structure_old'")
+                database.execSQL("CREATE TABLE IF NOT EXISTS 'game_structure'(" +
+                        "'_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                        "'small_blind' INTEGER NOT NULL," +
+                        "'big_blind' INTEGER NOT NULL," +
+                        "'ante' INTEGER NOT NULL)")
+                // Copy data from old table
+                database.execSQL("INSERT INTO 'game_structure' (small_blind, big_blind, ante) " + "SELECT small_blind, big_blind, ante FROM game_structure_old")
+                // Clean up
+                database.execSQL("DROP TABLE IF EXISTS 'game_structure_old'")
+
+                // Table game_type
+                database.execSQL("DROP TABLE IF EXISTS 'game_type_old'")
+                database.execSQL("ALTER TABLE 'game_type' RENAME TO 'game_type_old'")
+                database.execSQL("CREATE TABLE IF NOT EXISTS 'game_type'(" +
+                        "'_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                        "'name' TEXT NOT NULL)")
+                // Copy data from old table
+                database.execSQL("INSERT INTO 'game_type' (name) " + "SELECT name FROM game_type_old")
+                // Clean up
+                database.execSQL("DROP TABLE IF EXISTS 'game_type_old'")
             }
         }
 
