@@ -1,10 +1,7 @@
 package se.torgammelgard.pokertrax.entity
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
-import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "session", foreignKeys = arrayOf(ForeignKey(entity = GameStructure::class,
@@ -27,6 +24,7 @@ class Session {
 
     var duration: Int = 0
 
+    @TypeConverters(Converters::class)
     var date: Date? = null
 
     var result: Int = 0
@@ -36,8 +34,20 @@ class Session {
 
     constructor()
 
+    /** TODO should this be removed? Id shouldn't be used when inserting in database anyways */
     constructor(id: Long, gameTypeReference: Int, location: String, gameStructureReference: Int, duration: Int, date: Date?, result: Int, gameNotes: String?) {
         this.id = id
+        this.gameTypeReference = gameTypeReference
+        this.location = location
+        this.gameStructureReference = gameStructureReference
+        this.duration = duration
+        this.date = date
+        this.result = result
+        this.gameNotes = gameNotes
+    }
+
+    /** Use this for insert without id */
+    constructor(gameTypeReference: Int, location: String, gameStructureReference: Int, duration: Int, date: Date?, result: Int, gameNotes: String?) {
         this.gameTypeReference = gameTypeReference
         this.location = location
         this.gameStructureReference = gameStructureReference

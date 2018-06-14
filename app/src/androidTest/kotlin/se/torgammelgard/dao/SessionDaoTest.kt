@@ -49,8 +49,8 @@ class SessionDaoTest {
         // TODO how to test this without having game_reference, should it be nullable?
         val session = Session(1, 1, "Earth", 1, 4, Date(1), 6, "Game notes")
         sessionDao.add(session)
-        val allSessions = sessionDao.getAll()
+        val sessions = sessionDao.getAll()
 
-        assert(allSessions.value.orEmpty().size == 1)
+        assert(sessions[0].location == "Earth")
     }
 }

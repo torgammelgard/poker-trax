@@ -11,11 +11,11 @@ import se.torgammelgard.pokertrax.entity.Session
 interface SessionDao {
 
     @Query("SELECT * FROM session")
-    fun getAll(): LiveData<List<Session>>
+    fun getAll(): List<Session>
 
     @Insert(onConflict = REPLACE)
     fun add(session: Session)
 
     @Query("SELECT count(*) FROM session")
-    fun entriesCount(): LiveData<Int>
+    fun entriesCount(): Int
 }

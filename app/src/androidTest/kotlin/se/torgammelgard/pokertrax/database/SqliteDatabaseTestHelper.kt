@@ -40,28 +40,20 @@ object SqliteDatabaseTestHelper {
     /** Used in androidTests to insert a (old) Session in SQLite3 */
     internal fun insertSession(id: Int, game_type: Int, location: String, gameStructureReference: Int, duration: Int, date: Date, result: Int, game_notes: String, helper: SqliteTestDbOpenHelper) {
         val db = helper.writableDatabase
-
         val formatter = SimpleDateFormat("yyyy-MM-dd")
-        val values = ContentValues()
-        values.put("_id", id)
-        values.put("game_type", game_type)
-        values.put("location", location)
-        values.put("game_structure", gameStructureReference)
-        values.put("duration", duration)
-        values.put("date", formatter.format(date))
-        values.put("result", result)
-        values.put("game_info", game_notes)
-
-        db.insertWithOnConflict("session", null, values,
-                SQLiteDatabase.CONFLICT_REPLACE)
-
+        db.execSQL("INSERT INTO 'session' (" +
+                "game_type, location, game_structure, duration, date, result, game_info) " +
+                "VALUES (" +
+                "$game_type, '$location', $gameStructureReference, $duration, '${formatter.format(date)}', $result, '$game_notes')")
         db.close()
     }
 
     /** This will get run before all the database androidTests */
     internal fun createTable(helper: SqliteTestDbOpenHelper) {
+        // this will run the onCreate in SqliteTestDbOpenHelper
         val db = helper.writableDatabase
-        db.execSQL("CREATE TABLE IF NOT EXISTS game_structure (_id INTEGER PRIMARY KEY, " + "small_blind INT, big_blind INT, ante INT)")
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS game_structure (_id INTEGER PRIMARY KEY, small_blind INT, big_blind INT, ante INT)")
 
         db.execSQL("CREATE TABLE IF NOT EXISTS game_type (_id INTEGER PRIMARY KEY, name TEXT)")
 

@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteOpenHelper
 class SqliteTestDbOpenHelper(context: Context, databaseName: String) : SQLiteOpenHelper(context, databaseName, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL("CREATE TABLE game_structure ( _id INTEGER PRIMARY KEY, small_blind INT, big_blind INT, ante INT )")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
