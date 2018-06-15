@@ -1,6 +1,5 @@
 package se.torgammelgard.pokertrax.activities
 
-import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Context
@@ -16,9 +15,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import se.torgammelgard.pokertrax.adapters.TabsPagerAdapter
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
+import se.torgammelgard.pokertrax.adapters.TabsPagerAdapter
 import se.torgammelgard.pokertrax.fragments.ResultsFragment
 import se.torgammelgard.pokertrax.util.IabHelper
 

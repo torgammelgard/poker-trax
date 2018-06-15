@@ -24,17 +24,13 @@ class SummaryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        /* Handle the list*/
-
         val listView = activity?.findViewById<ListView>(R.id.listView_summary)
-
-        /* Header */
         val header = View.inflate(activity, R.layout.summary_list_item, null)
         listView?.addHeaderView(header)
 
         /* List */
         val gameTypes = (activity?.application as MainApp).mDataSource!!.allGameTypes
-        val resultList = (activity!!.application as MainApp).mDataSource!!.resultFromGametypes
+        val resultList = (activity!!.application as MainApp).mDataSource!!.resultsFromGameTypes
         listView!!.adapter = object : ArrayAdapter<String>(activity,
                 R.layout.summary_list_item, R.id.text1, gameTypes) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -60,25 +56,25 @@ class SummaryFragment : Fragment() {
         val totalCents = resultList.sumBy { Integer.valueOf(it)!! }
 
         (footer.findViewById<View>(R.id.text1) as TextView).setText(R.string.summary_total)
-        val result_textView = footer.findViewById<TextView>(R.id.text2)
+        val resultTextView = footer.findViewById<TextView>(R.id.text2)
         if (totalCents < 0) {
-            result_textView.setTextColor(Color.RED)
+            resultTextView.setTextColor(Color.RED)
         } else {
-            result_textView.setTextColor(Color.GREEN)
+            resultTextView.setTextColor(Color.GREEN)
         }
 
-        result_textView.text = String.format("%.2f", totalCents.toDouble() / 100)
+        resultTextView.text = String.format("%.2f", totalCents.toDouble() / 100)
 
         listView.addFooterView(footer)
         listView.setFooterDividersEnabled(true)
 
         // total time played
-        val mins = (activity!!.application as MainApp).mDataSource!!.totalTimePlayed
-        val str = String.format("%02d:%02d", mins / 60, mins % 60)
+        val minutes = (activity!!.application as MainApp).mDataSource!!.totalTimePlayed
+        val str = String.format("%02d:%02d", minutes / 60, minutes % 60)
         (activity!!.findViewById<View>(R.id.textViewTotalTime) as TextView).text = str
 
         // profit per hour
-        val profitPerHour = totalCents.toDouble() / 100.0 / mins.toDouble() * 60
+        val profitPerHour = totalCents.toDouble() / 100.0 / minutes.toDouble() * 60
         val tv = activity!!.findViewById<TextView>(R.id.textViewTotalPerHour)
         if (profitPerHour < 0)
             tv.setTextColor(Color.RED)
@@ -87,13 +83,13 @@ class SummaryFragment : Fragment() {
         tv.text = String.format("%.2f", profitPerHour)
 
         // average per hour
-        val avg_bb_per_hour = (activity!!.application as MainApp).mDataSource!!.avgbbPH
-        val avgbbPerHour_textView = activity!!.findViewById<TextView>(R.id.avgbbPerHour)
-        if (avg_bb_per_hour < 0)
-            avgbbPerHour_textView.setTextColor(Color.RED)
+        val averageBigBetsPerHour = (activity!!.application as MainApp).mDataSource!!.averageBigBetPerHour
+        val averageBigBetsPerHourTextView = activity!!.findViewById<TextView>(R.id.avgbbPerHour)
+        if (averageBigBetsPerHour < 0)
+            averageBigBetsPerHourTextView.setTextColor(Color.RED)
         else
-            avgbbPerHour_textView.setTextColor(Color.GREEN)
-        avgbbPerHour_textView.text = String.format("%.2f", avg_bb_per_hour)
+            averageBigBetsPerHourTextView.setTextColor(Color.GREEN)
+        averageBigBetsPerHourTextView.text = String.format("%.2f", averageBigBetsPerHour)
 
     }
 }

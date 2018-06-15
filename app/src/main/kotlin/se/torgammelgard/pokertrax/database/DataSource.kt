@@ -28,6 +28,9 @@ class DataSource(context: Context) {
         database!!.close()
     }
 
+    /**
+     * @returns the total number of sessions
+     */
     val entriesCount: Int
         get() {
             var count = 0
@@ -46,14 +49,14 @@ class DataSource(context: Context) {
             return count
         }
 
-    /* Returns total game play in minutes*/
+    /**
+     * @return total game play in minutes
+     */
     val totalTimePlayed: Int
         get() {
             var total = 0
             try {
                 database = dbHelper.readableDatabase
-                //val cursor = database!!.query(SessionTable.TABLE_SESSION,
-                //        arrayOf("TOTAL(" + SessionTable.COLUMN_DURATION + ")"), null, null, null, null, null)
                 val query = SupportSQLiteQueryBuilder.builder(SessionTable.TABLE_SESSION)
                         .columns(arrayOf("TOTAL(" + SessionTable.COLUMN_DURATION + ")"))
                         .create()
@@ -68,9 +71,9 @@ class DataSource(context: Context) {
             return total
         }
 
-    val avgbbPH: Double
+    val averageBigBetPerHour: Double
         get() {
-            var avg = 0.0
+            var average = 0.0
             try {
                 database = dbHelper.readableDatabase
                 val sessionCursor = database!!.query(
@@ -83,52 +86,29 @@ class DataSource(context: Context) {
                         arrayOf(60.toString())
                 )
                 sessionCursor.moveToFirst()
-                avg = sessionCursor.getDouble(0)
+                average = sessionCursor.getDouble(0)
                 sessionCursor.close()
             } catch (e: SQLiteException) {
                 Log.d(LOG, "Failed to connect to database", e)
             }
 
-            return avg
-        }
-
-
-    val totalProfit: Int
-        get() {
-            var total = 0
-            try {
-                database = dbHelper.readableDatabase
-                //val cursor = database!!.query(SessionTable.TABLE_SESSION,
-                //        arrayOf("TOTAL(" + SessionTable.COLUMN_RESULT + ")"), null, null, null, null, null)
-                val query = SupportSQLiteQueryBuilder.builder(SessionTable.TABLE_SESSION)
-                        .columns(arrayOf("TOTAL(" + SessionTable.COLUMN_RESULT + ")"))
-                        .create()
-                val cursor = database!!.query(query)
-                cursor.moveToFirst()
-                total = cursor.getInt(0)
-                cursor.close()
-            } catch (e: SQLiteException) {
-                Log.e(LOG, "Failed to connect to database", e)
-            }
-
-            return total
+            return average
         }
 
     /** Returns a list of all the GameTypes  */
     val allGameTypes: ArrayList<String>?
         get() {
-            var game_types: ArrayList<String>? = null
+            var gameTypes: ArrayList<String>? = null
             try {
                 database = dbHelper.readableDatabase
-                game_types = ArrayList<String>()
+                gameTypes = ArrayList()
                 val query = SupportSQLiteQueryBuilder.builder(GameTypeTable.TABLE_GAMETYPE)
                         .create()
-                //val cursor = database!!.query(GameTypeTable.TABLE_GAMETYPE, null, null, null, null, null, null)
                 val cursor = database!!.query(query)
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
-                    val game_type = cursorToGameType(cursor)
-                    game_types.add(game_type.getOutputString())
+                    val gameType = cursorToGameType(cursor)
+                    gameTypes.add(gameType.getOutputString())
                     cursor.moveToNext()
                 }
                 cursor.close()
@@ -137,21 +117,20 @@ class DataSource(context: Context) {
                 Log.e(LOG, "Failed to connect to database", e)
             }
 
-            return game_types
+            return gameTypes
         }
 
     val allGameStructures: ArrayList<GameStructure>?
         get() {
-            var game_structures: ArrayList<GameStructure>? = null
+            var gameStructures: ArrayList<GameStructure>? = null
             try {
                 database = dbHelper.readableDatabase
-                game_structures = ArrayList<GameStructure>()
+                gameStructures = ArrayList()
                 val query = SupportSQLiteQueryBuilder.builder(GameStructureTable.TABLE_GAME_STRUCTURE).create()
-                //val cursor = database!!.query(GameStructureTable.TABLE_GAME_STRUCTURE, null, null, null, null, null, null)
                 val cursor = database!!.query(query)
                 while (cursor.moveToNext()) {
-                    val game_structure = cursorToGameStructure(cursor)
-                    game_structures.add(game_structure)
+                    val gameStructure = cursorToGameStructure(cursor)
+                    gameStructures.add(gameStructure)
                 }
                 cursor.close()
                 dbHelper.close()
@@ -159,7 +138,7 @@ class DataSource(context: Context) {
                 Log.e(LOG, "Failed to connect to database", e)
             }
 
-            return game_structures
+            return gameStructures
         }
 
     fun addGameStructure(gs: GameStructure) {
@@ -177,14 +156,15 @@ class DataSource(context: Context) {
 
     }
 
-    /* returns the last sessions, max number needs to be positive */
+    /**
+     * @param maxNumberOfSessions needs to be positive
+     *  @returns the last sessions
+     */
     fun getLastSessions(maxNumberOfSessions: Int): ArrayList<Session>? {
         var sessions: ArrayList<Session>? = null
         try {
             database = dbHelper.readableDatabase
-            sessions = ArrayList<Session>()
-            //Cursor cursor = database.query(SessionTable.TABLE_SESSION, null, null, null,
-            //        null, null, SessionTable.COLUMN_ID + " ASC", "3");
+            sessions = ArrayList()
             val cursor = database!!.query("SELECT * FROM (SELECT * FROM " +
                     SessionTable.TABLE_SESSION + " ORDER BY " +
                     SessionTable.COLUMN_ID + " DESC LIMIT ?)" +
@@ -206,36 +186,31 @@ class DataSource(context: Context) {
     }
 
 
-    /** returns a list over the result from all different game types  */
-    val resultFromGametypes: ArrayList<String>
+    /**
+     *  @returns results from all different game types
+     */
+    val resultsFromGameTypes: ArrayList<String>
         get() {
             val resultList = ArrayList<String>()
             try {
                 database = dbHelper.readableDatabase
-                val game_types = ArrayList<GameType>()
-                //val cursor = database!!.query(GameTypeTable.TABLE_GAMETYPE, null, null, null, null, null, null)
+                val gameTypes = ArrayList<GameType>()
                 val query = SupportSQLiteQueryBuilder.builder(GameTypeTable.TABLE_GAMETYPE)
                         .create()
                 val cursor = database!!.query(query)
                 cursor.moveToFirst()
                 while (!cursor.isAfterLast) {
-                    val game_type = cursorToGameType(cursor)
-                    game_types.add(game_type)
+                    val gameType = cursorToGameType(cursor)
+                    gameTypes.add(gameType)
                     cursor.moveToNext()
                 }
                 cursor.close()
 
-                for (game_type in game_types) {
+                for (game_type in gameTypes) {
                     val query2 = SupportSQLiteQueryBuilder.builder(SessionTable.TABLE_SESSION)
                             .columns(arrayOf(SessionTable.COLUMN_RESULT))
                             .having(SessionTable.COLUMN_GAMETYPE + " = " + game_type.id.toString())
                             .create()
-
-                    /*val resultCursor = database!!.query(
-                            SessionTable.TABLE_SESSION,
-                            arrayOf(SessionTable.COLUMN_RESULT),
-                            SessionTable.COLUMN_GAMETYPE + " = " + game_type.id.toString(), null, null, null, null)
-                            */
                     val resultCursor = database!!.query(query2)
                     resultCursor.moveToFirst()
                     var result = 0
@@ -253,18 +228,14 @@ class DataSource(context: Context) {
             return resultList
         }
 
+    /**
+     * @returns all locations
+     */
     val locations: ArrayList<String>
         get() {
             val locations = ArrayList<String>()
             try {
                 database = dbHelper.readableDatabase
-                /*
-                val cursor = database!!.query(
-
-                        true,
-                        SessionTable.TABLE_SESSION,
-                        arrayOf(SessionTable.COLUMN_LOCATION), null, null, null, null, null, null)
-                */
                 val query = SupportSQLiteQueryBuilder.builder(SessionTable.TABLE_SESSION)
                         .columns(arrayOf(SessionTable.COLUMN_LOCATION))
                         .create()
@@ -282,6 +253,11 @@ class DataSource(context: Context) {
             return locations
         }
 
+    /**
+     * Adds a session to the database
+     *
+     * @returns the added session
+     */
     fun addSession(session: Session): Session? {
         val values = ContentValues()
         values.put(SessionTable.COLUMN_GAMETYPE, session.game_type_ref)
@@ -296,9 +272,6 @@ class DataSource(context: Context) {
         try {
             database = dbHelper.writableDatabase
             val id = database!!.insert(SessionTable.TABLE_SESSION, OnConflictStrategy.REPLACE, values)
-            //val cursor = database!!.query(SessionTable.TABLE_SESSION,
-            //        allColumns,
-            //        SessionTable.COLUMN_ID + " = " + id, null, null, null, null)
             val query = SupportSQLiteQueryBuilder.builder(SessionTable.TABLE_SESSION)
                     .columns(allColumns)
                     .having(SessionTable.COLUMN_ID + " = " + id)
@@ -315,8 +288,12 @@ class DataSource(context: Context) {
         return newSession
     }
 
+    /**
+     * Deletes the session
+     *
+     * @param sessionID the id of the session to be deleted
+     */
     fun deleteSession(sessionID: Long) {
-        //long id = session.getId();
         try {
             database = dbHelper.writableDatabase
             database!!.delete(SessionTable.TABLE_SESSION,
@@ -329,19 +306,19 @@ class DataSource(context: Context) {
     }
 
     private fun cursorToGameType(cursor: Cursor): GameType {
-        val game_type = GameType()
-        game_type.id = cursor.getLong(0)
-        game_type.type = cursor.getString(1)
-        return game_type
+        val gameType = GameType()
+        gameType.id = cursor.getLong(0)
+        gameType.type = cursor.getString(1)
+        return gameType
     }
 
     private fun cursorToGameStructure(cursor: Cursor): GameStructure {
-        val game_structure = GameStructure()
-        game_structure.id = cursor.getLong(0)
-        game_structure.small_blind = cursor.getInt(1)
-        game_structure.big_blind = cursor.getInt(2)
-        game_structure.ante = cursor.getInt(3)
-        return game_structure
+        val gameStructure = GameStructure()
+        gameStructure.id = cursor.getLong(0)
+        gameStructure.small_blind = cursor.getInt(1)
+        gameStructure.big_blind = cursor.getInt(2)
+        gameStructure.ante = cursor.getInt(3)
+        return gameStructure
     }
 
     private fun cursorToSession(cursor: Cursor): Session {
@@ -351,13 +328,13 @@ class DataSource(context: Context) {
         session.location = cursor.getString(2)
         session.game_structure_ref = cursor.getInt(3)
         session.duration = cursor.getInt(4)
-        session.date = formatter.parse(cursor.getString(5), ParsePosition(0)) //TODO checkDate
+        session.date = formatter.parse(cursor.getString(5), ParsePosition(0))
         session.result = cursor.getInt(6)
         session.game_notes = cursor.getString(7)
         return session
     }
 
     companion object {
-        private val LOG = "DataSource"
+        private const val LOG = "DataSource"
     }
 }

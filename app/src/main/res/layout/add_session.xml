@@ -110,7 +110,7 @@
             style="@style/MyButtonStyle"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:onClick="duration_pick_onClick" />
+            android:onClick="durationPickOnClick" />
     </TableRow>
 
     <TableRow
@@ -131,7 +131,7 @@
             style="@style/MyButtonStyle"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:onClick="pick_date_onClick" />
+            android:onClick="pickDateOnClick" />
     </TableRow>
 
     <TableRow
@@ -144,14 +144,14 @@
             style="@style/MyButtonStyle"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:onClick="cancel_onClick"
+            android:onClick="cancelActivityOnClick"
             android:text="@string/cancel" />
 
         <Button
             style="@style/MyButtonStyle"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:onClick="add_onClick"
+            android:onClick="addSessionOnClick"
             android:text="@string/add" />
     </TableRow>
 
