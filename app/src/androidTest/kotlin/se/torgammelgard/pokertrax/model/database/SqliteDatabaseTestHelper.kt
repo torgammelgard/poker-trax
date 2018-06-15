@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.database
+package se.torgammelgard.pokertrax.model.database
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase

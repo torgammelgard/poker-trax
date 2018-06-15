@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.database
+package se.torgammelgard.pokertrax.model.database
 
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.db.framework.FrameworkSQLiteOpenHelperFactory

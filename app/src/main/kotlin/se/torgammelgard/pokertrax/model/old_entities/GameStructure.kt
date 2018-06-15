@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.model
+package se.torgammelgard.pokertrax.model.old_entities
 
 /**
  * TODO: Class header comment.

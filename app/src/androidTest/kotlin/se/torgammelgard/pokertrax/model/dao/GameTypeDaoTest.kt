@@ -1,4 +1,4 @@
-package se.torgammelgard.dao
+package se.torgammelgard.pokertrax.model.dao
 
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
@@ -8,9 +8,8 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import se.torgammelgard.pokertrax.dao.GameTypeDao
-import se.torgammelgard.pokertrax.database.AppDatabase
-import se.torgammelgard.pokertrax.entity.GameType
+import se.torgammelgard.pokertrax.model.database.AppDatabase
+import se.torgammelgard.pokertrax.model.entities.GameType
 
 @RunWith(AndroidJUnit4::class)
 class GameTypeDaoTest {
@@ -32,7 +31,7 @@ class GameTypeDaoTest {
 
     @Test
     fun testGameTypeDao() {
-        val gameType =  GameType(1, "No limit")
+        val gameType = GameType(1, "No limit")
         gameTypeDao.add(gameType)
         val allGameTypes = gameTypeDao.getAll()
         Assert.assertEquals(1, allGameTypes.size)

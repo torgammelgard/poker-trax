@@ -1,20 +1,16 @@
-package se.torgammelgard.dao
+package se.torgammelgard.pokertrax.model.dao
 
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import se.torgammelgard.pokertrax.dao.GameStructureDao
-import se.torgammelgard.pokertrax.dao.GameTypeDao
-import se.torgammelgard.pokertrax.dao.SessionDao
-import se.torgammelgard.pokertrax.database.AppDatabase
-import se.torgammelgard.pokertrax.entity.GameStructure
-import se.torgammelgard.pokertrax.entity.GameType
-import se.torgammelgard.pokertrax.entity.Session
+import se.torgammelgard.pokertrax.model.database.AppDatabase
+import se.torgammelgard.pokertrax.model.entities.GameStructure
+import se.torgammelgard.pokertrax.model.entities.GameType
+import se.torgammelgard.pokertrax.model.entities.Session
 import java.util.*
 
 @RunWith(AndroidJUnit4::class)

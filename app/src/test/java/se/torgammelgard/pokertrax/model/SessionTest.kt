@@ -2,6 +2,7 @@ package se.torgammelgard.pokertrax.model
 
 import org.junit.Assert.*
 import org.junit.Test
+import se.torgammelgard.pokertrax.model.old_entities.Session
 import java.util.*
 
 /**

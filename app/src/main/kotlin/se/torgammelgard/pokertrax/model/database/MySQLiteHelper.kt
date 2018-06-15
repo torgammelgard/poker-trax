@@ -1,8 +1,11 @@
-package se.torgammelgard.pokertrax.database
+package se.torgammelgard.pokertrax.model.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import se.torgammelgard.pokertrax.model.old_tables.GameStructureTable
+import se.torgammelgard.pokertrax.model.old_tables.GameTypeTable
+import se.torgammelgard.pokertrax.model.old_tables.SessionTable
 
 /**
  *
@@ -40,7 +43,8 @@ class MySQLiteHelper private constructor(context: Context) : SQLiteOpenHelper(co
         private const val DATABASE_VERSION = 1
 
         fun getInstance(context: Context): MySQLiteHelper {
-            return sInstance ?: MySQLiteHelper(context.applicationContext)
+            return sInstance
+                    ?: MySQLiteHelper(context.applicationContext)
         }
     }
 }

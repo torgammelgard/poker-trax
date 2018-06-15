@@ -1,7 +1,8 @@
-package se.torgammelgard.pokertrax.entity
+package se.torgammelgard.pokertrax.model.entities
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
+import se.torgammelgard.pokertrax.model.converters.Converters
 import java.util.*
 
 @Entity(tableName = "session", foreignKeys = arrayOf(ForeignKey(entity = GameStructure::class,

@@ -17,16 +17,16 @@ import android.widget.Spinner
 import android.widget.TimePicker
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.database.AppDatabase
+import se.torgammelgard.pokertrax.model.database.AppDatabase
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
-import se.torgammelgard.pokertrax.model.GameStructure
+import se.torgammelgard.pokertrax.model.old_entities.GameStructure
 
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Calendar
 
-import se.torgammelgard.pokertrax.model.Session
+import se.torgammelgard.pokertrax.model.old_entities.Session
 
 /**
  * Lets the user add a session
@@ -205,8 +205,8 @@ class AddSessionActivity : Activity(),
         finish()
     }
 
-    private fun createEntitySession(): se.torgammelgard.pokertrax.entity.Session {
-        val session = se.torgammelgard.pokertrax.entity.Session()
+    private fun createEntitySession(): se.torgammelgard.pokertrax.model.entities.Session {
+        val session = se.torgammelgard.pokertrax.model.entities.Session()
         session.gameTypeReference = mGameTypeRef
         session.location = mLocation
         session.gameStructureReference= mGameStructureRef

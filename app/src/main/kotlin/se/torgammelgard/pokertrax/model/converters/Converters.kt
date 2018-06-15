@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.entity
+package se.torgammelgard.pokertrax.model.converters
 
 import android.arch.persistence.room.TypeConverter
 import java.util.*

@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.model
+package se.torgammelgard.pokertrax.model.old_entities
 
 import java.io.Serializable
 import java.util.Date

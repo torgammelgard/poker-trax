@@ -1,4 +1,4 @@
-package se.torgammelgard.dao
+package se.torgammelgard.pokertrax.model.dao
 
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
@@ -8,9 +8,8 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import se.torgammelgard.pokertrax.dao.GameStructureDao
-import se.torgammelgard.pokertrax.database.AppDatabase
-import se.torgammelgard.pokertrax.entity.GameStructure
+import se.torgammelgard.pokertrax.model.database.AppDatabase
+import se.torgammelgard.pokertrax.model.entities.GameStructure
 
 @RunWith(AndroidJUnit4::class)
 class GameStructureDaoTest {

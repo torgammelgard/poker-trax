@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import se.torgammelgard.pokertrax.model.GameStructure
+import se.torgammelgard.pokertrax.model.old_entities.GameStructure
 import se.torgammelgard.pokertrax.R
 
 /**

@@ -1,11 +1,10 @@
-package se.torgammelgard.pokertrax.dao
+package se.torgammelgard.pokertrax.model.dao
 
-import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
-import se.torgammelgard.pokertrax.entity.Session
+import se.torgammelgard.pokertrax.model.entities.Session
 
 @Dao
 interface SessionDao {

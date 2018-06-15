@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.database
+package se.torgammelgard.pokertrax.model.database
 
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.db.SupportSQLiteOpenHelper
@@ -10,9 +10,12 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.util.Log
-import se.torgammelgard.pokertrax.model.GameStructure
-import se.torgammelgard.pokertrax.model.GameType
-import se.torgammelgard.pokertrax.model.Session
+import se.torgammelgard.pokertrax.model.old_entities.GameStructure
+import se.torgammelgard.pokertrax.model.old_entities.GameType
+import se.torgammelgard.pokertrax.model.old_entities.Session
+import se.torgammelgard.pokertrax.model.old_tables.GameStructureTable
+import se.torgammelgard.pokertrax.model.old_tables.GameTypeTable
+import se.torgammelgard.pokertrax.model.old_tables.SessionTable
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
 import java.util.*
