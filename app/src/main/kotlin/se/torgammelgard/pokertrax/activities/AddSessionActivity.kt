@@ -7,26 +7,26 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.CheckedTextView
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TimePicker
+import android.widget.*
+import dagger.android.AndroidInjection
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.uiThread
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.model.database.AppDatabase
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
+import se.torgammelgard.pokertrax.model.database.AppDatabase
+import se.torgammelgard.pokertrax.model.entities.GameType
 import se.torgammelgard.pokertrax.model.old_entities.GameStructure
-
-import java.text.SimpleDateFormat
-import java.util.ArrayList
-import java.util.Calendar
-
 import se.torgammelgard.pokertrax.model.old_entities.Session
+import se.torgammelgard.pokertrax.model.repositories.GameStructureRepository
+import se.torgammelgard.pokertrax.model.repositories.GameTypeRepository
+import se.torgammelgard.pokertrax.model.repositories.SessionRepository
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.inject.Inject
 
 /**
  * Lets the user add a session
@@ -36,6 +36,10 @@ class AddSessionActivity : Activity(),
         DatePickerDialog.OnDateSetListener,
         LocationDialogFragment.LocationDialogListener,
         GameStructureDialogFragment.GameStructureListener {
+
+    @Inject lateinit var gameTypeRepository: GameTypeRepository
+    @Inject lateinit var gameStructureRepository: GameStructureRepository
+    @Inject lateinit var sessionRepository: SessionRepository
 
     private var mLocation: String = ""
     private var mGameTypeRef: Int = 0
@@ -66,24 +70,37 @@ class AddSessionActivity : Activity(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_session)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        // Game type stuff
-        val gameTypes = (application as MainApp).mDataSource!!.allGameTypes
-        val gameTypeSpinner = findViewById<Spinner>(R.id.gameType_spinner)
-        val gameTypeAdapter = ArrayAdapter(
-                this, R.layout.my_simple_spinner_dropdown_item, gameTypes)
-        gameTypeSpinner.adapter = gameTypeAdapter
-        gameTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                mGameTypeRef = id.toInt() + 1
-                // TODO: add a new addGameTypeActivity
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
+        doAsync {
+            //gameTypeRepository.add(GameType(10L, "Amazing success"))
+            gameTypeRepository.add(GameType(12L, "Amazing success 3"))
+            gameStructureRepository.add(se.torgammelgard.pokertrax.model.entities.GameStructure(10, 1, 2, 1))
+            sessionRepository.addSession(se.torgammelgard.pokertrax.model.entities.Session(10L, 10, "bad location", 10, 100, Date(1_000_000), 20000, "This is a game note"))
         }
+
+        // Game type stuff
+        //val gameTypes = (application as MainApp).mDataSource!!.allGameTypes
+        doAsync {
+            val gameTypes = gameTypeRepository.getAllGameTypes()
+            ctx.runOnUiThread {
+                val gameTypeSpinner = findViewById<Spinner>(R.id.gameType_spinner)
+                val gameTypeAdapter = ArrayAdapter(
+                        this, R.layout.my_simple_spinner_dropdown_item, gameTypes)
+                gameTypeSpinner.adapter = gameTypeAdapter
+                gameTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                        mGameTypeRef = id.toInt() + 1
+                        // TODO: add a new addGameTypeActivity
+                    }
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                    }
+                } }
+        }
+
 
 
         //Location stuff

@@ -1,9 +1,5 @@
 package se.torgammelgard.pokertrax.model.database
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.TypeConverters
 import android.arch.persistence.room.migration.Migration
 import android.content.Context
 import se.torgammelgard.pokertrax.model.dao.GameStructureDao
@@ -14,6 +10,8 @@ import se.torgammelgard.pokertrax.model.entities.GameStructure
 import se.torgammelgard.pokertrax.model.entities.GameType
 import se.torgammelgard.pokertrax.model.entities.Session
 import android.arch.persistence.db.SupportSQLiteDatabase
+import android.arch.persistence.db.SupportSQLiteOpenHelper
+import android.arch.persistence.room.*
 import android.support.annotation.VisibleForTesting
 
 
@@ -24,7 +22,14 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun gameStructureDao(): GameStructureDao
     abstract fun sessionDao(): SessionDao
     abstract fun gameTypeDao(): GameTypeDao
+/*
+    override fun createOpenHelper(config: DatabaseConfiguration?): SupportSQLiteOpenHelper {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
+    override fun createInvalidationTracker(): InvalidationTracker? {
+        return null
+    }*/
 
     companion object {
         private var INSTANCE: AppDatabase? = null

@@ -2,6 +2,7 @@ package se.torgammelgard.pokertrax.model.entities
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "game_type")
@@ -14,6 +15,7 @@ class GameType {
     @ColumnInfo(name = "name")
     var type: String = "" //TODO should this be nullable or not
 
+    @Ignore
     constructor(id: Long, type: String) {
         this.id = id
         this.type = type

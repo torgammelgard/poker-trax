@@ -36,6 +36,7 @@ class Session {
     constructor()
 
     /** TODO should this be removed? Id shouldn't be used when inserting in database anyways */
+    @Ignore
     constructor(id: Long, gameTypeReference: Int, location: String, gameStructureReference: Int, duration: Int, date: Date?, result: Int, gameNotes: String?) {
         this.id = id
         this.gameTypeReference = gameTypeReference
@@ -48,6 +49,7 @@ class Session {
     }
 
     /** Use this for insert without id */
+    @Ignore
     constructor(gameTypeReference: Int, location: String, gameStructureReference: Int, duration: Int, date: Date?, result: Int, gameNotes: String?) {
         this.gameTypeReference = gameTypeReference
         this.location = location
