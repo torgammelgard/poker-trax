@@ -16,5 +16,8 @@ interface SessionDao {
     fun add(session: Session)
 
     @Query("SELECT count(*) FROM session")
-    fun entriesCount(): Int
+    fun numberOfSessions(): Int
+
+    @Query("SELECT location FROM session")
+    fun locations(): List<String>
 }

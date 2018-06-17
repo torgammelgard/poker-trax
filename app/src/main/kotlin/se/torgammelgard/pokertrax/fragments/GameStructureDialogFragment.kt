@@ -9,8 +9,9 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import se.torgammelgard.pokertrax.model.old_entities.GameStructure
+
 import se.torgammelgard.pokertrax.R
+import se.torgammelgard.pokertrax.model.entities.GameStructure
 
 /**
  * TODO: Class header comment.
@@ -20,7 +21,7 @@ class GameStructureDialogFragment : DialogFragment() {
     private var mListener: GameStructureListener? = null
 
     interface GameStructureListener {
-        fun doGameStructureDialogPositiveClick(g: GameStructure)
+        fun doGameStructureDialogPositiveClick(gameStructure: GameStructure)
         fun doGameStructureDialogNegativeClick()
     }
 
@@ -100,9 +101,9 @@ class GameStructureDialogFragment : DialogFragment() {
             }
 
             val g = GameStructure()
-            g.small_blind = smallBlind
-            g.big_blind = bigBlind
-            g.ante = ante
+            gameStructure.smallBlind = smallBlind
+            gameStructure.bigBlind = bigBlind
+            gameStructure.ante = ante
             return g
         }
 

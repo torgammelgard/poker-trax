@@ -23,12 +23,8 @@ class MainApp : Application(), HasActivityInjector {
         lateinit var graph: ApplicationComponent
     }
 
-    var mDataSource: DataSource?= null
-
     override fun onCreate() {
         super.onCreate()
-
-        mDataSource = DataSource(applicationContext)
 
         graph = DaggerApplicationComponent.builder().mainApp(this).build()
         graph.inject(this)

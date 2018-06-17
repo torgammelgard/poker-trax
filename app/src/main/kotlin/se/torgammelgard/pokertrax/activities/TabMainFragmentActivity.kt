@@ -15,13 +15,20 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import se.torgammelgard.pokertrax.MainApp
+import dagger.android.AndroidInjection
+import org.jetbrains.anko.activityUiThreadWithContext
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.adapters.TabsPagerAdapter
 import se.torgammelgard.pokertrax.fragments.ResultsFragment
+import se.torgammelgard.pokertrax.model.repositories.SessionRepository
 import se.torgammelgard.pokertrax.util.IabHelper
+import javax.inject.Inject
 
 class TabMainFragmentActivity : FragmentActivity() {
+
+    @Inject lateinit var sessionRepository: SessionRepository
 
     private var mMenu: Menu? = null
     private var mTabNames: Array<String>? = null
@@ -62,6 +69,7 @@ class TabMainFragmentActivity : FragmentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tab_main)
 
@@ -150,13 +158,25 @@ class TabMainFragmentActivity : FragmentActivity() {
     @Suppress("UNUSED_PARAMETER")
     fun addSessionOnClick(view: View) {
         if (!isPremiumUser) {
-            val entries = (application as MainApp).mDataSource!!.entriesCount
-            if (entries > 4) {
-                Toast.makeText(this, "Buy premium version for unlimited session entries",
-                        Toast.LENGTH_LONG).show()
-                return
+            doAsync {
+                val numberOfSessions = sessionRepository.numberOfSessions()
+
+                uiThread {
+                    if (numberOfSessions > 4) {
+                        this.activityUiThreadWithContext {
+                            Toast.makeText(this, "Buy premium version for unlimited session entries",
+                                    Toast.LENGTH_LONG).show()
+                        }
+                        return@uiThread
+                    }
+                    else startAddSession()
+                }
             }
         }
+
+    }
+
+    private fun startAddSession() {
         val intent = Intent(this, AddSessionActivity::class.java)
         startActivityForResult(intent, ADD_SESSION_REQUEST)
     }

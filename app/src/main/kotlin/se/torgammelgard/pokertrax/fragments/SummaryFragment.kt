@@ -11,6 +11,7 @@ import android.widget.ListView
 import android.widget.TextView
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
+import se.torgammelgard.pokertrax.model.entities.GameType
 
 /**
  * Contains an overview of some results.
@@ -29,8 +30,8 @@ class SummaryFragment : Fragment() {
         listView?.addHeaderView(header)
 
         /* List */
-        val gameTypes = (activity?.application as MainApp).mDataSource!!.allGameTypes
-        val resultList = (activity!!.application as MainApp).mDataSource!!.resultsFromGameTypes
+        val gameTypes = mutableListOf<String>() // TODO(activity?.application as MainApp).mDataSource!!.allGameTypes
+        val resultList = mutableListOf<String>() // TODO (activity!!.application as MainApp).mDataSource!!.resultsFromGameTypes
         listView!!.adapter = object : ArrayAdapter<String>(activity,
                 R.layout.summary_list_item, R.id.text1, gameTypes) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -69,7 +70,7 @@ class SummaryFragment : Fragment() {
         listView.setFooterDividersEnabled(true)
 
         // total time played
-        val minutes = (activity!!.application as MainApp).mDataSource!!.totalTimePlayed
+        val minutes = 28 // TODO (activity!!.application as MainApp).mDataSource!!.totalTimePlayed
         val str = String.format("%02d:%02d", minutes / 60, minutes % 60)
         (activity!!.findViewById<View>(R.id.textViewTotalTime) as TextView).text = str
 
@@ -83,7 +84,7 @@ class SummaryFragment : Fragment() {
         tv.text = String.format("%.2f", profitPerHour)
 
         // average per hour
-        val averageBigBetsPerHour = (activity!!.application as MainApp).mDataSource!!.averageBigBetPerHour
+        val averageBigBetsPerHour = 28.0 // TODO (activity!!.application as MainApp).mDataSource!!.averageBigBetPerHour
         val averageBigBetsPerHourTextView = activity!!.findViewById<TextView>(R.id.avgbbPerHour)
         if (averageBigBetsPerHour < 0)
             averageBigBetsPerHourTextView.setTextColor(Color.RED)

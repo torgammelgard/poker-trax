@@ -9,18 +9,12 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import dagger.android.AndroidInjection
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.uiThread
-import se.torgammelgard.pokertrax.MainApp
+import org.jetbrains.anko.*
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
-import se.torgammelgard.pokertrax.model.database.AppDatabase
-import se.torgammelgard.pokertrax.model.entities.GameType
-import se.torgammelgard.pokertrax.model.old_entities.GameStructure
-import se.torgammelgard.pokertrax.model.old_entities.Session
+import se.torgammelgard.pokertrax.model.entities.GameStructure
+import se.torgammelgard.pokertrax.model.entities.Session
 import se.torgammelgard.pokertrax.model.repositories.GameStructureRepository
 import se.torgammelgard.pokertrax.model.repositories.GameTypeRepository
 import se.torgammelgard.pokertrax.model.repositories.SessionRepository
@@ -75,15 +69,7 @@ class AddSessionActivity : Activity(),
         setContentView(R.layout.add_session)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        doAsync {
-            //gameTypeRepository.add(GameType(10L, "Amazing success"))
-            gameTypeRepository.add(GameType(12L, "Amazing success 3"))
-            gameStructureRepository.add(se.torgammelgard.pokertrax.model.entities.GameStructure(10, 1, 2, 1))
-            sessionRepository.addSession(se.torgammelgard.pokertrax.model.entities.Session(10L, 10, "bad location", 10, 100, Date(1_000_000), 20000, "This is a game note"))
-        }
-
         // Game type stuff
-        //val gameTypes = (application as MainApp).mDataSource!!.allGameTypes
         doAsync {
             val gameTypes = gameTypeRepository.getAllGameTypes()
             ctx.runOnUiThread {
@@ -104,67 +90,77 @@ class AddSessionActivity : Activity(),
 
 
         //Location stuff
-        val locationList = (application as MainApp).mDataSource!!.locations
-        locationList.add(NEW_ITEM_STR)
+        doAsync {
+            val locations = sessionRepository.locations()
+            val locationsWithNewItem = locations.toMutableList()
+            locationsWithNewItem.add(NEW_ITEM_STR)
 
-        mLocationSpinner = findViewById(R.id.location_spinner)
-        mLocationAdapter = ArrayAdapter(this,
-                R.layout.my_simple_spinner_dropdown_item, locationList)
-        mLocationSpinner!!.adapter = mLocationAdapter
-        mLocationSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (view == null)
-                    return
-                // check if new location is selected
-                if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
-                        .toString() == NEW_ITEM_STR) {
-                    //start new location dialog
-                    val locationDialogFragment = LocationDialogFragment()
-                    locationDialogFragment.show(fragmentManager, "locationDialog")
-                } else {
-                    mLocation = (view.findViewById<View>(android.R.id.text1) as CheckedTextView)
-                            .text.toString()
+            activityUiThreadWithContext {
+                mLocationSpinner = findViewById(R.id.location_spinner)
+                mLocationAdapter = ArrayAdapter(this,
+                        R.layout.my_simple_spinner_dropdown_item, locationsWithNewItem)
+                mLocationSpinner!!.adapter = mLocationAdapter
+                mLocationSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                        if (view == null)
+                            return
+                        // check if new location is selected
+                        if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
+                                        .toString() == NEW_ITEM_STR) {
+                            //start new location dialog
+                            val locationDialogFragment = LocationDialogFragment()
+                            locationDialogFragment.show(fragmentManager, "locationDialog")
+                        } else {
+                            mLocation = (view.findViewById<View>(android.R.id.text1) as CheckedTextView)
+                                    .text.toString()
 
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+
+                    }
                 }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
             }
         }
 
-        val gameStructureList = (application as MainApp).mDataSource!!.allGameStructures
-        val gameStructureStringList = gameStructureList!!.mapTo(ArrayList()) { it.toString() }
-        gameStructureStringList.add(NEW_ITEM_STR)
-        mGameStructureSpinner = findViewById(R.id.game_structure_spinner)
-        mGameStructureAdapter = ArrayAdapter(this,
-                R.layout.my_simple_spinner_dropdown_item, gameStructureStringList)
-        mGameStructureSpinner!!.adapter = mGameStructureAdapter
-        mGameStructureSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
-                        .toString() == NEW_ITEM_STR) {
-                    val g = GameStructureDialogFragment.newInstance()
-                    g.show(fragmentManager, "g")
+        doAsync {
+            val gameStructureList = gameStructureRepository.getAllGameStructures()
+            val gameStructureStringList = gameStructureList.mapTo(ArrayList()) { it.toString() }
+            gameStructureStringList.add(NEW_ITEM_STR)
 
-                    //((MainApp) getApplication()).mDataSource.addGameStructure(gamestruct); // TODO
-                    Log.d(LOG, "Adding new game structure")
-                } else {
-                    mGameStructureRef = id.toInt() + 1
+            activityUiThreadWithContext {
+                mGameStructureSpinner = findViewById(R.id.game_structure_spinner)
+                mGameStructureAdapter = ArrayAdapter(this,
+                        R.layout.my_simple_spinner_dropdown_item, gameStructureStringList)
+                mGameStructureSpinner!!.adapter = mGameStructureAdapter
+                mGameStructureSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                        if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
+                                        .toString() == NEW_ITEM_STR) {
+                            val g = GameStructureDialogFragment.newInstance()
+                            g.show(fragmentManager, "g")
+
+                            // TODO add a real game structure
+                            gameStructureRepository.add(se.torgammelgard.pokertrax.model.entities.GameStructure(100, 28, 56, 14))
+                            Log.d(LOG, "Adding new game structure")
+                        } else {
+                            mGameStructureRef = id.toInt() + 1
+                        }
+                    }
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                    }
                 }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
 
         //duration pick stuff
-        mDurationPickButton = findViewById<Button>(R.id.button_duration)
-        mDurationPickButton!!.text = mHoursPlayed.toString() + " h :" +
-                mMinutesPlayed.toString() + " min"
+        mDurationPickButton = findViewById(R.id.button_duration)
+        mDurationPickButton!!.text = String.format("%d h : %d min", mHoursPlayed, mMinutesPlayed)
 
         //date pick stuff
         mCalendar = Calendar.getInstance()
-        mDatePickButton = findViewById<Button>(R.id.button_pick_date)
+        mDatePickButton = findViewById(R.id.button_pick_date)
         mDatePickButton!!.text = mFormatter.format(mCalendar!!.time)
 
         //result stuff
@@ -203,17 +199,16 @@ class AddSessionActivity : Activity(),
         if (mHoursPlayed == 0 && mMinutesPlayed == 0)
             return null
         val session = Session()
-        session.game_type_ref = mGameTypeRef
+        session.gameTypeReference = mGameTypeRef
         session.location = mLocation
-        session.game_structure_ref = mGameStructureRef
+        session.gameStructureReference = mGameStructureRef
         session.duration = mHoursPlayed * 60 + mMinutesPlayed
         session.date = mCalendar!!.time
         val resultEditText = findViewById<EditText>(R.id.result_editText)
-
         var resultFloat: Float? = java.lang.Float.valueOf(resultEditText.text.toString())
         resultFloat = 100 * resultFloat!! //store in cents
         session.result = resultFloat.toInt()
-        session.game_notes = "" //TODO: add note functionality
+        session.gameNotes = "" //TODO: add note functionality
         return session
     }
 
@@ -222,36 +217,20 @@ class AddSessionActivity : Activity(),
         finish()
     }
 
-    private fun createEntitySession(): se.torgammelgard.pokertrax.model.entities.Session {
-        val session = se.torgammelgard.pokertrax.model.entities.Session()
-        session.gameTypeReference = mGameTypeRef
-        session.location = mLocation
-        session.gameStructureReference= mGameStructureRef
-        session.duration = mHoursPlayed * 60 + mMinutesPlayed
-        session.date = mCalendar!!.time
-        val resultEditText = findViewById<EditText>(R.id.result_editText)
-
-        var resultFloat: Float? = java.lang.Float.valueOf(resultEditText.text.toString())
-        resultFloat = 100 * resultFloat!! //store in cents
-        session.result = resultFloat.toInt()
-        session.gameNotes = "" //TODO: add note functionality
-        return session
-    }
-
     /** Adds the session to the database and finishes this activity
      * if this form is correctly filled in */
     fun addSessionOnClick(view: View) {
-        //val resultSession = createSession()
-        //if (resultSession != null) {
-        //    (application as MainApp).mDataSource!!.addSession(resultSession)
-        //    setResult(Activity.RESULT_OK)
-        //    finish()
-        //}
-        val session = createEntitySession()
-        val sessionDao = AppDatabase.getInstance(view.context)?.sessionDao()
-        sessionDao?.add(session)
-        setResult(Activity.RESULT_OK)
-        finish()
+        val session = createSession()
+        if (session != null) {
+            doAsync {
+                sessionRepository.addSession(session)
+
+                uiThread{
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+            }
+        }
     }
 
     /** Adds a location to the location spinner */
@@ -267,12 +246,12 @@ class AddSessionActivity : Activity(),
         mLocationSpinner?.invalidate()
     }
 
-    override fun doGameStructureDialogPositiveClick(g: GameStructure) {
+    override fun doGameStructureDialogPositiveClick(gameStructure: GameStructure) {
         mGameStructureAdapter?.remove(NEW_ITEM_STR)
-        mGameStructureAdapter?.add(g.toString())
+        mGameStructureAdapter?.add(gameStructure.toString())
         mGameStructureAdapter?.notifyDataSetChanged()
         mGameStructureRef = mGameStructureAdapter?.count as Int
-        (application as MainApp).mDataSource?.addGameStructure(g)
+        gameStructureRepository.add(gameStructure)
     }
 
     override fun doGameStructureDialogNegativeClick() {

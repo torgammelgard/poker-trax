@@ -1,15 +1,9 @@
 package se.torgammelgard.pokertrax.fragments
 
 import android.graphics.Color
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
-import android.view.ActionMode
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ListView
 import org.jetbrains.anko.doAsync
@@ -17,9 +11,7 @@ import org.jetbrains.anko.uiThread
 import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.adapters.ResultAdapter
-
-import java.util.ArrayList
-import java.util.HashMap
+import java.util.*
 
 class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLongClickListener {
     private var mActionMode: Any? = null
@@ -30,7 +22,7 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.results, container, false)
-        mResultListView = view.findViewById<ListView>(R.id.list_result)
+        mResultListView = view.findViewById(R.id.list_result)
 
         updateListView()
 
@@ -39,6 +31,7 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
 
     /** updates the result list  in an AsyncTask */
     fun updateListView() {
+        /*
         doAsync {
             val dataList = ArrayList<Map<String, String>>()
             val sessions = (activity?.application as MainApp).mDataSource!!.getLastSessions(20)
@@ -68,6 +61,7 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
 
         if (mResultListView != null)
             mResultListView!!.onItemLongClickListener = this
+        */
     }
 
     private val mActionModeCallback = object : ActionMode.Callback {
@@ -88,7 +82,7 @@ class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLon
                 try {
                     val mapOfSession = mResultListView!!.adapter.getItem(mSelectedItemPos) as HashMap<String, String>
                     val sessionID = java.lang.Long.valueOf(mapOfSession["id"])!!
-                    (activity?.application as MainApp).mDataSource!!.deleteSession(sessionID)
+                    //TODO (activity?.application as MainApp).mDataSource!!.deleteSession(sessionID)
                 } catch (e: NumberFormatException) {
                     Log.d(LOG, "Couldn't delete", e)
                 } catch (e: ClassCastException) {

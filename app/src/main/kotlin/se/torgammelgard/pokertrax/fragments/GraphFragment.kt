@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
-import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
+import se.torgammelgard.pokertrax.model.entities.Session
 
 class GraphFragment : android.support.v4.app.Fragment() {
 
@@ -32,7 +31,7 @@ class GraphFragment : android.support.v4.app.Fragment() {
         val graph = view!!.findViewById<GraphView>(R.id.graph)
 
         // get and construct the data
-        val sessionList = (activity?.application as MainApp).mDataSource!!.getLastSessions(20)
+        val sessionList = mutableListOf<Session>() //TODO (activity?.application as MainApp).mDataSource!!.getLastSessions(20)
 
         val dataPoints = arrayOfNulls<DataPoint>(sessionList!!.size + 1)
 
