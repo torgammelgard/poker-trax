@@ -2,16 +2,12 @@ package se.torgammelgard.pokertrax.adapters
 
 import android.app.ActionBar
 import android.app.FragmentTransaction
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
-
 import se.torgammelgard.pokertrax.fragments.GraphFragment
 import se.torgammelgard.pokertrax.fragments.MainFragment
 import se.torgammelgard.pokertrax.fragments.ResultsFragment
 import se.torgammelgard.pokertrax.fragments.SummaryFragment
 
-class TabsPagerAdapter(activity: FragmentActivity, private val mViewPager: ViewPager) : FragmentPagerAdapter(activity.supportFragmentManager), ActionBar.TabListener, ViewPager.OnPageChangeListener {
+class TabsPagerAdapter(activity: androidx.fragment.app.FragmentActivity, private val mViewPager: androidx.viewpager.widget.ViewPager) : androidx.fragment.app.FragmentPagerAdapter(activity.supportFragmentManager), ActionBar.TabListener, androidx.viewpager.widget.ViewPager.OnPageChangeListener {
     private val mActionBar: ActionBar = activity.actionBar
 
     init {
@@ -25,7 +21,7 @@ class TabsPagerAdapter(activity: FragmentActivity, private val mViewPager: ViewP
         notifyDataSetChanged()
     }
 
-    override fun getItem(item: Int): android.support.v4.app.Fragment? {
+    override fun getItem(item: Int): androidx.fragment.app.Fragment? {
         when (item) {
             0 -> return MainFragment()
 

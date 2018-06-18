@@ -1,24 +1,21 @@
 package se.torgammelgard.pokertrax.activities
 
 
-import android.support.test.filters.LargeTest
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.filters.LargeTest
+import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.AndroidJUnit4
+import org.hamcrest.Matchers.instanceOf
+import org.hamcrest.core.AllOf.allOf
+import org.hamcrest.core.Is
+import org.hamcrest.core.Is.`is`
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import android.support.test.espresso.Espresso.onData
-import android.support.test.espresso.Espresso.onView
-
-import android.support.test.espresso.action.ViewActions.*
-import android.support.test.espresso.assertion.ViewAssertions.*
-import android.support.test.espresso.matcher.ViewMatchers.*
-
-import org.hamcrest.Matchers.*
-import org.hamcrest.core.Is.`is`
-import org.hamcrest.core.AllOf.allOf
-import org.hamcrest.core.Is
 import se.torgammelgard.pokertrax.R
 
 /**

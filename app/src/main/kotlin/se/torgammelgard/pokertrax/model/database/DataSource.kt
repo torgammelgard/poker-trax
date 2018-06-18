@@ -1,15 +1,15 @@
 package se.torgammelgard.pokertrax.model.database
 
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.db.SupportSQLiteOpenHelper
-import android.arch.persistence.db.SupportSQLiteQueryBuilder
-import android.arch.persistence.room.OnConflictStrategy
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.util.Log
+import androidx.room.OnConflictStrategy
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.SupportSQLiteOpenHelper
+import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import se.torgammelgard.pokertrax.model.old_entities.GameStructure
 import se.torgammelgard.pokertrax.model.old_entities.GameType
 import se.torgammelgard.pokertrax.model.old_entities.Session

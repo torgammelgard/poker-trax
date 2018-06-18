@@ -1,18 +1,20 @@
 package se.torgammelgard.pokertrax.model.database
 
-import android.arch.persistence.room.migration.Migration
 import android.content.Context
+import androidx.annotation.VisibleForTesting
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import se.torgammelgard.pokertrax.model.converters.Converters
 import se.torgammelgard.pokertrax.model.dao.GameStructureDao
 import se.torgammelgard.pokertrax.model.dao.GameTypeDao
 import se.torgammelgard.pokertrax.model.dao.SessionDao
-import se.torgammelgard.pokertrax.model.converters.Converters
 import se.torgammelgard.pokertrax.model.entities.GameStructure
 import se.torgammelgard.pokertrax.model.entities.GameType
 import se.torgammelgard.pokertrax.model.entities.Session
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.db.SupportSQLiteOpenHelper
-import android.arch.persistence.room.*
-import android.support.annotation.VisibleForTesting
 
 
 @Database(entities = [GameStructure::class, Session::class, GameType::class], version = 2)

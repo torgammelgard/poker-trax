@@ -6,14 +6,11 @@ import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ListView
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import se.torgammelgard.pokertrax.MainApp
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.adapters.ResultAdapter
 import java.util.*
 
-class ResultsFragment : android.support.v4.app.Fragment(), AdapterView.OnItemLongClickListener {
+class ResultsFragment : androidx.fragment.app.Fragment(), AdapterView.OnItemLongClickListener {
     private var mActionMode: Any? = null
     private var mSelectedItemPos = -1
     private var mResultListView: ListView? = null
