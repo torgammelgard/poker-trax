@@ -8,13 +8,33 @@
     app:ignore="NamespaceTypo"
     app:layout_editor_absoluteY="81dp">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_gravity="end"
+        android:layout_marginBottom="8dp"
+        app2:itemBackground="@color/start_color"
+        app2:layout_constraintBottom_toBottomOf="parent"
+        app2:layout_constraintStart_toStartOf="@+id/fab_coordinator"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@color/pink"
+        app:itemTextColor="@color/pink"
+        app:menu="@menu/my_navigation_items">
 
-    <!--
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <ListView
         android:id="@+id/main_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app2:layout_constraintBottom_toTopOf="@+id/fab_coordinator"
+        app2:layout_constraintEnd_toEndOf="parent"
+        app2:layout_constraintStart_toStartOf="parent"
+        app2:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fab_coordinator"
@@ -39,20 +59,10 @@
             app:fabSize="normal"
             app:layout_conversion_absoluteHeight="43dp"
             app:layout_conversion_absoluteWidth="48dp"
+            android:visibility="visible"
             android:onClick="onClickFabAddSession"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        app2:itemBackground="@color/end_color_darker"
-        android:layout_marginBottom="8dp"
-        app2:layout_constraintBottom_toBottomOf="parent"
-        app2:layout_constraintStart_toStartOf="@+id/fab_coordinator"
-        app:menu="@menu/my_navigation_items">
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
