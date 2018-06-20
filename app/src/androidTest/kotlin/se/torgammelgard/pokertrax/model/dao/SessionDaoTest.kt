@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import se.torgammelgard.pokertrax.model.database.AppDatabase
-import se.torgammelgard.pokertrax.model.entities.GameStructure
+import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
 import se.torgammelgard.pokertrax.model.entities.GameType
 import se.torgammelgard.pokertrax.model.entities.Session
 import java.util.*
@@ -39,7 +39,7 @@ class SessionDaoTest {
         val gameType = GameType(1, "No limit")
         gameTypeDao.add(gameType)
 
-        val gameStructure = GameStructure(1, 100, 200, 50)
+        val gameStructure = GameStructureImpl(1, 100, 200, 50)
         gameStructureDao.add(gameStructure)
 
         // TODO how to test this without having game_reference, should it be nullable?

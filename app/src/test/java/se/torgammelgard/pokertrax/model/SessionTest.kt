@@ -20,5 +20,6 @@ class SessionTest {
         assertEquals(Date(), session.date)
         assertEquals(0, session.result)
         assertEquals("", session.game_notes)
+        assertNotNull(session)
     }
 }

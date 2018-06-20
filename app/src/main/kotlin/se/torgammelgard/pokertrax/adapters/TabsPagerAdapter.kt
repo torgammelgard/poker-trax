@@ -2,6 +2,7 @@ package se.torgammelgard.pokertrax.adapters
 
 import android.app.ActionBar
 import android.app.FragmentTransaction
+import androidx.fragment.app.Fragment
 import se.torgammelgard.pokertrax.fragments.GraphFragment
 import se.torgammelgard.pokertrax.fragments.MainFragment
 import se.torgammelgard.pokertrax.fragments.ResultsFragment
@@ -21,7 +22,7 @@ class TabsPagerAdapter(activity: androidx.fragment.app.FragmentActivity, private
         notifyDataSetChanged()
     }
 
-    override fun getItem(item: Int): androidx.fragment.app.Fragment? {
+    override fun getItem(item: Int): Fragment? {
         when (item) {
             0 -> return MainFragment()
 

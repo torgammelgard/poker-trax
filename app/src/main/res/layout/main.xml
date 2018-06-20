@@ -1,53 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/tools"
+    xmlns:app2="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:ignore="NamespaceTypo">
+    app:ignore="NamespaceTypo"
+    app:layout_editor_absoluteY="81dp">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
+
+    <!--
+
+    <ListView
+        android:id="@+id/main_list_view"
         android:layout_width="match_parent"
+        android:layout_height="match_parent" />-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fab_coordinator"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="#FF0000">
+        android:layout_marginBottom="8dp"
+        app2:layout_constraintBottom_toTopOf="@+id/navigation"
+        app2:layout_constraintEnd_toEndOf="parent"
+        app2:layout_constraintStart_toStartOf="parent"
+        app2:layout_constraintTop_toTopOf="@+id/navigation">
 
-    </androidx.appcompat.widget.Toolbar>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:id="@+id/main_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_session"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/navigation"
-            android:layout_marginBottom="72dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_add_black_24dp"
+            app2:layout_constraintBottom_toBottomOf="parent"
+            app2:layout_constraintEnd_toEndOf="parent"
+            app2:layout_constraintTop_toBottomOf="parent"
+            app:fabSize="normal"
+            app:layout_conversion_absoluteHeight="43dp"
+            app:layout_conversion_absoluteWidth="48dp"
+            android:onClick="onClickFabAddSession"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:src="@drawable/ic_add_black_24dp"
-                app:fabSize="normal" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        app2:itemBackground="@color/end_color_darker"
+        android:layout_marginBottom="8dp"
+        app2:layout_constraintBottom_toBottomOf="parent"
+        app2:layout_constraintStart_toStartOf="@+id/fab_coordinator"
+        app:menu="@menu/my_navigation_items">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="end"
-            app:menu="@menu/my_navigation_items" />
-    </RelativeLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

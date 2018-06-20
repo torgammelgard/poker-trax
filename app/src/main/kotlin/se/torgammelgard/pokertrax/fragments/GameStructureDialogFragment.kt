@@ -11,7 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.model.entities.GameStructure
+import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
 
 /**
  * TODO: Class header comment.
@@ -21,7 +21,7 @@ class GameStructureDialogFragment : DialogFragment() {
     private var mListener: GameStructureListener? = null
 
     interface GameStructureListener {
-        fun doGameStructureDialogPositiveClick(gameStructure: GameStructure)
+        fun doGameStructureDialogPositiveClick(gameStructureImpl: GameStructureImpl)
         fun doGameStructureDialogNegativeClick()
     }
 
@@ -51,7 +51,7 @@ class GameStructureDialogFragment : DialogFragment() {
 
         dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             try {
-                val g = gameStructure
+                val g = gameStructureImpl
                 mListener!!.doGameStructureDialogPositiveClick(g)
                 dialog.dismiss()
             } catch (e: NumberFormatException) {
@@ -78,7 +78,7 @@ class GameStructureDialogFragment : DialogFragment() {
 
     }
 
-    private val gameStructure: GameStructure
+    private val gameStructureImpl: GameStructureImpl
         @Throws(NumberFormatException::class)
         get() {
             val smallBlind: Int
@@ -100,10 +100,10 @@ class GameStructureDialogFragment : DialogFragment() {
                 throw NumberFormatException("Fill in the blinds")
             }
 
-            val g = GameStructure()
-            gameStructure.smallBlind = smallBlind
-            gameStructure.bigBlind = bigBlind
-            gameStructure.ante = ante
+            val g = GameStructureImpl()
+            gameStructureImpl.smallBlind = smallBlind
+            gameStructureImpl.bigBlind = bigBlind
+            gameStructureImpl.ante = ante
             return g
         }
 

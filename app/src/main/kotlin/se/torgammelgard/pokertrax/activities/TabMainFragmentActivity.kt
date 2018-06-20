@@ -53,7 +53,7 @@ class TabMainFragmentActivity : FragmentActivity() {
             mHelper!!.consumeAsync(inv.getPurchase(SKU_PREMIUM), mConsumeFinishedListener)
         }
     }
-    private var mConsumeFinishedListener = IabHelper.OnConsumeFinishedListener { purchase, result ->
+    private var mConsumeFinishedListener = IabHelper.OnConsumeFinishedListener { _, result ->
         if (result.isSuccess) {
             val settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             val editor = settings.edit()
@@ -71,7 +71,7 @@ class TabMainFragmentActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.tab_main)
+        setContentView(R.layout.main)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 

@@ -13,7 +13,7 @@ import org.jetbrains.anko.*
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
-import se.torgammelgard.pokertrax.model.entities.GameStructure
+import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
 import se.torgammelgard.pokertrax.model.entities.Session
 import se.torgammelgard.pokertrax.model.repositories.GameStructureRepository
 import se.torgammelgard.pokertrax.model.repositories.GameTypeRepository
@@ -29,7 +29,8 @@ class AddSessionActivity : Activity(),
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener,
         LocationDialogFragment.LocationDialogListener,
-        GameStructureDialogFragment.GameStructureListener {
+        GameStructureDialogFragment.GameStructureListener,
+        AnkoLogger {
 
     @Inject lateinit var gameTypeRepository: GameTypeRepository
     @Inject lateinit var gameStructureRepository: GameStructureRepository
@@ -81,6 +82,7 @@ class AddSessionActivity : Activity(),
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                         mGameTypeRef = id.toInt() + 1
                         // TODO: add a new addGameTypeActivity
+                        info { "Game type selected" }
                     }
                     override fun onNothingSelected(parent: AdapterView<*>) {
                     }
@@ -142,8 +144,11 @@ class AddSessionActivity : Activity(),
                             g.show(fragmentManager, "g")
 
                             // TODO add a real game structure
-                            gameStructureRepository.add(se.torgammelgard.pokertrax.model.entities.GameStructure(100, 28, 56, 14))
-                            Log.d(LOG, "Adding new game structure")
+                            doAsync {
+                                gameStructureRepository.add(GameStructureImpl(100, 28, 56, 14))
+                                Log.d(LOG, "Adding new game structure")
+                            }
+
                         } else {
                             mGameStructureRef = id.toInt() + 1
                         }
@@ -246,12 +251,12 @@ class AddSessionActivity : Activity(),
         mLocationSpinner?.invalidate()
     }
 
-    override fun doGameStructureDialogPositiveClick(gameStructure: GameStructure) {
+    override fun doGameStructureDialogPositiveClick(gameStructureImpl: GameStructureImpl) {
         mGameStructureAdapter?.remove(NEW_ITEM_STR)
-        mGameStructureAdapter?.add(gameStructure.toString())
+        mGameStructureAdapter?.add(gameStructureImpl.toString())
         mGameStructureAdapter?.notifyDataSetChanged()
         mGameStructureRef = mGameStructureAdapter?.count as Int
-        gameStructureRepository.add(gameStructure)
+        gameStructureRepository.add(gameStructureImpl)
     }
 
     override fun doGameStructureDialogNegativeClick() {

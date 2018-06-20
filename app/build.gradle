@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'project-report'
+apply plugin: 'org.jetbrains.dokka-android'
 
 android {
     compileSdkVersion 28
@@ -45,10 +46,18 @@ android {
     }
 }
 
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
+
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/javadoc"
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
-    //implementation 'com.android.support:support-v4:28.0.0-alpha3'
 
     // Graph view
     implementation 'com.jjoe64:graphview:4.2.2'
@@ -60,7 +69,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlin:kotlin-test:${rootProject.ext.kotlin_version}"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${rootProject.ext.kotlin_version}"
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.7.19'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation 'org.robolectric:robolectric:3.4'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
     androidTestImplementation 'androidx.test:rules:1.1.0-alpha3'
@@ -83,4 +92,7 @@ dependencies {
 
     // Material
     implementation 'com.google.android.material:material:1.0.0-alpha3'
+
+    // Layout
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 }
