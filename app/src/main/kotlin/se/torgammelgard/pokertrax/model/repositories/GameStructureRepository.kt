@@ -1,7 +1,7 @@
 package se.torgammelgard.pokertrax.model.repositories
 
 import se.torgammelgard.pokertrax.model.dao.GameStructureDao
-import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
 import javax.inject.Inject
 
 class GameStructureRepository @Inject constructor(val gameStructureDao: GameStructureDao){

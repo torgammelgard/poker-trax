@@ -11,7 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
 
 /**
  * TODO: Class header comment.

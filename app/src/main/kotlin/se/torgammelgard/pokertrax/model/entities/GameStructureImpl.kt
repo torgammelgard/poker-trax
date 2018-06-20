@@ -1,11 +1,11 @@
-package se.torgammelgard.pokertrax.model.entities.impl
+package se.torgammelgard.pokertrax.model.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "game_structure")
-open class GameStructureImpl {
+class GameStructureImpl {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")

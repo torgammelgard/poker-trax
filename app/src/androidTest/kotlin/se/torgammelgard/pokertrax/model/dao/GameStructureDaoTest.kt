@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import se.torgammelgard.pokertrax.model.database.AppDatabase
-import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
 
 @RunWith(AndroidJUnit4::class)
 class GameStructureDaoTest {

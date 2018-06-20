@@ -12,7 +12,7 @@ import se.torgammelgard.pokertrax.model.converters.Converters
 import se.torgammelgard.pokertrax.model.dao.GameStructureDao
 import se.torgammelgard.pokertrax.model.dao.GameTypeDao
 import se.torgammelgard.pokertrax.model.dao.SessionDao
-import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
 import se.torgammelgard.pokertrax.model.entities.GameType
 import se.torgammelgard.pokertrax.model.entities.Session
 

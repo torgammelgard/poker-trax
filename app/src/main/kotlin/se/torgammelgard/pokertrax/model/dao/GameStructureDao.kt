@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
 
 @Dao
 interface GameStructureDao {

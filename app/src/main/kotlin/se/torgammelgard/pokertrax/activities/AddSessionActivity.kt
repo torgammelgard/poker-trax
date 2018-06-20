@@ -13,7 +13,7 @@ import org.jetbrains.anko.*
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
-import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
 import se.torgammelgard.pokertrax.model.entities.Session
 import se.torgammelgard.pokertrax.model.repositories.GameStructureRepository
 import se.torgammelgard.pokertrax.model.repositories.GameTypeRepository

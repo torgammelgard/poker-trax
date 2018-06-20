@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import se.torgammelgard.pokertrax.model.database.AppDatabase
-import se.torgammelgard.pokertrax.model.entities.impl.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
 import se.torgammelgard.pokertrax.model.entities.GameType
 import se.torgammelgard.pokertrax.model.entities.Session
 import java.util.*
