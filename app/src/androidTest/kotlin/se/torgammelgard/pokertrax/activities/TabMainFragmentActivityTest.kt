@@ -5,6 +5,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -31,6 +32,15 @@ class TabMainFragmentActivityTest {
     @Test
     fun shouldOpenAddSessionScreen() {
         onView(withId(R.id.button_add)).perform(click())
-        intended(IntentMatchers.hasComponent(AddSessionActivity::class.java.name))
+        intended(hasComponent(AddSessionActivity::class.java.name))
     }
+
+    /**
+     * Verify that there is a floating action button for adding a new session
+     */
+    @Test
+    fun testActionButtonExists() {
+        onView(withId(R.id.fab_add_session)).check(matches(isDisplayed()))
+    }
+
 }
