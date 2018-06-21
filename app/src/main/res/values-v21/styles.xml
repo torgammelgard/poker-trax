@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Theme.MyAppTheme" parent="Theme.MaterialComponents.NoActionBar"/>
+
+
     <style name="AppThemeLight" parent="android:Theme.Material.Light">
         <item name="android:buttonStyle">@style/MyButtonStyle</item>
     </style>

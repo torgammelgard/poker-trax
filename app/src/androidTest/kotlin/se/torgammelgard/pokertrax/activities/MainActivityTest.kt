@@ -31,7 +31,7 @@ class MainActivityTest {
      */
     @Test
     fun testFloatingActionButton_Exists() {
-        onView(withId(R.id.fab_add_session)).check(matches(isDisplayed()))
+        onView(withId(R.id.floatingActionButton)).check(matches(isDisplayed()))
     }
 
     /**
@@ -40,7 +40,7 @@ class MainActivityTest {
      */
     @Test
     fun testFloatingActionButton_Works() {
-        onView(withId(R.id.fab_add_session)).perform(ViewActions.click())
+        onView(withId(R.id.floatingActionButton)).perform(ViewActions.click())
         Intents.intended(hasComponent(AddSessionActivity::class.java.name))
     }
 }

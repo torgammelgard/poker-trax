@@ -40,7 +40,7 @@ class TabMainFragmentActivityTest {
      */
     @Test
     fun testActionButtonExists() {
-        onView(withId(R.id.fab_add_session)).check(matches(isDisplayed()))
+        onView(withId(R.id.floatingActionButton)).check(matches(isDisplayed()))
     }
 
 }

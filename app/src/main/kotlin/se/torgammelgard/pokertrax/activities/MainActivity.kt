@@ -20,12 +20,8 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
+        //val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
 
-        bottomNavigationView.setOnNavigationItemSelectedListener {
-            setVisible(true)
-             true
-        }
     }
 
     @SuppressLint("UNUSED_PARAMETER")
