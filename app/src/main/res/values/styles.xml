@@ -60,7 +60,7 @@
     </style>
 
     <color name="start_color">#ff275fff</color>
-    <color name="start_color_darker">#ff10243c</color>
+    <color name="start_color_darker">#10243c</color>
     <color name="end_color">#ff21acff</color>
     <color name="end_color_darker">#ff081f3f</color>
 </resources>
