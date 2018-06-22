@@ -28,7 +28,9 @@
         android:clickable="true"
         android:onClick="onClickFabAddSession"
         android:focusable="true"
-        android:theme="@style/Theme.MyAppTheme"
+        android:theme="@style/MyFloatingActionButton"
+        android:src="@drawable/ic_add_black_24dp"
+        android:scaleType="center"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -132,7 +132,7 @@ class TabMainFragmentActivity : FragmentActivity() {
 
     override fun onMenuItemSelected(featureId: Int, item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> false
+            R.id.bottom_nav_item_sessions -> false
             else -> super.onMenuItemSelected(featureId, item)
         }
     }

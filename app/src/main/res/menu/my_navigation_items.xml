@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_search"
-        android:title="@string/menu_search"
-        android:icon="@drawable/ic_search_black_24dp" />
-    <item android:id="@+id/action_settings"
+    <item android:id="@+id/bottom_nav_item_sessions"
         android:title="@string/menu_settings"
-        android:icon="@drawable/ic_add_black_24dp" />
-    <item android:id="@+id/action_navigation"
-        android:title="@string/menu_navigation"
-        android:icon="@drawable/ic_menu_black_24dp" />
+        android:icon="@drawable/baseline_list_white_24dp" />
+    <item android:id="@+id/bottom_nav_item_graph"
+        android:title="@string/menu_search"
+        android:icon="@drawable/baseline_show_chart_white_24dp" />
+    <item android:id="@+id/bottom_nav_item_summary"
+        android:title="@string/summary"
+        android:icon="@drawable/summary_24dp" />
 </menu>

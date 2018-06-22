@@ -49,6 +49,5 @@
     <string name="premium">Premium</string>
     <string name="menu_settings">Sessions</string>
     <string name="menu_search">Graph</string>
-    <string name="menu_navigation">News</string>
     <string name="dummy" translatable="false">DUMMY</string>
 </resources>
