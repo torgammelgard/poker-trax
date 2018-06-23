@@ -54,11 +54,11 @@ abstract class AppDatabase : RoomDatabase() {
                 database.execSQL("CREATE TABLE IF NOT EXISTS 'session' " +
                         "('_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                         "'date' INTEGER, " +
-                        "'duration' INTEGER NOT NULL, " +
+                        "'duration' INTEGER, " +
                         "'result' INTEGER NOT NULL, " +
-                        "'game_structure' INTEGER NOT NULL, " +
-                        "'game_type' INTEGER NOT NULL, " +
-                        "'location' TEXT NOT NULL, " +
+                        "'game_structure' INTEGER, " +
+                        "'game_type' INTEGER, " +
+                        "'location' TEXT, " +
                         "'game_info' TEXT, " +
                         "FOREIGN KEY(`game_structure`) REFERENCES `game_structure`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE," +
                         "FOREIGN KEY(`game_type`) REFERENCES `game_type`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE)")
@@ -72,9 +72,9 @@ abstract class AppDatabase : RoomDatabase() {
                 database.execSQL("ALTER TABLE 'game_structure' RENAME TO 'game_structure_old'")
                 database.execSQL("CREATE TABLE IF NOT EXISTS 'game_structure'(" +
                         "'_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                        "'small_blind' INTEGER NOT NULL," +
-                        "'big_blind' INTEGER NOT NULL," +
-                        "'ante' INTEGER NOT NULL)")
+                        "'small_blind' INTEGER," +
+                        "'big_blind' INTEGER," +
+                        "'ante' INTEGER)")
                 // Copy data from old table
                 database.execSQL("INSERT INTO 'game_structure' (small_blind, big_blind, ante) " + "SELECT small_blind, big_blind, ante FROM game_structure_old")
                 // Clean up

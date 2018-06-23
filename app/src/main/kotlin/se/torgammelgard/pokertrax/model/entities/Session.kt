@@ -16,14 +16,14 @@ class Session {
     var id: Long = 0
 
     @ColumnInfo(name = "game_type")
-    var gameTypeReference: Int = 0
+    var gameTypeReference: Int? = 0
 
-    var location: String = ""
+    var location: String? = ""
 
     @ColumnInfo(name = "game_structure")
-    var gameStructureReference: Int = 0
+    var gameStructureReference: Int? = 0
 
-    var duration: Int = 0
+    var duration: Int? = 0
 
     @TypeConverters(Converters::class)
     var date: Date? = null

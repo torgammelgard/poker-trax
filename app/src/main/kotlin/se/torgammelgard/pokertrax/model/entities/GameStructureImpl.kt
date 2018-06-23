@@ -13,13 +13,13 @@ class GameStructureImpl {
 
     /** blinds and antes are stored in cents */
     @ColumnInfo(name = "small_blind")
-    var smallBlind: Int = 0
+    var smallBlind: Int? = 0
 
     @ColumnInfo(name = "big_blind")
-    var bigBlind: Int = 0
+    var bigBlind: Int? = 0
 
     @ColumnInfo(name = "ante")
-    var ante: Int = 0
+    var ante: Int? = 0
 
     constructor()
 
