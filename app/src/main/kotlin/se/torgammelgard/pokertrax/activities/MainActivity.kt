@@ -38,7 +38,6 @@ class MainActivity : FragmentActivity(), AnkoLogger {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bottom_nav_item_sessions -> {
-                    info { "bottom_nav_item_sessions clicked" }
                     replaceFragment(SessionsFragment())
                     addSessionFAB.show()
                 }
