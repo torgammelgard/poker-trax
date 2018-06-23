@@ -1,5 +1,6 @@
 package se.torgammelgard.pokertrax.activities
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +20,12 @@ class SessionAdapter(private val sessionsData: Array<Session>) : RecyclerView.Ad
             result.text = session.result.toString()
             location.text = session.location
             date.text = session.date.toString()
+            if (session.result >= 0) result.setTextColor(Color.GREEN) else result.setTextColor(Color.RED)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SessionAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.session_view, parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.session_view, parent, false)
         return ViewHolder(view)
     }
 
