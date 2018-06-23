@@ -1,68 +1,66 @@
 package se.torgammelgard.pokertrax.activities
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.model.entities.Session
-import java.util.*
+import se.torgammelgard.pokertrax.fragments.GraphFragment
+import se.torgammelgard.pokertrax.fragments.SessionsFragment
+import se.torgammelgard.pokertrax.fragments.ResultsFragment
 
 /**
  * Main activity, responsible to be informative and simple to use
  */
-class MainActivity : Activity() {
+class MainActivity : FragmentActivity(), AnkoLogger {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-
-    private val mDummySessions = arrayOf(
-            Session().apply {
-                location = "Home game"
-                result = 28
-                date = Date(350_000_000)
-            },
-            Session().apply {
-                location = "Commerce Casino"
-                result = 2300
-                date = Date(360_000_000)
-            },
-            Session().apply {
-                location = "The Bike"
-                result = -1100
-                date = Date(370_000_000)
-            })
+    private lateinit var addSessionFAB: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
 
-        // RecyclerView
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = SessionAdapter(mDummySessions)
-
-        recyclerView = findViewById<RecyclerView>(R.id.sessions_recyclerview).apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
+        addSessionFAB = findViewById(R.id.floatingActionButton)
 
         // BottomNavigationView
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
-        bottomNavigationView.setOnNavigationItemSelectedListener {
-            item ->
+
+        // init sessions fragment
+        val sessionFragment = SessionsFragment()
+        supportFragmentManager.beginTransaction().add(sessionFragment, "sessions").commit()
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.bottom_nav_item_sessions -> { TODO("Implement") }
-                R.id.bottom_nav_item_graph -> { TODO("Implement") }
-                R.id.bottom_nav_item_summary -> { TODO("Implement") }
+                R.id.bottom_nav_item_sessions -> {
+                    info { "bottom_nav_item_sessions clicked" }
+                    replaceFragment(SessionsFragment())
+                    addSessionFAB.show()
+                }
+                R.id.bottom_nav_item_graph -> {
+                    replaceFragment(GraphFragment())
+                    addSessionFAB.hide()
+                }
+                R.id.bottom_nav_item_summary -> {
+                    replaceFragment(ResultsFragment())
+                    addSessionFAB.hide()
+                }
             }
             return@setOnNavigationItemSelectedListener true
         }
+
+        bottomNavigationView.selectedItemId = R.id.bottom_nav_item_sessions
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.main_container, fragment)
+        transaction.commit()
     }
 
     @SuppressLint("UNUSED_PARAMETER")
