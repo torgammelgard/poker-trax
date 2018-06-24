@@ -87,8 +87,6 @@ class AddSessionActivity : FragmentActivity(),
 
         initGameStructureSpinner()
 
-
-
         //duration pick stuff
         mDurationPickButton = findViewById(R.id.button_duration)
         mDurationPickButton!!.text = String.format("%d h : %d min", mHoursPlayed, mMinutesPlayed)
@@ -130,25 +128,23 @@ class AddSessionActivity : FragmentActivity(),
             val locationsWithNewItem = locations.toMutableList()
             locationsWithNewItem.add(NEW_ITEM_STR)
 
-            activityUiThreadWithContext {
+            onComplete {
                 mLocationSpinner = findViewById(R.id.location_spinner)
-                mLocationAdapter = ArrayAdapter(this,
+                mLocationAdapter = ArrayAdapter(baseContext,
                         R.layout.my_simple_spinner_dropdown_item, locationsWithNewItem)
                 mLocationSpinner!!.adapter = mLocationAdapter
                 mLocationSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                        if (view == null)
-                            return
+                        val locationText = (view?.findViewById<View>(android.R.id.text1) as CheckedTextView).text.toString()
+                        val itemIsAtLastPosition = position == (parent.count - 1)
+
                         // check if new location is selected
-                        if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
-                                        .toString() == NEW_ITEM_STR) {
+                        if (itemIsAtLastPosition && locationText == NEW_ITEM_STR) {
                             //start new location dialog
                             val locationDialogFragment = LocationDialogFragment()
                             locationDialogFragment.show(supportFragmentManager, "locationDialog")
                         } else {
-                            mLocation = (view.findViewById<View>(android.R.id.text1) as CheckedTextView)
-                                    .text.toString()
-
+                            mLocation = locationText
                         }
                     }
 
@@ -166,9 +162,9 @@ class AddSessionActivity : FragmentActivity(),
             val gameStructureStringList = gameStructureList.mapTo(ArrayList()) { it.toString() }
             gameStructureStringList.add(NEW_ITEM_STR)
 
-            activityUiThreadWithContext {
+            onComplete {
                 mGameStructureSpinner = findViewById(R.id.game_structure_spinner)
-                mGameStructureAdapter = ArrayAdapter(this,
+                mGameStructureAdapter = ArrayAdapter(baseContext,
                         R.layout.my_simple_spinner_dropdown_item, gameStructureStringList)
                 mGameStructureSpinner!!.adapter = mGameStructureAdapter
                 mGameStructureSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -265,6 +261,7 @@ class AddSessionActivity : FragmentActivity(),
         mLocation = dialog.location
         mLocationAdapter?.remove(NEW_ITEM_STR)
         mLocationAdapter?.add(mLocation)
+        mLocationAdapter?.add(NEW_ITEM_STR)
         mLocationAdapter?.notifyDataSetChanged()
     }
 
