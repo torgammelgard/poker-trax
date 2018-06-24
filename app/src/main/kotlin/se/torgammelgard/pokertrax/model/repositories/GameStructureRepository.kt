@@ -4,7 +4,7 @@ import se.torgammelgard.pokertrax.model.dao.GameStructureDao
 import se.torgammelgard.pokertrax.model.entities.GameStructure
 import javax.inject.Inject
 
-class GameStructureRepository @Inject constructor(val gameStructureDao: GameStructureDao){
+class GameStructureRepository @Inject constructor(private val gameStructureDao: GameStructureDao){
 
     fun getAllGameStructures(): List<GameStructure> {
         return gameStructureDao.getAll()

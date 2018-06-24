@@ -4,7 +4,7 @@ import se.torgammelgard.pokertrax.model.dao.SessionDao
 import se.torgammelgard.pokertrax.model.entities.Session
 import javax.inject.Inject
 
-class SessionRepository @Inject constructor(val sessionDao: SessionDao){
+class SessionRepository @Inject constructor(private val sessionDao: SessionDao){
 
     fun getAllSessions(): List<Session> = sessionDao.getAll()
 
