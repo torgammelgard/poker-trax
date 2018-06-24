@@ -81,7 +81,28 @@ class AddSessionActivity : FragmentActivity(),
         setContentView(R.layout.add_session)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        // Game type stuff
+        initGameTypeSpinner()
+
+        initLocationSpinner()
+
+        initGameStructureSpinner()
+
+
+
+        //duration pick stuff
+        mDurationPickButton = findViewById(R.id.button_duration)
+        mDurationPickButton!!.text = String.format("%d h : %d min", mHoursPlayed, mMinutesPlayed)
+
+        //date pick stuff
+        mCalendar = Calendar.getInstance()
+        mDatePickButton = findViewById(R.id.button_pick_date)
+        mDatePickButton!!.text = mFormatter.format(mCalendar!!.time)
+
+        //result stuff
+
+    }
+
+    private fun initGameTypeSpinner() {
         doAsync {
             val gameTypes = gameTypeRepository.getAllGameTypes()
             ctx.runOnUiThread {
@@ -95,14 +116,15 @@ class AddSessionActivity : FragmentActivity(),
                         // TODO: add a new addGameTypeActivity
                         info { "Game type selected" }
                     }
+
                     override fun onNothingSelected(parent: AdapterView<*>) {
                     }
-                } }
+                }
+            }
         }
+    }
 
-
-
-        //Location stuff
+    private fun initLocationSpinner() {
         doAsync {
             val locations = sessionRepository.locations()
             val locationsWithNewItem = locations.toMutableList()
@@ -122,7 +144,7 @@ class AddSessionActivity : FragmentActivity(),
                                         .toString() == NEW_ITEM_STR) {
                             //start new location dialog
                             val locationDialogFragment = LocationDialogFragment()
-                            locationDialogFragment.show(fragmentManager, "locationDialog")
+                            locationDialogFragment.show(supportFragmentManager, "locationDialog")
                         } else {
                             mLocation = (view.findViewById<View>(android.R.id.text1) as CheckedTextView)
                                     .text.toString()
@@ -136,7 +158,9 @@ class AddSessionActivity : FragmentActivity(),
                 }
             }
         }
+    }
 
+    private fun initGameStructureSpinner() {
         doAsync {
             val gameStructureList = gameStructureRepository.getAllGameStructures()
             val gameStructureStringList = gameStructureList.mapTo(ArrayList()) { it.toString() }
@@ -169,20 +193,7 @@ class AddSessionActivity : FragmentActivity(),
                 }
             }
         }
-
-        //duration pick stuff
-        mDurationPickButton = findViewById(R.id.button_duration)
-        mDurationPickButton!!.text = String.format("%d h : %d min", mHoursPlayed, mMinutesPlayed)
-
-        //date pick stuff
-        mCalendar = Calendar.getInstance()
-        mDatePickButton = findViewById(R.id.button_pick_date)
-        mDatePickButton!!.text = mFormatter.format(mCalendar!!.time)
-
-        //result stuff
-
     }
-
     fun durationPickOnClick(view: View) {
         val timePickerDialog = TimePickerDialog(this, this,
                 mHoursPlayed, mMinutesPlayed, true)
