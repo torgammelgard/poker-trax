@@ -2,10 +2,11 @@ package se.torgammelgard.pokertrax.model.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "game_structure")
-class GameStructureImpl {
+class GameStructure {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
@@ -21,12 +22,20 @@ class GameStructureImpl {
     @ColumnInfo(name = "ante")
     var ante: Int? = 0
 
+    @Ignore
     constructor()
 
-    constructor(id: Long, small_blind: Int, big_blind: Int, ante: Int) {
+    @Ignore
+    constructor(smallBlind: Int?, bigBlind: Int?, ante: Int?) {
+        this.smallBlind = smallBlind
+        this.bigBlind = bigBlind
+        this.ante = ante
+    }
+
+    constructor(id: Long, smallBlind: Int?, bigBlind: Int?, ante: Int?) {
         this.id = id
-        this.smallBlind = small_blind
-        this.bigBlind = big_blind
+        this.smallBlind = smallBlind
+        this.bigBlind = bigBlind
         this.ante = ante
     }
 

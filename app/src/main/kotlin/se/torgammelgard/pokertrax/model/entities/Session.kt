@@ -5,7 +5,7 @@ import androidx.room.ForeignKey.CASCADE
 import se.torgammelgard.pokertrax.model.converters.Converters
 import java.util.*
 
-@Entity(tableName = "session", foreignKeys = arrayOf(ForeignKey(entity = GameStructureImpl::class,
+@Entity(tableName = "session", foreignKeys = arrayOf(ForeignKey(entity = GameStructure::class,
         parentColumns = arrayOf("_id"), childColumns = arrayOf("game_structure"), onDelete = CASCADE),
         ForeignKey(entity = GameType::class,
                 parentColumns = arrayOf("_id"), childColumns = arrayOf("game_type"), onDelete = CASCADE)))

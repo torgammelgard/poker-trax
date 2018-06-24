@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import se.torgammelgard.pokertrax.model.database.AppDatabase
-import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructure
 
 @RunWith(AndroidJUnit4::class)
 class GameStructureDaoTest {
@@ -30,7 +30,7 @@ class GameStructureDaoTest {
 
     @Test
     fun testInsertGameStructure() {
-        val gameStructure = GameStructureImpl(1, 50, 100, 25)
+        val gameStructure = GameStructure(1, 50, 100, 25)
         gameStructureDao.add(gameStructure)
         val allGameStructures = gameStructureDao.getAll()
         Assert.assertEquals(1, allGameStructures.size)

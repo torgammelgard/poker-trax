@@ -3,6 +3,7 @@ package se.torgammelgard.pokertrax
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import javax.inject.Singleton
 
 @Singleton
@@ -22,4 +23,5 @@ interface ApplicationComponent {
     }
 
     fun inject(mainApp: MainApp)
+    fun inject(gameStructureDialogFragment: GameStructureDialogFragment)
 }

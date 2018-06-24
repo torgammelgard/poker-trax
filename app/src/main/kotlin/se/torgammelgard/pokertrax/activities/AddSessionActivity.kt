@@ -8,12 +8,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.fragment.app.FragmentActivity
 import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import org.jetbrains.anko.*
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
 import se.torgammelgard.pokertrax.fragments.LocationDialogFragment
-import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructure
 import se.torgammelgard.pokertrax.model.entities.Session
 import se.torgammelgard.pokertrax.model.repositories.GameStructureRepository
 import se.torgammelgard.pokertrax.model.repositories.GameTypeRepository
@@ -25,12 +29,19 @@ import javax.inject.Inject
 /**
  * Lets the user add a session
  */
-class AddSessionActivity : Activity(),
+class AddSessionActivity : FragmentActivity(),
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener,
         LocationDialogFragment.LocationDialogListener,
         GameStructureDialogFragment.GameStructureListener,
+        HasSupportFragmentInjector,
         AnkoLogger {
+
+    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
+        return fragmentInjector
+    }
+
+    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
     @Inject lateinit var gameTypeRepository: GameTypeRepository
     @Inject lateinit var gameStructureRepository: GameStructureRepository
@@ -140,12 +151,12 @@ class AddSessionActivity : Activity(),
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                         if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
                                         .toString() == NEW_ITEM_STR) {
-                            val g = GameStructureDialogFragment.newInstance()
-                            g.show(fragmentManager, "g")
+                            val g = GameStructureDialogFragment()
+                            g.show(supportFragmentManager, "g")
 
                             // TODO add a real game structure
                             doAsync {
-                                gameStructureRepository.add(GameStructureImpl(100, 28, 56, 14))
+                                gameStructureRepository.add(GameStructure(100, 28, 56, 14))
                                 Log.d(LOG, "Adding new game structure")
                             }
 
@@ -251,12 +262,12 @@ class AddSessionActivity : Activity(),
         mLocationSpinner?.invalidate()
     }
 
-    override fun doGameStructureDialogPositiveClick(gameStructureImpl: GameStructureImpl) {
+    override fun doGameStructureDialogPositiveClick(gameStructure: GameStructure) {
         mGameStructureAdapter?.remove(NEW_ITEM_STR)
-        mGameStructureAdapter?.add(gameStructureImpl.toString())
+        mGameStructureAdapter?.add(gameStructure.toString())
         mGameStructureAdapter?.notifyDataSetChanged()
         mGameStructureRef = mGameStructureAdapter?.count as Int
-        gameStructureRepository.add(gameStructureImpl)
+        gameStructureRepository.add(gameStructure)
     }
 
     override fun doGameStructureDialogNegativeClick() {

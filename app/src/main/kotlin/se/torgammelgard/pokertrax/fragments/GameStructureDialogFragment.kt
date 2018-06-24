@@ -1,38 +1,42 @@
 package se.torgammelgard.pokertrax.fragments
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.app.DialogFragment
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
-
+import androidx.fragment.app.DialogFragment
+import dagger.android.support.AndroidSupportInjection
+import org.jetbrains.anko.*
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructure
+import se.torgammelgard.pokertrax.model.repositories.GameStructureRepository
+import javax.inject.Inject
 
 /**
- * TODO: Class header comment.
+ * Dialog for adding a game structure
  */
-class GameStructureDialogFragment : DialogFragment() {
+class GameStructureDialogFragment : DialogFragment(), AnkoLogger {
+
+    @Inject
+    lateinit var gameStructureRepository: GameStructureRepository
 
     private var mListener: GameStructureListener? = null
 
     interface GameStructureListener {
-        fun doGameStructureDialogPositiveClick(gameStructureImpl: GameStructureImpl)
+        fun doGameStructureDialogPositiveClick(gameStructure: GameStructure)
         fun doGameStructureDialogNegativeClick()
     }
 
-
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
 
         try {
-            mListener = activity as GameStructureListener
+            mListener = context as GameStructureListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(activity.toString() + "must implement " +
+            throw ClassCastException(context.toString() + "must implement " +
                     "GameStructureDialogFragment.GameStructureListener")
         }
 
@@ -49,21 +53,25 @@ class GameStructureDialogFragment : DialogFragment() {
 
         val dialog = dialog as AlertDialog
 
-        dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            try {
-                val g = gameStructureImpl
-                mListener!!.doGameStructureDialogPositiveClick(g)
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
+            doAsync {
+                info { "Adding game structure" }
+                gameStructure?.let { gameStructure ->
+                    gameStructureRepository.add(gameStructure)
+                    onComplete {
+                        info { "Finished adding game structure" }
+                        mListener?.doGameStructureDialogPositiveClick(gameStructure)
+                        dialog.dismiss()
+                    }
+                }
                 dialog.dismiss()
-            } catch (e: NumberFormatException) {
-                Toast.makeText(activity, e.message,
-                        Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = activity.layoutInflater
-        val view = inflater.inflate(R.layout.add_game_structure, null)
+        val inflater = activity?.layoutInflater
+        val view = inflater?.inflate(R.layout.add_game_structure, null)
         return AlertDialog.Builder(activity)
                 .setView(view)
                 .setTitle(resources.getString(R.string.game_structure_dialog_title))
@@ -78,41 +86,24 @@ class GameStructureDialogFragment : DialogFragment() {
 
     }
 
-    private val gameStructureImpl: GameStructureImpl
-        @Throws(NumberFormatException::class)
+    private val gameStructure: GameStructure?
         get() {
-            val smallBlind: Int
-            val bigBlind: Int
-            val ante: Int
+            val smallBlindText = (dialog.findViewById<View>(R.id.editText) as EditText).text.toString()
+            val bigBlindText = (dialog.findViewById<View>(R.id.editText2) as EditText).text.toString()
+            val anteText = (dialog.findViewById<View>(R.id.editText3) as EditText).text.toString()
+            val smallBlind: Int?
+            val bigBlind: Int?
+            val ante: Int?
             try {
-                val sb = 100 * java.lang.Double.valueOf((dialog.findViewById<View>(R.id.editText) as EditText).text.toString())!!
-                smallBlind = sb.toInt()
-                val bb = 100 * java.lang.Double.valueOf((dialog.findViewById<View>(R.id.editText2) as EditText).text.toString())!!
-                bigBlind = bb.toInt()
-                val anteStr = (dialog.findViewById<View>(R.id.editText3) as EditText).text.toString()
-                if (anteStr != "") {
-                    val a = 100 * java.lang.Double.valueOf(anteStr)!!
-                    ante = a.toInt()
-                } else
-                    ante = 0
-                Log.d(LOG, String.format("sb:%d bb:%d ante:%d", smallBlind, bigBlind, ante))
+                smallBlind = if (smallBlindText.isNotBlank()) (100 * smallBlindText.toDouble()).toInt() else null
+                bigBlind = if (bigBlindText.isNotBlank()) (100 * bigBlindText.toDouble()).toInt() else null
+                ante = if (anteText.isNotBlank()) (anteText.toDouble() * 100).toInt() else null
+                info { String.format("sb:%d bb:%d ante:%d", smallBlind, bigBlind, ante) }
             } catch (e: NumberFormatException) {
-                throw NumberFormatException("Fill in the blinds")
+                error { "Couldn't cast input strings to numbers (Int). $e" }
+                return null
             }
 
-            val g = GameStructureImpl()
-            gameStructureImpl.smallBlind = smallBlind
-            gameStructureImpl.bigBlind = bigBlind
-            gameStructureImpl.ante = ante
-            return g
+            return GameStructure(smallBlind, bigBlind, ante)
         }
-
-    companion object {
-
-        private val LOG = "GameStructureDialog"
-
-        fun newInstance(): GameStructureDialogFragment {
-            return GameStructureDialogFragment()
-        }
-    }
 }

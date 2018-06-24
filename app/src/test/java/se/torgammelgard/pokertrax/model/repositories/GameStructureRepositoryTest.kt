@@ -5,7 +5,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.junit.MockitoJUnitRunner
 import se.torgammelgard.pokertrax.model.dao.GameStructureDao
-import se.torgammelgard.pokertrax.model.entities.GameStructureImpl
+import se.torgammelgard.pokertrax.model.entities.GameStructure
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -22,7 +22,7 @@ class GameStructureRepositoryTest {
 
     @Test
     fun testThing() {
-        val gameStructure = Mockito.mock(GameStructureImpl::class.java)
+        val gameStructure = Mockito.mock(GameStructure::class.java)
         gameStructureRepository.add(gameStructure)
         Mockito.verify(dao, times(1)).add(gameStructure)
     }
