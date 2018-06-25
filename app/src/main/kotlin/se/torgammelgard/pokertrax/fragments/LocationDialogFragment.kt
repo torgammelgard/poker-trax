@@ -1,22 +1,20 @@
 package se.torgammelgard.pokertrax.fragments
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import se.torgammelgard.pokertrax.R
 
 
 class LocationDialogFragment : DialogFragment() {
-    var location = ""
-        private set
 
     interface LocationDialogListener {
-        fun onDialogPositiveCheck(dialog: LocationDialogFragment)
-        fun onDialogNegativeCheck()
+        fun onLocationDialogPositiveCheck(location: String)
+        fun onLocationDialogNegativeCheck()
     }
 
     private var mListener: LocationDialogListener? = null
@@ -41,12 +39,11 @@ class LocationDialogFragment : DialogFragment() {
         val dialog = dialog as AlertDialog
         val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         positiveButton.setOnClickListener {
-            val editText = dialog.findViewById<EditText>(R.id.edit_location)
-            location = editText.text.toString()
+            val location = dialog.findViewById<EditText>(R.id.edit_location)?.text.toString()
             if (location.isBlank()) {
                 Toast.makeText(activity, "Enter a location", Toast.LENGTH_SHORT).show()
             } else {
-                mListener!!.onDialogPositiveCheck(this@LocationDialogFragment)
+                mListener!!.onLocationDialogPositiveCheck(location)
                 dismiss()
             }
         }
@@ -55,15 +52,14 @@ class LocationDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = activity?.layoutInflater
         val v = inflater?.inflate(R.layout.location_dialog, null, false)
-        return AlertDialog.Builder(activity)
+        return AlertDialog.Builder(requireContext())
                 .setView(v)
                 .setTitle(R.string.locationDialogText)
                 .setPositiveButton(R.string.ok) { dialog, which ->
                     //overridden in onStart
                 }
                 .setNegativeButton(R.string.cancel) { dialog, which ->
-                    mListener!!.onDialogNegativeCheck()
-                    dialog.dismiss()
+                    //overridden in onStart
                 }
                 .create()
     }

@@ -22,6 +22,7 @@
     <string name="add">Add</string>
 
     <string name="locationDialogText">New place</string>
+    <string name="gameTypeDialogTitle">New game type (ex No Limit, Omaha)</string>
     <string name="ok">OK</string>
     <string name="summary_profit">Profit</string>
     <string name="summary_total">Total</string>

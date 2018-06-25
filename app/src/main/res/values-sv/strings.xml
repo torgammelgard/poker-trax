@@ -38,4 +38,5 @@
     <string name="menu_settings">menu_settings</string>
     <string name="menu_search">menu_search_placeholder</string>
     <string name="menu_navigation">menu_navigation_placeholder</string>
+    <string name="gameTypeDialogTitle">Ny spelvariant (ex No-limit, Omaha)</string>
 </resources>

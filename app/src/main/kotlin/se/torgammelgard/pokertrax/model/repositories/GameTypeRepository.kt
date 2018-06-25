@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GameTypeRepository @Inject constructor(private val gameTypeDao: GameTypeDao){
 
-    fun getAllGameTypes(): List<GameType> = gameTypeDao.getAll()
+    fun getAll(): List<GameType> = gameTypeDao.getAll()
 
     fun add(gameType: GameType) = gameTypeDao.add(gameType)
 }
