@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.FragmentActivity
@@ -55,8 +54,8 @@ class AddSessionActivity : FragmentActivity(),
     lateinit var sessionRepository: SessionRepository
 
     private var mLocation: String = ""
-    private var mGameTypeRef: Int = 0
-    private var mGameStructureRef: Int = 0
+    private var mGameType: GameType? = null
+    private var mGameStructure: GameStructure? = null
     private var mHoursPlayed = 0
     private var mMinutesPlayed = 0
     private var mCalendar: Calendar? = null
@@ -65,17 +64,17 @@ class AddSessionActivity : FragmentActivity(),
     private var mDatePickButton: Button? = null
     private val mFormatter = SimpleDateFormat("dd MMM, yyyy")
 
-    private var mLocationAdapter: ArrayAdapter<String>? = null
-    private var mLocationSpinner: Spinner? = null
-    private var mGameStructureAdapter: ArrayAdapter<String>? = null
-    private var mGameStructureSpinner: Spinner? = null
-    private lateinit var mGameTypeAdapter: ArrayAdapter<String>
+    private lateinit var mLocationAdapter: ArrayAdapter<String>
+    private lateinit var mLocationSpinner: Spinner
+    private lateinit var mGameStructureAdapter: ArrayAdapter<GameStructure>
+    private lateinit var mGameStructureSpinner: Spinner
+    private lateinit var mGameTypeAdapter: ArrayAdapter<GameType>
     private lateinit var mGameTypeSpinner: Spinner
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt("locationspinneritemposition", mLocationSpinner!!.selectedItemPosition)
+        outState.putInt("locationspinneritemposition", mLocationSpinner.selectedItemPosition)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -111,8 +110,8 @@ class AddSessionActivity : FragmentActivity(),
 
     private fun initGameTypeSpinner() {
         doAsync {
-            val gameTypes = gameTypeRepository.getAll().map { gameType -> gameType.type }.toMutableList()
-            gameTypes.add(NEW_ITEM_STR)
+            val gameTypes = gameTypeRepository.getAll()//.toMutableList()
+            //gameTypes.add(NEW_ITEM_STR)
 
             onComplete {
                 mGameTypeSpinner = findViewById(R.id.gameType_spinner)
@@ -127,7 +126,7 @@ class AddSessionActivity : FragmentActivity(),
                             info { "Clicked new game type" }
                             val gameTypeDialogFragment = GameTypeDialogFragment()
                             gameTypeDialogFragment.show(supportFragmentManager, "game_type_fragment")
-                        } else mGameTypeRef = id.toInt() + 1
+                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -141,13 +140,11 @@ class AddSessionActivity : FragmentActivity(),
     private fun initLocationSpinner() {
         doAsync {
             val locations = sessionRepository.locations()
-            val locationsWithNewItem = locations.toMutableList()
-            locationsWithNewItem.add(NEW_ITEM_STR)
 
             onComplete {
                 mLocationSpinner = findViewById(R.id.location_spinner)
                 mLocationAdapter = ArrayAdapter(baseContext,
-                        R.layout.my_simple_spinner_dropdown_item, locationsWithNewItem)
+                        R.layout.my_simple_spinner_dropdown_item, locations)
                 mLocationSpinner!!.adapter = mLocationAdapter
                 mLocationSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -174,9 +171,7 @@ class AddSessionActivity : FragmentActivity(),
 
     private fun initGameStructureSpinner() {
         doAsync {
-            val gameStructures = gameStructureRepository.getAllGameStructures().mapTo(ArrayList()) { it.toString() }.toMutableList()
-            gameStructures.add(NEW_ITEM_STR)
-
+            val gameStructures = gameStructureRepository.getAllGameStructures()
             onComplete {
                 mGameStructureSpinner = findViewById(R.id.game_structure_spinner)
                 mGameStructureAdapter = ArrayAdapter(baseContext,
@@ -189,7 +184,7 @@ class AddSessionActivity : FragmentActivity(),
                             info { "Clicked new game structure" }
                             GameStructureDialogFragment().show(supportFragmentManager, "g")
                         } else {
-                            mGameStructureRef = id.toInt() + 1
+                            mGameStructure = mGameStructureAdapter.getItem(position)
                         }
                     }
                     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -231,9 +226,9 @@ class AddSessionActivity : FragmentActivity(),
         if (mHoursPlayed == 0 && mMinutesPlayed == 0)
             return null
         val session = Session()
-        session.gameTypeReference = mGameTypeRef
+        session.gameTypeReference = mGameType?.id?.toInt()
         session.location = mLocation
-        session.gameStructureReference = mGameStructureRef
+        session.gameStructureReference = mGameStructure?.id?.toInt()
         session.duration = mHoursPlayed * 60 + mMinutesPlayed
         session.date = mCalendar!!.time
         val resultEditText = findViewById<EditText>(R.id.result_editText)
@@ -256,8 +251,7 @@ class AddSessionActivity : FragmentActivity(),
         if (session != null) {
             doAsync {
                 sessionRepository.addSession(session)
-
-                uiThread {
+                onComplete {
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
@@ -268,33 +262,30 @@ class AddSessionActivity : FragmentActivity(),
     /** Adds a location to the location spinner */
     override fun onLocationDialogPositiveCheck(location: String) {
         mLocation = location
-        mLocationAdapter?.remove(NEW_ITEM_STR)
-        mLocationAdapter?.add(mLocation)
-        mLocationAdapter?.add(NEW_ITEM_STR)
-        mLocationAdapter?.notifyDataSetChanged()
+        mLocationAdapter.remove(NEW_ITEM_STR)
+        mLocationAdapter.add(mLocation)
+        mLocationAdapter.add(NEW_ITEM_STR)
+        mLocationAdapter.notifyDataSetChanged()
     }
 
     override fun onLocationDialogNegativeCheck() {
-        mLocationSpinner?.setSelection(0)
-        mLocationSpinner?.invalidate()
+        mLocationSpinner.setSelection(0)
+        mLocationSpinner.invalidate()
     }
 
     override fun doGameStructureDialogPositiveClick(gameStructure: GameStructure) {
-        mGameStructureAdapter?.remove(NEW_ITEM_STR)
-        mGameStructureAdapter?.add(gameStructure.toString())
-        mGameStructureAdapter?.notifyDataSetChanged()
-        mGameStructureRef = mGameStructureAdapter?.count as Int
+        mGameStructureAdapter.add(gameStructure)
+        mGameStructureAdapter.notifyDataSetChanged()
+        mGameStructure = gameStructure
     }
 
     override fun doGameStructureDialogNegativeClick() {
-        mGameStructureSpinner?.setSelection(0)
-        mGameStructureSpinner?.invalidate()
+        mGameStructureSpinner.setSelection(0)
+        mGameStructureSpinner.invalidate()
     }
 
     override fun onGameTypeDialogPositiveCheck(gameType: GameType) {
-        mGameTypeAdapter.remove(NEW_ITEM_STR)
-        mGameTypeAdapter.add(gameType.type)
-        mGameTypeAdapter.add(NEW_ITEM_STR)
+        mGameTypeAdapter.add(gameType)
         mGameTypeAdapter.notifyDataSetChanged()
     }
 
