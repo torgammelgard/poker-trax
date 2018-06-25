@@ -287,6 +287,7 @@ class AddSessionActivity : FragmentActivity(),
     override fun onGameTypeDialogPositiveCheck(gameType: GameType) {
         mGameTypeAdapter.add(gameType)
         mGameTypeAdapter.notifyDataSetChanged()
+        mGameType = gameType
     }
 
     override fun onGameTypeDialogNegativeCheck() {
