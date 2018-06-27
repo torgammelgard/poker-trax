@@ -8,5 +8,7 @@ class GameTypeRepository @Inject constructor(private val gameTypeDao: GameTypeDa
 
     fun getAll(): List<GameType> = gameTypeDao.getAll()
 
-    fun add(gameType: GameType) = gameTypeDao.add(gameType)
+    fun get(id: Long): GameType = gameTypeDao.get(id)
+
+    fun add(gameType: GameType) : Long = gameTypeDao.add(gameType)
 }

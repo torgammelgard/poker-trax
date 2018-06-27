@@ -120,17 +120,9 @@ class AddSessionActivity : FragmentActivity(),
                 mGameTypeSpinner.adapter = mGameTypeAdapter
                 mGameTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                        val gameTypeText = (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text.toString()
-                        val itemIsAtLastPosition = position == (parent.count - 1)
-                        if (itemIsAtLastPosition && gameTypeText == NEW_ITEM_STR) {
-                            info { "Clicked new game type" }
-                            val gameTypeDialogFragment = GameTypeDialogFragment()
-                            gameTypeDialogFragment.show(supportFragmentManager, "game_type_fragment")
-                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>) {
-
                     }
                 }
             }
@@ -149,20 +141,10 @@ class AddSessionActivity : FragmentActivity(),
                 mLocationSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                         val locationText = (view?.findViewById<View>(android.R.id.text1) as CheckedTextView).text.toString()
-                        val itemIsAtLastPosition = position == (parent.count - 1)
-
-                        // check if new location is selected
-                        if (itemIsAtLastPosition && locationText == NEW_ITEM_STR) {
-                            //start new location dialog
-                            val locationDialogFragment = LocationDialogFragment()
-                            locationDialogFragment.show(supportFragmentManager, "locationDialog")
-                        } else {
                             mLocation = locationText
-                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>) {
-
                     }
                 }
             }
@@ -179,13 +161,7 @@ class AddSessionActivity : FragmentActivity(),
                 mGameStructureSpinner!!.adapter = mGameStructureAdapter
                 mGameStructureSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                        if (position + 1 == parent.count && (view.findViewById<View>(android.R.id.text1) as CheckedTextView).text
-                                        .toString() == NEW_ITEM_STR) {
-                            info { "Clicked new game structure" }
-                            GameStructureDialogFragment().show(supportFragmentManager, "g")
-                        } else {
-                            mGameStructure = mGameStructureAdapter.getItem(position)
-                        }
+                        mGameStructure = mGameStructureAdapter.getItem(position)
                     }
                     override fun onNothingSelected(parent: AdapterView<*>) {
                     }
@@ -262,9 +238,7 @@ class AddSessionActivity : FragmentActivity(),
     /** Adds a location to the location spinner */
     override fun onLocationDialogPositiveCheck(location: String) {
         mLocation = location
-        mLocationAdapter.remove(NEW_ITEM_STR)
         mLocationAdapter.add(mLocation)
-        mLocationAdapter.add(NEW_ITEM_STR)
         mLocationAdapter.notifyDataSetChanged()
     }
 
@@ -285,9 +259,15 @@ class AddSessionActivity : FragmentActivity(),
     }
 
     override fun onGameTypeDialogPositiveCheck(gameType: GameType) {
-        mGameTypeAdapter.add(gameType)
-        mGameTypeAdapter.notifyDataSetChanged()
-        mGameType = gameType
+        // move this to fragment later
+        doAsync {
+            val addedGameTypeID = gameTypeRepository.add(gameType)
+            mGameType = gameTypeRepository.get(addedGameTypeID)
+            onComplete {
+                mGameTypeAdapter.add(gameType)
+                mGameTypeAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onGameTypeDialogNegativeCheck() {
@@ -295,9 +275,20 @@ class AddSessionActivity : FragmentActivity(),
         mGameTypeSpinner.invalidate()
     }
 
+    fun addGameType(view: View) {
+        GameTypeDialogFragment().show(supportFragmentManager, "game_type_dialog")
+    }
+
+    fun addLocation(view: View) {
+        LocationDialogFragment().show(supportFragmentManager, "location_dialog")
+    }
+
+    fun addGameStructure(view: View) {
+        GameStructureDialogFragment().show(supportFragmentManager, "game_structure_dialog")
+    }
+
     companion object {
         private const val LOG = "AddSessionActivity"
-        private const val NEW_ITEM_STR = "---new---"
     }
 }
 
