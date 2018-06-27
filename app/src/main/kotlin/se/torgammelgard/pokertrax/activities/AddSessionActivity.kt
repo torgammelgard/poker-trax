@@ -120,6 +120,7 @@ class AddSessionActivity : FragmentActivity(),
                 mGameTypeSpinner.adapter = mGameTypeAdapter
                 mGameTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                        mGameType = mGameTypeAdapter.getItem(position)
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>) {
