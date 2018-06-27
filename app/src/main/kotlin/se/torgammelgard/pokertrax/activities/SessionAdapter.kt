@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.model.entities.Session
 
-class SessionAdapter(private val sessionsData: Array<Session>) : RecyclerView.Adapter<SessionAdapter.ViewHolder>() {
+class SessionAdapter(private val sessionsData: List<Session>) : RecyclerView.Adapter<SessionAdapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val result: TextView = view.findViewById(R.id.session_result_view)
         val location: TextView = view.findViewById(R.id.session_location)
