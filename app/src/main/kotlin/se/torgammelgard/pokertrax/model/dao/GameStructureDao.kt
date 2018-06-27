@@ -12,6 +12,9 @@ interface GameStructureDao {
     @Query("SELECT * FROM game_structure")
     fun getAll(): List<GameStructure>
 
+    @Query("SELECT * FROM game_structure WHERE _id = :id")
+    fun get(id: Long): GameStructure
+
     @Insert(onConflict = REPLACE)
-    fun add(gameStructure: GameStructure)
+    fun add(gameStructure: GameStructure): Long
 }

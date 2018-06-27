@@ -6,11 +6,9 @@ import javax.inject.Inject
 
 class GameStructureRepository @Inject constructor(private val gameStructureDao: GameStructureDao){
 
-    fun getAllGameStructures(): List<GameStructure> {
-        return gameStructureDao.getAll()
-    }
+    fun getAllGameStructures(): List<GameStructure> = gameStructureDao.getAll()
 
-    fun add(gameStructure: GameStructure) {
-        gameStructureDao.add(gameStructure)
-    }
+    fun get(id: Long): GameStructure = gameStructureDao.get(id)
+
+    fun add(gameStructure: GameStructure): Long = gameStructureDao.add(gameStructure)
 }

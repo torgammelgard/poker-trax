@@ -8,7 +8,9 @@ class SessionRepository @Inject constructor(private val sessionDao: SessionDao){
 
     fun getAllSessions(): List<Session> = sessionDao.getAll()
 
-    fun addSession(session: Session) = sessionDao.add(session)
+    fun get(id: Long): Session = sessionDao.get(id)
+
+    fun addSession(session: Session): Long = sessionDao.add(session)
 
     fun numberOfSessions(): Int = sessionDao.numberOfSessions()
 

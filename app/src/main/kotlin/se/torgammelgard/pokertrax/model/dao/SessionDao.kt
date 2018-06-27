@@ -12,8 +12,11 @@ interface SessionDao {
     @Query("SELECT * FROM session")
     fun getAll(): List<Session>
 
+    @Query("SELECT * FROM session WHERE _id = :id")
+    fun get(id: Long): Session
+
     @Insert(onConflict = REPLACE)
-    fun add(session: Session)
+    fun add(session: Session): Long
 
     @Query("SELECT count(*) FROM session")
     fun numberOfSessions(): Int
