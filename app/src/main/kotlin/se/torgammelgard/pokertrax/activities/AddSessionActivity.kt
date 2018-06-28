@@ -80,7 +80,7 @@ class AddSessionActivity : FragmentActivity(),
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        mLocationSpinner!!.setSelection(savedInstanceState.getInt("locationspinneritemposition", 0))
+        mLocationSpinner.setSelection(savedInstanceState.getInt("locationspinneritemposition", 0))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,8 +110,7 @@ class AddSessionActivity : FragmentActivity(),
 
     private fun initGameTypeSpinner() {
         doAsync {
-            val gameTypes = gameTypeRepository.getAll()//.toMutableList()
-            //gameTypes.add(NEW_ITEM_STR)
+            val gameTypes = gameTypeRepository.getAll()
 
             onComplete {
                 mGameTypeSpinner = findViewById(R.id.gameType_spinner)
@@ -138,11 +137,11 @@ class AddSessionActivity : FragmentActivity(),
                 mLocationSpinner = findViewById(R.id.location_spinner)
                 mLocationAdapter = ArrayAdapter(baseContext,
                         R.layout.my_simple_spinner_dropdown_item, locations)
-                mLocationSpinner!!.adapter = mLocationAdapter
-                mLocationSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                mLocationSpinner.adapter = mLocationAdapter
+                mLocationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                         val locationText = (view?.findViewById<View>(android.R.id.text1) as CheckedTextView).text.toString()
-                            mLocation = locationText
+                        mLocation = locationText
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -159,11 +158,12 @@ class AddSessionActivity : FragmentActivity(),
                 mGameStructureSpinner = findViewById(R.id.game_structure_spinner)
                 mGameStructureAdapter = ArrayAdapter(baseContext,
                         R.layout.my_simple_spinner_dropdown_item, gameStructures)
-                mGameStructureSpinner!!.adapter = mGameStructureAdapter
-                mGameStructureSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                mGameStructureSpinner.adapter = mGameStructureAdapter
+                mGameStructureSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                         mGameStructure = mGameStructureAdapter.getItem(position)
                     }
+
                     override fun onNothingSelected(parent: AdapterView<*>) {
                     }
                 }
@@ -171,6 +171,7 @@ class AddSessionActivity : FragmentActivity(),
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun durationPickOnClick(view: View) {
         val timePickerDialog = TimePickerDialog(this, this,
                 mHoursPlayed, mMinutesPlayed, true)
@@ -183,6 +184,7 @@ class AddSessionActivity : FragmentActivity(),
         mDurationPickButton!!.text = String.format("%d h : %d min", mHoursPlayed, mMinutesPlayed)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun pickDateOnClick(view: View) {
         val datePickerDialog = DatePickerDialog(this, this,
                 0, 0, 0)
@@ -216,6 +218,7 @@ class AddSessionActivity : FragmentActivity(),
         return session
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun cancelActivityOnClick(view: View) {
         setResult(Activity.RESULT_CANCELED)
         finish()
@@ -223,6 +226,7 @@ class AddSessionActivity : FragmentActivity(),
 
     /** Adds the session to the database and finishes this activity
      * if this form is correctly filled in */
+    @Suppress("UNUSED_PARAMETER")
     fun addSessionOnClick(view: View) {
         val session = createSession()
         if (session != null) {
@@ -276,20 +280,19 @@ class AddSessionActivity : FragmentActivity(),
         mGameTypeSpinner.invalidate()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun addGameType(view: View) {
         GameTypeDialogFragment().show(supportFragmentManager, "game_type_dialog")
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun addLocation(view: View) {
         LocationDialogFragment().show(supportFragmentManager, "location_dialog")
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun addGameStructure(view: View) {
         GameStructureDialogFragment().show(supportFragmentManager, "game_structure_dialog")
-    }
-
-    companion object {
-        private const val LOG = "AddSessionActivity"
     }
 }
 
