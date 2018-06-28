@@ -6,6 +6,7 @@ import se.torgammelgard.pokertrax.activities.AddSessionActivity
 import se.torgammelgard.pokertrax.activities.MainActivity
 import se.torgammelgard.pokertrax.activities.TabMainFragmentActivity
 import se.torgammelgard.pokertrax.fragments.GameStructureDialogFragment
+import se.torgammelgard.pokertrax.fragments.GraphFragment
 import se.torgammelgard.pokertrax.fragments.SessionsFragment
 
 @Module
@@ -25,4 +26,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = arrayOf(SessionsFragmentModule::class))
     abstract fun bindSessionsFragment() : SessionsFragment
+
+    @ContributesAndroidInjector
+    abstract fun bindGraphFragment() : GraphFragment
 }
