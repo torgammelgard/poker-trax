@@ -51,4 +51,6 @@
     <string name="menu_settings">Sessions</string>
     <string name="menu_search">Graph</string>
     <string name="dummy" translatable="false">DUMMY</string>
+    <string name="select_time_played">Select time played</string>
+    <string name="menu_navigation">menu_navigation</string>
 </resources>

@@ -39,4 +39,5 @@
     <string name="menu_search">menu_search_placeholder</string>
     <string name="menu_navigation">menu_navigation_placeholder</string>
     <string name="gameTypeDialogTitle">Ny spelvariant (ex No-limit, Omaha)</string>
+    <string name="select_time_played">Välj speltid</string>
 </resources>

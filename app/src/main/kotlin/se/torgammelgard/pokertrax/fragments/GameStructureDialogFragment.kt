@@ -57,10 +57,11 @@ class GameStructureDialogFragment : DialogFragment(), AnkoLogger {
             doAsync {
                 info { "Adding game structure" }
                 gameStructure?.let { gameStructure ->
-                    gameStructureRepository.add(gameStructure)
+                    val id = gameStructureRepository.add(gameStructure)
+                    val addedGameStructure = gameStructureRepository.get(id)
                     onComplete {
                         info { "Finished adding game structure" }
-                        mListener?.doGameStructureDialogPositiveClick(gameStructure)
+                        mListener?.doGameStructureDialogPositiveClick(addedGameStructure)
                         dialog.dismiss()
                     }
                 }

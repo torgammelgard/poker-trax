@@ -240,6 +240,8 @@ class AddSessionActivity : FragmentActivity(),
                     finish()
                 }
             }
+        } else {
+            toast(R.string.select_time_played)
         }
     }
 
@@ -272,7 +274,7 @@ class AddSessionActivity : FragmentActivity(),
             val addedGameTypeID = gameTypeRepository.add(gameType)
             mGameType = gameTypeRepository.get(addedGameTypeID)
             onComplete {
-                mGameTypeAdapter.add(gameType)
+                mGameTypeAdapter.add(mGameType)
                 mGameTypeAdapter.notifyDataSetChanged()
             }
         }
