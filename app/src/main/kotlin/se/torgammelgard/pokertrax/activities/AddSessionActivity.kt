@@ -53,7 +53,7 @@ class AddSessionActivity : FragmentActivity(),
     @Inject
     lateinit var sessionRepository: SessionRepository
 
-    private var mLocation: String = ""
+    private var mLocation: String? = null
     private var mGameType: GameType? = null
     private var mGameStructure: GameStructure? = null
     private var mHoursPlayed = 0
@@ -141,7 +141,10 @@ class AddSessionActivity : FragmentActivity(),
                 mLocationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                         val locationText = (view?.findViewById<View>(android.R.id.text1) as CheckedTextView).text.toString()
-                        mLocation = locationText
+                        mLocation = when (locationText.trim()) {
+                            "" -> null
+                            else -> locationText.trim()
+                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>) {

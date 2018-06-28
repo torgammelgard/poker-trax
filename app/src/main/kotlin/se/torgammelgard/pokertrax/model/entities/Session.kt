@@ -18,7 +18,7 @@ class Session {
     @ColumnInfo(name = "game_type")
     var gameTypeReference: Int? = 0
 
-    var location: String? = ""
+    var location: String? = null
 
     @ColumnInfo(name = "game_structure")
     var gameStructureReference: Int? = 0

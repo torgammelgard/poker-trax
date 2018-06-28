@@ -21,6 +21,6 @@ interface SessionDao {
     @Query("SELECT count(*) FROM session")
     fun numberOfSessions(): Int
 
-    @Query("SELECT location FROM session")
+    @Query("SELECT DISTINCT location FROM session WHERE location <> ''")
     fun locations(): List<String>
 }
