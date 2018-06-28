@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.model.entities.Session
+import java.text.SimpleDateFormat
 
 class SessionAdapter(private val sessionsData: List<Session>) : RecyclerView.Adapter<SessionAdapter.ViewHolder>() {
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -17,9 +18,11 @@ class SessionAdapter(private val sessionsData: List<Session>) : RecyclerView.Ada
         val date: TextView = view.findViewById(R.id.session_date)
 
         fun bind(session: Session) {
-            result.text = session.result.toString()
+            val convertedResult = "${session.result / 100}"
+            result.text = convertedResult
             location.text = session.location
-            date.text = session.date.toString()
+            val formatter = SimpleDateFormat("yy-MM-dd")
+            date.text = formatter.format(session.date)
             if (session.result >= 0) result.setTextColor(Color.GREEN) else result.setTextColor(Color.RED)
         }
     }
