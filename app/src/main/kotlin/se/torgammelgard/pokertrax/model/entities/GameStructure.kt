@@ -39,4 +39,10 @@ class GameStructure {
         this.ante = ante
     }
 
+    override fun toString(): String {
+        return when (ante) {
+            null -> "${smallBlind!!.toInt() / 100} - ${bigBlind!!.toInt() / 100}"
+            else -> "${smallBlind!!.toInt() / 100} - ${bigBlind!!.toInt() / 100} ante ${ante!!.toInt() / 100}"
+        }
+    }
 }
