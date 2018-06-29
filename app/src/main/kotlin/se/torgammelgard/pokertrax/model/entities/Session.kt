@@ -16,12 +16,12 @@ class Session {
     var id: Long = 0
 
     @ColumnInfo(name = "game_type")
-    var gameTypeReference: Int? = 0
+    var gameTypeReference: Long? = 0
 
     var location: String? = null
 
     @ColumnInfo(name = "game_structure")
-    var gameStructureReference: Int? = 0
+    var gameStructureReference: Long? = 0
 
     var duration: Int? = 0
 
@@ -37,7 +37,7 @@ class Session {
 
     /** TODO should this be removed? Id shouldn't be used when inserting in database anyways */
     @Ignore
-    constructor(id: Long, gameTypeReference: Int, location: String, gameStructureReference: Int, duration: Int, date: Date?, result: Int, gameNotes: String?) {
+    constructor(id: Long, gameTypeReference: Long, location: String, gameStructureReference: Long, duration: Int, date: Date?, result: Int, gameNotes: String?) {
         this.id = id
         this.gameTypeReference = gameTypeReference
         this.location = location
@@ -50,7 +50,7 @@ class Session {
 
     /** Use this for insert without id */
     @Ignore
-    constructor(gameTypeReference: Int, location: String, gameStructureReference: Int, duration: Int, date: Date?, result: Int, gameNotes: String?) {
+    constructor(gameTypeReference: Long, location: String, gameStructureReference: Long, duration: Int, date: Date?, result: Int, gameNotes: String?) {
         this.gameTypeReference = gameTypeReference
         this.location = location
         this.gameStructureReference = gameStructureReference

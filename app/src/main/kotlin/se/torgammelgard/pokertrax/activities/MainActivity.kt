@@ -16,8 +16,8 @@ import dagger.android.support.HasSupportFragmentInjector
 import org.jetbrains.anko.AnkoLogger
 import se.torgammelgard.pokertrax.R
 import se.torgammelgard.pokertrax.fragments.GraphFragment
-import se.torgammelgard.pokertrax.fragments.ResultsFragment
 import se.torgammelgard.pokertrax.fragments.SessionsFragment
+import se.torgammelgard.pokertrax.fragments.SummaryFragment
 import javax.inject.Inject
 
 /**
@@ -28,7 +28,7 @@ class MainActivity : FragmentActivity(), HasSupportFragmentInjector, AnkoLogger 
     companion object {
         const val SESSIONS_FRAG_TAG = "sessions_fragment"
         const val GRAPH_FRAG_TAG = "graph_fragment"
-        const val RESULTS_FRAG_TAG = "results_fragment"
+        const val SUMMARY_FRAG_TAG = "summary_fragment"
     }
 
     private lateinit var addSessionFAB: FloatingActionButton
@@ -65,7 +65,7 @@ class MainActivity : FragmentActivity(), HasSupportFragmentInjector, AnkoLogger 
                     addSessionFAB.hide()
                 }
                 R.id.bottom_nav_item_summary -> {
-                    replaceFragment(ResultsFragment(), RESULTS_FRAG_TAG)
+                    replaceFragment(SummaryFragment(), SUMMARY_FRAG_TAG)
                     addSessionFAB.hide()
                 }
             }
@@ -87,7 +87,7 @@ class MainActivity : FragmentActivity(), HasSupportFragmentInjector, AnkoLogger 
         transaction.commit()
     }
 
-    @SuppressLint("UNUSED_PARAMETER")
+    @Suppress("UNUSED_PARAMETER")
     fun onClickFabAddSession(view: View) {
         val intent = Intent(this, AddSessionActivity::class.java)
         startActivityForResult(intent, 1)

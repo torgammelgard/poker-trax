@@ -15,4 +15,10 @@ class SessionRepository @Inject constructor(private val sessionDao: SessionDao){
     fun numberOfSessions(): Int = sessionDao.numberOfSessions()
 
     fun locations(): List<String> = sessionDao.locations()
+
+    fun getAverageBigBlindPerHour(): Double = sessionDao.getAverageBigBlindPerHour()
+
+    fun resultForGameType(gameTypeId: Long): Int = sessionDao.resultForGameType(gameTypeId)
+
+    fun totalTimePlayed(): Int = sessionDao.totalTimePlayed()
 }

@@ -208,9 +208,9 @@ class AddSessionActivity : FragmentActivity(),
         if (mHoursPlayed == 0 && mMinutesPlayed == 0)
             return null
         val session = Session()
-        session.gameTypeReference = mGameType?.id?.toInt()
+        session.gameTypeReference = mGameType?.id
         session.location = mLocation
-        session.gameStructureReference = mGameStructure?.id?.toInt()
+        session.gameStructureReference = mGameStructure?.id
         session.duration = mHoursPlayed * 60 + mMinutesPlayed
         session.date = mCalendar!!.time
         val resultEditText = findViewById<EditText>(R.id.result_editText)

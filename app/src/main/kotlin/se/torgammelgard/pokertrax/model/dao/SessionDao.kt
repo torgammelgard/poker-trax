@@ -23,4 +23,13 @@ interface SessionDao {
 
     @Query("SELECT DISTINCT location FROM session WHERE location <> ''")
     fun locations(): List<String>
+
+    @Query("SELECT total(CAST (result AS float)/(SELECT big_blind FROM game_structure WHERE game_structure._id = session.game_structure)) / total(CAST (duration AS float)/60) FROM session")
+    fun getAverageBigBlindPerHour(): Double
+
+    @Query("SELECT total(CAST (result AS float)) FROM session WHERE game_type = :gameTypeId")
+    fun resultForGameType(gameTypeId: Long): Int
+
+    @Query("SELECT total(duration) FROM session")
+    fun totalTimePlayed(): Int
 }
