@@ -43,7 +43,7 @@ class SummaryFragment : Fragment() {
             val resultList = gameTypes.map{
                 sessionRepository.resultForGameType(it.id)
             }
-            val totalTimePlayed = sessionRepository.totalTimePlayed()
+            val totalTimePlayedInMinutes = sessionRepository.totalTimePlayed()
             val averageBigBetsPerHour = sessionRepository.getAverageBigBlindPerHour()
 
             onComplete {
@@ -68,12 +68,11 @@ class SummaryFragment : Fragment() {
                 listView.setFooterDividersEnabled(true)
 
                 // total time played
-                val minutes = totalTimePlayed / 60
-                val str = String.format("%02d:%02d", minutes / 60, minutes % 60)
+                val str = String.format("%02d:%02d", totalTimePlayedInMinutes / 60, totalTimePlayedInMinutes % 60)
                 (view.findViewById<View>(R.id.textViewTotalTime) as TextView).text = str
 
                 // profit per hour
-                val profitPerHour = totalCents.toDouble() / 100.0 / minutes.toDouble() * 60
+                val profitPerHour = totalCents.toDouble() / 100.0 / totalTimePlayedInMinutes.toDouble() * 60
                 val tv = view.findViewById<TextView>(R.id.textViewTotalPerHour)
                 if (profitPerHour < 0)
                     tv.setTextColor(Color.RED)

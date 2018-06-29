@@ -11,7 +11,7 @@ import dagger.android.support.AndroidSupportInjection
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import se.torgammelgard.pokertrax.R
-import se.torgammelgard.pokertrax.activities.SessionAdapter
+import se.torgammelgard.pokertrax.adapters.SessionAdapter
 import se.torgammelgard.pokertrax.model.repositories.SessionRepository
 import javax.inject.Inject
 

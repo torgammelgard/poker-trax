@@ -8,6 +8,20 @@
     tools:context=".activities.MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
+    <Button
+        android:id="@+id/buy_premium_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/buypremium"
+        android:onClick="buyPremium"
+        app:layout_constraintBottom_toBottomOf="@+id/main_container"
+        app:layout_constraintEnd_toEndOf="@+id/main_container"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/buypremium" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"

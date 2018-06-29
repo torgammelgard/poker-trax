@@ -1,4 +1,4 @@
-package se.torgammelgard.pokertrax.activities
+package se.torgammelgard.pokertrax.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -27,7 +27,7 @@ class SessionAdapter(private val sessionsData: List<Session>) : RecyclerView.Ada
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SessionAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.session_view, parent, false)
         return ViewHolder(view)
     }
