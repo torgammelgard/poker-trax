@@ -1,0 +1,28 @@
+*{
+	font-family: Verdana, Geneva, sans-serif;
+	color : #FFFFFF;
+}
+
+.backgroundcolor {
+	background-color : #6666FF;
+}
+.center {
+	display : block;
+	margin : auto;
+}
+
+#wholething {
+	min-width : 800px;
+	max-width : 80%;
+	min-height : 1000px;
+	max-height : 90%;
+}
+
+#top {
+	text-align : center;
+	margin : 50px;
+}
+
+#images {
+	margin : 50px;
+}
